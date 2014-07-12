@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ar.com.dgarcia</groupId>
+  <artifactId>java-spec</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>JavaSpec</name>
+  <description>Java Junit testing extension to improve test expression abilities</description>
+  
+  
+  <scm>
+	<connection>scm:git:ssh://bitbucket.org/kfgodel/java-spec.git</connection>
+	<developerConnection>scm:git:ssh://bitbucket.org/kfgodel/java-spec.git</developerConnection>
+	<url>https://bitbucket.org/kfgodel/java-spec.git</url>
+  </scm>
+  
+
+  <properties>
+    <project.java.source>1.8</project.java.source>
+    <project.java.target>1.8</project.java.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <version.plugin.compiler>3.1</version.plugin.compiler>
+    <version.plugin.jar>2.4</version.plugin.jar>
+    <version.plugin.source>2.2.1</version.plugin.source>
+    <version.plugin.eclipse>2.9</version.plugin.eclipse>
+    <version.plugin.assembly>2.4</version.plugin.assembly>
+    <version.plugin.failsafe>2.17</version.plugin.failsafe>
+    <version.plugin.surefire>2.17</version.plugin.surefire>
+    
+    <version.dgarcia>[1.0.5-SNAPSHOT,)</version.dgarcia>
+    <version.slf4j>1.7.6</version.slf4j>
+    <version.logback>1.1.1</version.logback>
+    <version.junit>4.11</version.junit>
+    <version.testng>6.8.8</version.testng>
+    <version.guava>16.0.1</version.guava>
+    <version.cucumber>1.1.6</version.cucumber>
+    <version.assertj>1.6.1</version.assertj>
+    <version.hiearchicalrunner>4.11.3</version.hiearchicalrunner>
+    <version.mockito>1.9.5</version.mockito>
+  </properties>
+
+  
+  <build>
+    <plugins>
+	
+		<!-- Genera los binarios -->
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${version.plugin.compiler}</version>
+        <configuration>
+          <source>${project.java.source}</source>
+          <target>${project.java.target}</target>
+          <debug>true</debug>
+        </configuration>
+      </plugin>
+      
+      <!-- Corre los tests unitarios *Test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${version.plugin.surefire}</version>
+      </plugin>
+      
+		<!-- Corre los tests de integracion *IT -->
+	  <plugin>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<version>${version.plugin.failsafe}</version>
+		<executions>
+			<execution>
+				<goals>
+					<goal>integration-test</goal>
+					<goal>verify</goal>
+				</goals>
+			</execution>
+		</executions>
+	  </plugin>
+      
+	  
+	  <!-- Los empaqueta en jars -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${version.plugin.jar}</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+          <manifestEntries>
+            <Build-JVM>${java.vm.name} - ${java.vm.vendor}</Build-JVM>
+            <Build-OS>${os.name} - Version: ${os.version}</Build-OS>
+            <Application-GroupId>${project.groupId}</Application-GroupId>
+            <Application-Artifact>${project.artifactId}</Application-Artifact>
+            <Application-Version>${project.version}</Application-Version>
+          </manifestEntries>
+        </configuration>
+      </plugin>
+	  
+	  <!-- Attachea los fuentes como jar -->
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${version.plugin.source}</version>
+        <executions>
+          <execution>
+            <id>attach-source</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+	  
+	  <!-- Permite configurar el proyecto en eclipse -->
+      <plugin>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>${version.plugin.eclipse}</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+  
+  <repositories>
+    <repository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <dependencies>
+  
+  	<!--  Some common clases and utility methods -->
+    <dependency>
+      <groupId>ar.com.dgarcia</groupId>
+      <artifactId>dgarcia-commons</artifactId>
+      <version>${version.dgarcia}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${version.guava}</version>
+    </dependency>
+    
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${version.slf4j}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>${version.slf4j}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${version.logback}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${version.logback}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- Testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${version.junit}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Nice assertions -->
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${version.assertj}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- hierarchical test for units -->
+    <dependency>
+      <groupId>de.bechte.junit</groupId>
+      <artifactId>junit-hierarchicalcontextrunner</artifactId>
+      <version>${version.hiearchicalrunner}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Mock for testing -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${version.mockito}</version>
+    </dependency>
+
+
+  </dependencies>
+  
+  
+</project>
