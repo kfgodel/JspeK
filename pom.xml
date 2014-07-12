@@ -153,8 +153,16 @@
   </pluginRepositories>
   
   <dependencies>
-  
-  	<!--  Some common clases and utility methods -->
+
+    <!-- Junit as compile time dependency -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${version.junit}</version>
+    </dependency>
+
+
+      <!--  Some common clases and utility methods -->
     <dependency>
       <groupId>ar.com.dgarcia</groupId>
       <artifactId>dgarcia-commons</artifactId>
@@ -197,13 +205,6 @@
       <scope>test</scope>
     </dependency>
     
-    <!-- Testing -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${version.junit}</version>
-      <scope>test</scope>
-    </dependency>
 
     <!-- Nice assertions -->
     <dependency>
