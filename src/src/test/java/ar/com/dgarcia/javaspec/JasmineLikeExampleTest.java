@@ -1,9 +1,9 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.Variable;
-import org.assertj.core.api.Assertions;
+import ar.com.dgarcia.javaspec.api.JavaSpec;
+import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.dgarcia.javaspec.api.Variable;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import java.lang.Boolean;
 import java.util.List;

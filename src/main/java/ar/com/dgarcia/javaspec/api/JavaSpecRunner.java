@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec;
+package ar.com.dgarcia.javaspec.api;
 
 import org.junit.runner.Description;
 import org.junit.runner.Runner;

@@ -1,5 +1,6 @@
 package ar.com.dgarcia.javaspec;
 
+import ar.com.dgarcia.javaspec.api.Variable;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

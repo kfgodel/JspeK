@@ -1,6 +1,4 @@
-package ar.com.dgarcia.javaspec;
-
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+package ar.com.dgarcia.javaspec.api;
 
 /**
  * This type represents a variable that can be used to share variables between lambdas
