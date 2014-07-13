@@ -32,4 +32,10 @@ public interface SpecTest extends SpecElement {
      *     It will be listed but not executed
      */
     void markAsPending();
+
+    /**
+     * Returns a code block to be run as the spec. It will execute before and after code blocks as well as test code.
+     * @return The code to execute as a complete spec test
+     */
+    Runnable getSpecExecutionCode();
 }

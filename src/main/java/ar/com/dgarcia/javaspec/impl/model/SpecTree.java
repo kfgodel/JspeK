@@ -7,9 +7,9 @@ package ar.com.dgarcia.javaspec.impl.model;
 public interface SpecTree {
     /**
      * Indicates if this tree contains any spec test.<br>
-     * @return true if there's no spec in this tree
+     * @return true if there's no test to be run on this tree
      */
-    boolean isEmpty();
+    boolean hasNoTests();
 
     /**
      * Return the root annonymous group of the spec

@@ -38,6 +38,11 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
         this.pendingState = PendingStatus.PENDING;
     }
 
+    @Override
+    public Runnable getSpecExecutionCode() {
+        return SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks());
+    }
+
     public static TestSpecDefinition create(String testName, Runnable testCode) {
         TestSpecDefinition test = new TestSpecDefinition();
         test.setName(testName);

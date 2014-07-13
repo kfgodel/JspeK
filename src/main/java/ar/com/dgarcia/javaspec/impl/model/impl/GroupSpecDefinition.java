@@ -74,6 +74,11 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
     }
 
     @Override
+    public List<SpecElement> getSpecElements() {
+        return elements;
+    }
+
+    @Override
     public List<Runnable> getBeforeBlocks() {
         List<Runnable> containerBeforeBlocks = getContainerGroup().getBeforeBlocks();
         List<Runnable> inheritedBlocks = new ArrayList<>(containerBeforeBlocks.size() + beforeBlocks.size());

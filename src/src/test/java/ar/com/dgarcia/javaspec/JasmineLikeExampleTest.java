@@ -20,8 +20,8 @@ import static org.mockito.Mockito.when;
 @RunWith(JavaSpecRunner.class)
 public class JasmineLikeExampleTest extends JavaSpec {
 
-    private Variable<Integer> foo;
-    private Variable<String> bar;
+    private Variable<Integer> foo = new Variable<>();
+    private Variable<String> bar = new Variable<>();
 
     public void define(){
 

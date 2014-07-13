@@ -1,5 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 
@@ -69,6 +70,11 @@ public class NullContainerGroup implements SpecGroup {
     @Override
     public void addAfterBlock(Runnable aCodeBlock) {
         throw new UnsupportedOperationException("Null container cannot have after block");
+    }
+
+    @Override
+    public List<SpecElement> getSpecElements() {
+        return Collections.emptyList();
     }
 
     public static NullContainerGroup create() {

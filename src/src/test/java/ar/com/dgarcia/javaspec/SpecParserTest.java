@@ -28,13 +28,13 @@ public class SpecParserTest {
     @Test
     public void itShouldParseAnEmptyTreeIfNoSpecDefined(){
         SpecTree readSpec = parser.parse(EmptySpec.class);
-        assertThat(readSpec.isEmpty()).isTrue();
+        assertThat(readSpec.hasNoTests()).isTrue();
     }
 
     @Test
     public void shouldContainOneEmptyGroup(){
         SpecTree readSpec = parser.parse(OneEmptyDescribeSpec.class);
-        assertThat(readSpec.isEmpty()).isFalse();
+        assertThat(readSpec.hasNoTests()).isTrue();
 
         SpecGroup rootGroup = readSpec.getRootGroup();
         List<SpecGroup> declaredGroups = rootGroup.getSubGroups();
@@ -48,7 +48,7 @@ public class SpecParserTest {
     @Test
     public void theTreeShouldContainOneTestIfOneDefined(){
         SpecTree readSpec = parser.parse(OneRootTestSpec.class);
-        assertThat(readSpec.isEmpty()).isFalse();
+        assertThat(readSpec.hasNoTests()).isFalse();
 
         SpecGroup rootGroup = readSpec.getRootGroup();
         List<SpecTest> declaredTests = rootGroup.getDeclaredTests();
