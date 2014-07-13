@@ -36,7 +36,7 @@ public class JasmineLikeExampleTest extends JavaSpec {
         // It’s Just Functions
         describe("A suite is just a lambda", ()-> {
 
-            Variable<Boolean> a = new Variable<>();
+            Variable<Boolean> a = Variable.create();
 
             it("and so is a spec", ()-> {
                 a.set(true);
@@ -61,7 +61,7 @@ public class JasmineLikeExampleTest extends JavaSpec {
 
         // Setup and Teardown
         describe("A spec (with setup and tear-down)", ()-> {
-            Variable<Integer> foo = new Variable<>();
+            Variable<Integer> foo = Variable.create();
 
             beforeEach(()-> {
                 foo.set(0);

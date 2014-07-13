@@ -10,9 +10,7 @@ public class Variable<T> {
 
 
     public static <T> Variable<T> create() {
-        Variable<T> variable = new Variable<>();
-        variable.value = null;
-        return variable;
+        return Variable.of(null);
     }
 
     public T get() {

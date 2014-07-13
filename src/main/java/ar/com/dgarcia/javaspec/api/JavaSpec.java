@@ -5,15 +5,13 @@ package ar.com.dgarcia.javaspec.api;
  *     The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
  * Created by kfgodel on 12/07/14.
  */
-public class JavaSpec {
+public abstract class JavaSpec {
 
     /**
      * Starting method to define the specs.<br>
      *     This method must be extended by subclasses and define any spec as calls to describe() and it()
      */
-    public void define(){
-
-    }
+    public abstract void define();
 
     /**
      * Code to execute before every it() test. It's scoped to the parent describe() or define(), and executed before every child it() test (direct or nested).<br>
