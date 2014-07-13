@@ -1,6 +1,6 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.impl.SpecParser;
+import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
@@ -37,7 +37,7 @@ public class SpecParserTest {
         assertThat(readSpec.isEmpty()).isFalse();
 
         SpecGroup rootGroup = readSpec.getRootGroup();
-        List<SpecGroup> declaredGroups = rootGroup.getSubgroups();
+        List<SpecGroup> declaredGroups = rootGroup.getSubGroups();
         assertThat(declaredGroups).hasSize(1);
 
         SpecGroup onlyGroup = declaredGroups.get(0);
@@ -64,7 +64,7 @@ public class SpecParserTest {
         SpecTree readSpec = parser.parse(OneTestInsideDescribeSpec.class);
 
         SpecGroup rootGroup = readSpec.getRootGroup();
-        SpecGroup onlyGroup = rootGroup.getSubgroups().get(0);
+        SpecGroup onlyGroup = rootGroup.getSubGroups().get(0);
         assertThat(onlyGroup.getName()).isEqualTo("A suite");
 
         SpecTest onlyTest = onlyGroup.getDeclaredTests().get(0);
@@ -81,17 +81,19 @@ public class SpecParserTest {
         SpecTest firstTest = declaredTest.get(0);
         assertThat(firstTest.getName()).isEqualTo("xit pending test");
         assertThat(firstTest.isMarkedAsPending()).isTrue();
+        assertThat(firstTest.getTestCode()).isNotNull();
 
         SpecTest secondTest = declaredTest.get(1);
         assertThat(secondTest.getName()).isEqualTo("non lambda pending test");
         assertThat(secondTest.isMarkedAsPending()).isTrue();
+        assertThat(secondTest.getTestCode()).isNull();
     }
 
     @Test
     public void shouldHaveTwoDescribeContexts(){
         SpecTree readSpec = parser.parse(TwoDescribeSpecs.class);
 
-        List<SpecGroup> declaredGroups = readSpec.getRootGroup().getSubgroups();
+        List<SpecGroup> declaredGroups = readSpec.getRootGroup().getSubGroups();
 
         SpecGroup firstGroup = declaredGroups.get(0);
         assertThat(firstGroup.getName()).isEqualTo("first group");
@@ -99,14 +101,14 @@ public class SpecParserTest {
 
         SpecGroup secondGroup = declaredGroups.get(1);
         assertThat(secondGroup.getName()).isEqualTo("second group");
-        assertThat(firstGroup.getDeclaredTests().get(0).getName()).isEqualTo("test in second group");
+        assertThat(secondGroup.getDeclaredTests().get(0).getName()).isEqualTo("test in second group");
     }
 
     @Test
     public void shouldHaveADisabledSuite(){
         SpecTree readSpec = parser.parse(DisabledSuiteSpec.class);
 
-        SpecGroup onlyGroup = readSpec.getRootGroup().getSubgroups().get(0);
+        SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
         assertThat(onlyGroup.getName()).isEqualTo("a disabled spec");
         assertThat(onlyGroup.isMarkedAsDisabled()).isTrue();
     }
@@ -152,7 +154,7 @@ public class SpecParserTest {
         SpecTree readSpec = parser.parse(BeforeAndAfterInheritedWhenNestedTest.class);
 
         SpecTest onlyRootTest = readSpec.getRootGroup().getDeclaredTests().get(0);
-        assertThat(onlyRootTest.getName()).isEqualTo("test with 1 before/after se");
+        assertThat(onlyRootTest.getName()).isEqualTo("test with 1 before/after set");
 
         List<Runnable> rootBeforeBlocks = onlyRootTest.getBeforeBlocks();
         assertThat(rootBeforeBlocks).hasSize(1);
@@ -160,7 +162,7 @@ public class SpecParserTest {
         List<Runnable> rootAfterBlocks = onlyRootTest.getAfterBlocks();
         assertThat(rootAfterBlocks).hasSize(1);
 
-        SpecGroup onlyGroup = readSpec.getRootGroup().getSubgroups().get(0);
+        SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
         SpecTest nestedTest = onlyGroup.getDeclaredTests().get(0);
 
         List<Runnable> nestedTestBeforeBlocks = nestedTest.getBeforeBlocks();

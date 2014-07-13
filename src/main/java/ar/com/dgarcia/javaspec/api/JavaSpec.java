@@ -1,11 +1,19 @@
 package ar.com.dgarcia.javaspec.api;
 
+import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
+import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
+import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
+
 /**
  * This class is the extension point to add testing expressiveness with Java Specs.<br>
  *     The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
  * Created by kfgodel on 12/07/14.
  */
 public abstract class JavaSpec {
+
+    private SpecTree specTree;
+    private SpecStack stack;
 
     /**
      * Starting method to define the specs.<br>
@@ -18,7 +26,7 @@ public abstract class JavaSpec {
      * @param aCodeBlock A code to execute before every test
      */
     public void beforeEach(Runnable aCodeBlock) {
-
+        stack.getCurrentHead().addBeforeBlock(aCodeBlock);
     }
 
     /**
@@ -26,7 +34,7 @@ public abstract class JavaSpec {
      * @param aCodeBlock
      */
     public void afterEach(Runnable aCodeBlock) {
-
+        stack.getCurrentHead().addAfterBlock(aCodeBlock);
     }
 
     /**
@@ -35,7 +43,8 @@ public abstract class JavaSpec {
      * @param aTestCode The code that defines the test
      */
     public void it(String testName, Runnable aTestCode){
-
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode);
+        stack.getCurrentHead().addTest(createdSpec);
     }
 
     /**
@@ -43,7 +52,8 @@ public abstract class JavaSpec {
      * @param testName The name to identify this test
      */
     public void it(String testName){
-
+        TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName);
+        stack.getCurrentHead().addTest(createdSpec);
     }
 
     /**
@@ -52,7 +62,9 @@ public abstract class JavaSpec {
      * @param aTestCode The ignored code of this tests
      */
     public void xit(String testName, Runnable aTestCode){
-
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode);
+        createdSpec.markAsPending();
+        stack.getCurrentHead().addTest(createdSpec);
     }
 
     /**
@@ -61,7 +73,14 @@ public abstract class JavaSpec {
      * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
      */
     public void describe(String aGroupName, Runnable aGroupDefinition){
+        createGroupDefinition(aGroupName, aGroupDefinition);
+    }
 
+    private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
+        GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
+        stack.executeAsCurrent(createdGroup, aGroupDefinition);
+        stack.getCurrentHead().addSubGroup(createdGroup);
+        return createdGroup;
     }
 
     /**
@@ -70,8 +89,19 @@ public abstract class JavaSpec {
      * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
      */
     public void xdescribe(String aGroupName, Runnable aGroupDefinition){
-
+        GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
+        createdGroup.markAsDisabled();
     }
 
 
+    /**
+     * Uses the definition of this spec class to create the nodes in the tree.<br>
+     *     The defined tree must be validated before using it
+     * @param specTree The tree that will represent this spec
+     */
+    public void populate(SpecTree specTree) {
+        this.specTree = specTree;
+        this.stack = SpecStack.create(this.specTree.getRootGroup());
+        this.define();
+    }
 }
