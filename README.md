@@ -50,5 +50,5 @@ Based on Jasmine for javascript: http://jasmine.github.io/
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+Please make sure to read the documentation first. If it's not there then I will be glad to help you.
+Any problem you find, suggestions or general questions address them to dario.garcia at 10pines.com
