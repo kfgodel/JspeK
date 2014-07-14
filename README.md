@@ -20,6 +20,7 @@ public class ExampleTest extends JavaSpec {
     }
 }
 ```
+Based on Jasmine for javascript: http://jasmine.github.io/
 
 
 ### Maven dependency ###
