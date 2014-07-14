@@ -5,6 +5,7 @@ import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;
 
 import java.util.List;
@@ -42,13 +43,23 @@ public class JunitTestTreeAdapter {
             Description elementDescription = Description.createSuiteDescription(specElement.getName());
             currentDescription.addChild(elementDescription);
             if(specElement instanceof SpecTest){
-                Runnable specTestCode = ((SpecTest) specElement).getSpecExecutionCode();
-                this.junitTree.createTest(specTestCode, elementDescription);
+                JunitTestCode junitTest = adaptToJunitTest((SpecTest) specElement, elementDescription);
+                this.junitTree.addTest(junitTest);
             }
             if(specElement instanceof SpecGroup){
-                recursiveAdaptToJunit((SpecGroup) specElement, elementDescription);
+                SpecGroup specGroup = (SpecGroup) specElement;
+                recursiveAdaptToJunit(specGroup, elementDescription);
             }
         }
+    }
+
+    private JunitTestCode adaptToJunitTest(SpecTest specTest, Description elementDescription) {
+        Runnable specTestCode = specTest.getSpecExecutionCode();
+        JunitTestCode junitTest = JunitTestCode.create(specTestCode, elementDescription);
+        if(specTest.isMarkedAsPending()){
+            junitTest.ignoreTest();
+        }
+        return junitTest;
     }
 
     public JunitTestTree getJunitTree() {

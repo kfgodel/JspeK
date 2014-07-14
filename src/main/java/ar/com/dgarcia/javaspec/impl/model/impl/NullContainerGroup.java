@@ -44,7 +44,7 @@ public class NullContainerGroup implements SpecGroup {
 
     @Override
     public boolean isMarkedAsDisabled() {
-        return true;
+        return false;
     }
 
     @Override

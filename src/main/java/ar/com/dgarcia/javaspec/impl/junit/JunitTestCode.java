@@ -25,6 +25,7 @@ public class JunitTestCode {
         try {
             if (mustIgnore) {
                 testNotifier.fireTestIgnored();
+                return;
             } else {
                 testCode.run();
             }

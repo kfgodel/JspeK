@@ -15,7 +15,7 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
     @Override
     public boolean isMarkedAsPending() {
-        return pendingState.isPendingConsidering(getContainerGroup());
+        return pendingState.isPendingConsidering(getContainerGroup()) || getContainerGroup().isMarkedAsDisabled();
     }
 
     @Override
@@ -40,7 +40,8 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
     @Override
     public Runnable getSpecExecutionCode() {
-        return SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks());
+        SpecExecutionBlock executionBlock = SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks());
+        return executionBlock;
     }
 
     public static TestSpecDefinition create(String testName, Runnable testCode) {

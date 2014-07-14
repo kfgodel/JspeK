@@ -45,8 +45,4 @@ public class JunitTestTree {
         this.tests.add(junitTest);
     }
 
-    public void createTest(Runnable specTestCode, Description elementDescription) {
-        JunitTestCode junitTest = JunitTestCode.create(specTestCode, elementDescription);
-        this.addTest(junitTest);
-    }
 }

@@ -90,14 +90,14 @@ public class JasmineLikeExampleTest extends JavaSpec {
                 this.foo.set(0);
             });
 
-            it("can use the `this` to share state", ()-> {
+            it("that use `this` to share state", ()-> {
                 assertThat(foo.get()).isEqualTo(0);
                 this.bar.set("test pollution?");
             });
 
-            it("prevents test pollution by having an empty `this` created for the next spec", ()-> {
+            it("will have test pollution by sharing the host instance", ()-> {
                 assertThat(foo.get()).isEqualTo(0);
-                assertThat(bar.get()).isNull();
+                assertThat(bar.get()).isEqualTo("test pollution?");
             });
         });
 

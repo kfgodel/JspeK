@@ -56,22 +56,6 @@ public class JavaSpecRunner extends Runner {
     @Override
     public Description getDescription() {
         return junitAdapter.getJunitTree().getJunitDescription();
-//        Description descripcion = Description.createSuiteDescription("raiz");
-//
-//        Description grupo1 = Description.createSuiteDescription("grupo1");
-//        testOk = Description.createSuiteDescription("testOk");
-//        grupo1.addChild(testOk);
-//        testFailed = Description.createSuiteDescription("testFailed");
-//        grupo1.addChild(testFailed);
-//
-//        descripcion.addChild(grupo1);
-//
-//        Description grupo2 = Description.createSuiteDescription("grupo2");
-//        testIgnored = Description.createSuiteDescription("testIgnored");
-//        grupo2.addChild(testIgnored);
-//        descripcion.addChild(grupo2);
-//
-//        return descripcion;
     }
 
     @Override

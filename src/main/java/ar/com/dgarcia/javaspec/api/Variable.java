@@ -56,4 +56,14 @@ public class Variable<T> {
     public String toString() {
         return String.valueOf(this.value);
     }
+
+    /**
+     * Returns the value casted to expected type using generics
+     * @param expectedClass Type of expected result
+     * @param <T> The type of returned value
+     * @return The value casted to the type indicated. Will fail if not of that type
+     */
+    public<T> T castedTo(Class<T> expectedClass) {
+        return (T) get();
+    }
 }

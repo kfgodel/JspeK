@@ -71,4 +71,10 @@ public class VariableTest {
         }
     }
 
+    @Test
+    public void itShouldAllowGenericTypeCasting(){
+        var = Variable.of(1L);
+        assertThat(var.castedTo(Long.class)).isEqualTo(Long.valueOf(1L));
+    }
+
 }

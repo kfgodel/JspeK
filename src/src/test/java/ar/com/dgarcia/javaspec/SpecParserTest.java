@@ -174,4 +174,14 @@ public class SpecParserTest {
         assertThat(nestedTestAfterBlocks.get(1)).isEqualTo(rootAfterBlocks.get(0));
     }
 
+
+    @Test
+    public void testInsideDisabledSpecShouldBePending(){
+        SpecTree readSpec = parser.parse(OneTestInsideDisabledSpecTest.class);
+
+        SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
+        SpecTest disabledTest = onlyGroup.getDeclaredTests().get(0);
+
+        assertThat(disabledTest.isMarkedAsPending()).isTrue();
+    }
 }
