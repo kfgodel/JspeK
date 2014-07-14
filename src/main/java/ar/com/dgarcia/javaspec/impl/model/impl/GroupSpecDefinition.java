@@ -1,13 +1,13 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import ar.com.dgarcia.javaspec.impl.model.DisabledStatus;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This type represents a spec group definition

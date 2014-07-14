@@ -1,9 +1,9 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
+import java.util.List;
+
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
-
-import java.util.List;
 
 /**
  * This type represents a test group inside a spec

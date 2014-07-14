@@ -1,8 +1,8 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-
 import java.util.List;
+
+import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 
 /**
  * This type represents the interpreted definition of a test spec

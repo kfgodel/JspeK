@@ -1,9 +1,9 @@
 package ar.com.dgarcia.javaspec.impl.parser;
 
+import java.util.LinkedList;
+
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
-
-import java.util.LinkedList;
 
 /**
  * This type represents the active stack used to define nesting of specs

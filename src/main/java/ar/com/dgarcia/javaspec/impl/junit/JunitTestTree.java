@@ -1,9 +1,9 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
-import org.junit.runner.Description;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.runner.Description;
 
 /**
  * This type represents a tree of test to be run with junit. Leafs are tests and parents are test groups

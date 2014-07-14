@@ -1,19 +1,17 @@
 package ar.com.dgarcia.javaspec.api;
 
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
-import org.junit.internal.runners.model.EachTestNotifier;
+import java.util.List;
+
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
-import javax.smartcardio.TerminalFactory;
-import java.util.List;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
+import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 
 /**
  * This type implements the Java Spec runner needed to extend Junit running mechanism

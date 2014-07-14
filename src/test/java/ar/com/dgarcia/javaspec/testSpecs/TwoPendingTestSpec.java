@@ -1,10 +1,11 @@
 package ar.com.dgarcia.javaspec.testSpecs;
 
-import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.runner.RunWith;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import ar.com.dgarcia.javaspec.api.JavaSpec;
+import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 
 /**
  * This class serves as input spec for parser test

@@ -1,7 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import ar.com.dgarcia.javaspec.impl.model.impl.PendingStatus;
-
 import java.util.List;
 
 /**

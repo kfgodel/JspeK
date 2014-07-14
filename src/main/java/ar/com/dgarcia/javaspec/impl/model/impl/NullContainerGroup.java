@@ -1,11 +1,11 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by kfgodel on 12/07/14.

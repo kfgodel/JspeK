@@ -1,10 +1,11 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.impl.model.impl.NullContainerGroup;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import ar.com.dgarcia.javaspec.impl.model.impl.NullContainerGroup;
 
 /**
  * This type berifies the expected behavior for the null container group

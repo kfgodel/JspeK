@@ -1,16 +1,18 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.impl.model.impl.SpecExecutionBlock;
-import com.google.common.collect.Lists;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.Test;
+
+import ar.com.dgarcia.javaspec.impl.model.impl.SpecExecutionBlock;
+
+import com.google.common.collect.Lists;
 
 /**
  * This type verifies the behavior of spec execution block

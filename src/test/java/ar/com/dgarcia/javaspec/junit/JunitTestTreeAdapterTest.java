@@ -1,5 +1,12 @@
 package ar.com.dgarcia.javaspec.junit;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.junit.runner.Description;
+
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
 import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
@@ -8,12 +15,6 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import ar.com.dgarcia.javaspec.testSpecs.EmptySpec;
 import ar.com.dgarcia.javaspec.testSpecs.OneEmptyDescribeSpec;
 import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpec;
-import org.junit.Test;
-import org.junit.runner.Description;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This type verifies the adapting of a spec tree to a junit tree

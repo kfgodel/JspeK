@@ -1,8 +1,9 @@
 package ar.com.dgarcia.javaspec.testSpecs;
 
+import org.junit.runner.RunWith;
+
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import org.junit.runner.RunWith;
 
 /**
  * This class serves as input spec for parser test

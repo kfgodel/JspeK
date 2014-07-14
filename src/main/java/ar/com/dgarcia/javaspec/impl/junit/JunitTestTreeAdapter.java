@@ -1,14 +1,14 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
+import java.util.List;
+
+import org.junit.runner.Description;
+
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import org.junit.internal.runners.model.EachTestNotifier;
-import org.junit.runner.Description;
-
-import java.util.List;
 
 /**
  * This type adapts the SpecTree to a Junit test tree by giving it a description and surrounding each test spec in a JunitTestCode

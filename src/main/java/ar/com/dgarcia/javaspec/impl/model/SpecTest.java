@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import java.util.List;
 
 /**
  * This type represents a single test to be run in a spec

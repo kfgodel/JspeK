@@ -1,21 +1,20 @@
 package ar.com.dgarcia.javaspec.junit;
 
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Matcher;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
-import org.junit.ComparisonFailure;
 import org.junit.Test;
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.mockito.ArgumentMatcher;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
 
 /**
  * This type verifyes that JunitTestCode behaves as expected to junit

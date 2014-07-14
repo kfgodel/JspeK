@@ -1,16 +1,16 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.dgarcia.javaspec.api.Variable;
-import org.junit.runner.RunWith;
-
-import java.lang.Boolean;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.runner.RunWith;
+
+import ar.com.dgarcia.javaspec.api.JavaSpec;
+import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.dgarcia.javaspec.api.Variable;
 
 /**
  * This class serves as an example of Java-Spec.<br>
@@ -131,7 +131,7 @@ public class JasmineLikeExampleTest extends JavaSpec {
         describe("has spies with mockito", ()->{
 
             it("use mockito as usuarl", ()->{
-                List mockedList = mock(List.class);
+                List<String> mockedList = mock(List.class);
                 when(mockedList.get(0)).thenReturn("First");
 
                 assertThat(mockedList.get(0)).isEqualTo("First");
