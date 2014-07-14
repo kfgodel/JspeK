@@ -33,7 +33,8 @@ public class Variable<T> {
         return this;
     }
 
-    public Variable<T> storeSumWith(T operand) throws UnsupportedOperationException {
+    @SuppressWarnings("unchecked")
+	public Variable<T> storeSumWith(T operand) throws UnsupportedOperationException {
         if(this.value instanceof Integer){
             Integer currentValue = (Integer) this.value;
             int result = currentValue + ((Number) operand).intValue();
@@ -60,10 +61,11 @@ public class Variable<T> {
     /**
      * Returns the value casted to expected type using generics
      * @param expectedClass Type of expected result
-     * @param <T> The type of returned value
+     * @param <R> The type of returned value
      * @return The value casted to the type indicated. Will fail if not of that type
      */
-    public<T> T castedTo(Class<T> expectedClass) {
-        return (T) get();
+    @SuppressWarnings("unchecked")
+	public<R> R castedTo(Class<R> expectedClass) {
+        return (R) get();
     }
 }

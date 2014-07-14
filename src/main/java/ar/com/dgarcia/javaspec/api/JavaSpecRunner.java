@@ -20,9 +20,6 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 public class JavaSpecRunner extends Runner {
 
     private Class<? extends JavaSpec> clase;
-    private Description testIgnored;
-    private Description testOk;
-    private Description testFailed;
     private JunitTestTreeAdapter junitAdapter;
 
     /**
@@ -31,7 +28,8 @@ public class JavaSpecRunner extends Runner {
      * @param klass the root class
      * @param builder builds runners for classes in the suite
      */
-    public JavaSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
+    @SuppressWarnings("unchecked")
+	public JavaSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
         if(!JavaSpec.class.isAssignableFrom(klass)){
             throw new InitializationError("Your class["+klass+"] must extend " + JavaSpec.class + " to be run with " +  JavaSpecRunner.class.getSimpleName());
         }

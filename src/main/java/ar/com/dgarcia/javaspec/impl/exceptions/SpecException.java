@@ -5,8 +5,9 @@ package ar.com.dgarcia.javaspec.impl.exceptions;
  * Created by kfgodel on 12/07/14.
  */
 public class SpecException extends RuntimeException {
+	private static final long serialVersionUID = -3243397993932692864L;
 
-    public SpecException(String message) {
+	public SpecException(String message) {
         super(message);
     }
 

@@ -23,7 +23,8 @@ public class JasmineLikeExampleTest extends JavaSpec {
     private Variable<Integer> foo = new Variable<>();
     private Variable<String> bar = new Variable<>();
 
-    public void define(){
+	@SuppressWarnings("unchecked")
+	public void define(){
 
         // introduction.js
         describe("A suite", ()-> {
@@ -131,7 +132,7 @@ public class JasmineLikeExampleTest extends JavaSpec {
         describe("has spies with mockito", ()->{
 
             it("use mockito as usuarl", ()->{
-                List<String> mockedList = mock(List.class);
+				List<String> mockedList = mock(List.class);
                 when(mockedList.get(0)).thenReturn("First");
 
                 assertThat(mockedList.get(0)).isEqualTo("First");
