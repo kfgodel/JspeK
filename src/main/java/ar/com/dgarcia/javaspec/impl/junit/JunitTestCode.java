@@ -21,14 +21,13 @@ public class JunitTestCode {
      */
     public void executeNotifying(RunNotifier notifier) {
         EachTestNotifier testNotifier = new EachTestNotifier(notifier, testDescription);
+        if (mustIgnore) {
+            testNotifier.fireTestIgnored();
+            return;
+        }
         testNotifier.fireTestStarted();
         try {
-            if (mustIgnore) {
-                testNotifier.fireTestIgnored();
-                return;
-            } else {
-                testCode.run();
-            }
+            testCode.run();
         } catch (AssumptionViolatedException e) {
             testNotifier.addFailedAssumption(e);
         } catch (Throwable e) {
