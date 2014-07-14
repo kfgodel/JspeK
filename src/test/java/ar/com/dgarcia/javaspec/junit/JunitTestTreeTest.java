@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.junit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Description;
 
@@ -15,23 +16,28 @@ import ar.com.dgarcia.javaspec.impl.junit.JunitTestTree;
  */
 public class JunitTestTreeTest {
 
+	private JunitTestTree createdTree;
+
+	@Before
+	public void createTree(){
+		Description rootDescription = Description.createSuiteDescription(JunitTestTreeTest.class);
+		createdTree = JunitTestTree.create(rootDescription);
+	}
+	
     @Test
     public void itShouldHaveADescriptionNameWhenCreated(){
-        JunitTestTree createdTree = JunitTestTree.create("a tree name");
         Description junitDescription = createdTree.getJunitDescription();
-        assertThat(junitDescription.getDisplayName()).isEqualTo("a tree name");
+        assertThat(junitDescription.getDisplayName()).isEqualTo(JunitTestTreeTest.class.getName());
     }
 
     @Test
     public void itShouldHaveNoTestWhenCreated(){
-        JunitTestTree createdTree = JunitTestTree.create("a tree name");
         assertThat(createdTree.getJunitTests()).isEmpty();
     }
 
     @Test
     public void itShouldAddAGivenTest(){
         JunitTestCode givenTest = mock(JunitTestCode.class);
-        JunitTestTree createdTree = JunitTestTree.create("a tree name");
         createdTree.addTest(givenTest);
         assertThat(createdTree.getJunitTests()).contains(givenTest);
     }

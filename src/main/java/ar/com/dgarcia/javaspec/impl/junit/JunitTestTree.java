@@ -30,9 +30,9 @@ public class JunitTestTree {
         return tests;
     }
 
-    public static JunitTestTree create(String treeName) {
+    public static JunitTestTree create(Description treeDescription) {
         JunitTestTree testTree = new JunitTestTree();
-        testTree.rootDescription = Description.createSuiteDescription(treeName);
+        testTree.rootDescription = treeDescription;
         testTree.tests = new ArrayList<>();
         return testTree;
     }

@@ -22,7 +22,6 @@ import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpec;
  */
 public class JunitTestTreeAdapterTest {
 
-
     @Test
     public void itNamesTheRootGroupAfterTheTestClass(){
         Class<? extends JavaSpec> specClass = EmptySpec.class;
