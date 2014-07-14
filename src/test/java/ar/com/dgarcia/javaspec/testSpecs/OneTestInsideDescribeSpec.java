@@ -16,10 +16,12 @@ public class OneTestInsideDescribeSpec extends JavaSpec {
 
     @Override
     public void define() {
+    	
         describe("A suite", ()-> {
             it("contains spec with an expectation", ()-> {
                 assertThat(true).isEqualTo(true);
             });
         });
+        
     }
 }

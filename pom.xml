@@ -162,16 +162,12 @@
     </dependency>
 
 
-      <!--  Some common clases and utility methods -->
-    <dependency>
-      <groupId>ar.com.dgarcia</groupId>
-      <artifactId>dgarcia-commons</artifactId>
-      <version>${version.dgarcia}</version>
-    </dependency>
+    <!--  Some common clases and utility methods -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${version.guava}</version>
+      <scope>test</scope>
     </dependency>
     
     <!-- Logging -->
@@ -179,18 +175,19 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${version.slf4j}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>${version.slf4j}</version>
-      <scope>runtime</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>log4j-over-slf4j</artifactId>
       <version>${version.slf4j}</version>
-      <scope>runtime</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -227,6 +224,7 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>${version.mockito}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>
