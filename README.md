@@ -1,35 +1,50 @@
-# *JAVA-SPEC* README #
+# *JAVA-SPEC* #
 
-*Under construction*  
-This README would normally document whatever steps are necessary to get your application up and running.
+Define your Junit tests as Specs:  
 
-### What is this repository for? ###
+```
+#!java
 
-* Quick summary  
-This is the home git repo for Java Spec project.
-Java Spec is a small library to extend the expresiveness of Junit by helping to structure tests in a more BDD fashion.
+@RunWith(JavaSpecRunner.class)
+public class ExampleTest extends JavaSpec {
 
-* Version  
-Currently version 1.0 is under development
+    @Override
+    public void define() {
+    	
+        describe("A suite", ()-> {
+            it("contains spec with an expectation", ()-> {
+                assertThat(true).isEqualTo(true);
+            });
+        });
+        
+    }
+}
+```
 
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
+### Maven dependency ###
 
-* Summary of set up  
-You would include this library as any maven library:
+* Add this repository to your pom:  
+```
+#!xml
+    <repository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </repository>
+```
 
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Declare the dependency
+```
+#!xml
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+<dependency>
+  <groupId>ar.com.dgarcia</groupId>
+  <artifactId>java-spec</artifactId>
+  <version>1.0</version>
+  <scope>test</scope>
+</dependency>
+```
 
 ### Who do I talk to? ###
 
