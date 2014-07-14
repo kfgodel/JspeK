@@ -77,6 +77,11 @@ public class NullContainerGroup implements SpecGroup {
         return Collections.emptyList();
     }
 
+    @Override
+    public boolean hasNoTests() {
+        return true;
+    }
+
     public static NullContainerGroup create() {
         NullContainerGroup nullContainerGroup = new NullContainerGroup();
         return nullContainerGroup;

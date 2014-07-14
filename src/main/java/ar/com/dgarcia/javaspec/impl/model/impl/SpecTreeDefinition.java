@@ -13,8 +13,7 @@ public class SpecTreeDefinition implements SpecTree {
 
     @Override
     public boolean hasNoTests() {
-
-        return rootGroup.isEmpty();
+        return rootGroup.hasNoTests();
     }
 
     @Override

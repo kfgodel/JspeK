@@ -49,4 +49,8 @@ public class JunitTestCode {
     public void ignoreTest(){
         this.mustIgnore = true;
     }
+
+    public Description getTestDescription() {
+        return testDescription;
+    }
 }

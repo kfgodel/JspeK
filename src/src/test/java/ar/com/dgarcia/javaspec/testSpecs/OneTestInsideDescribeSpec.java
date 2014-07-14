@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class OneTestInsideDescribeSpec extends JavaSpec {
+
     @Override
     public void define() {
         describe("A suite", ()-> {

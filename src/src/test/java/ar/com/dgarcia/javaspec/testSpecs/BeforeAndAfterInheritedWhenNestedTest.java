@@ -23,6 +23,11 @@ public class BeforeAndAfterInheritedWhenNestedTest extends JavaSpec {
 
         it("test with 1 before/after set", ()-> {
             assertThat(foo.get()).isEqualTo(0);
+            foo.set("a text");
+        });
+
+        afterEach(()-> {
+            foo.storeSumWith(" period .");
         });
 
         describe("nested context inherits before/after definitions", ()->{
@@ -33,7 +38,7 @@ public class BeforeAndAfterInheritedWhenNestedTest extends JavaSpec {
 
             it("test with own and inherited before/after sets", ()-> {
                 assertThat(foo.get()).isEqualTo(1);
-                foo.set("a text");
+                foo.set("an inner text");
             });
 
             afterEach(()-> {
@@ -42,9 +47,6 @@ public class BeforeAndAfterInheritedWhenNestedTest extends JavaSpec {
 
         });
 
-        afterEach(()-> {
-            foo.storeSumWith(" period .");
-        });
 
     }
 }

@@ -79,6 +79,20 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
     }
 
     @Override
+    public boolean hasNoTests() {
+        if(getDeclaredTests().size() > 0){
+            return false;
+        }
+        List<SpecGroup> subGroups = getSubGroups();
+        for (SpecGroup subGroup : subGroups) {
+            if(!subGroup.hasNoTests()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public List<Runnable> getBeforeBlocks() {
         List<Runnable> containerBeforeBlocks = getContainerGroup().getBeforeBlocks();
         List<Runnable> inheritedBlocks = new ArrayList<>(containerBeforeBlocks.size() + beforeBlocks.size());
