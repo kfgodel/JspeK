@@ -21,7 +21,7 @@ public class ExampleTest extends JavaSpec {
 }
 ```
 Based on Jasmine for javascript: http://jasmine.github.io/  
-**[See more examples in the wiki](https://bitbucket.org/kfgodel/java-spec/wiki/Home)**
+##**[See more examples in the wiki](https://bitbucket.org/kfgodel/java-spec/wiki/Home)**
 
 
 ### Maven dependency ###
@@ -47,6 +47,10 @@ Based on Jasmine for javascript: http://jasmine.github.io/
   <scope>test</scope>
 </dependency>
 ```
+
+### Non mave
+
+Download the binaries from the [download section](https://bitbucket.org/kfgodel/java-spec/downloads)
 
 ### Who do I talk to? ###
 
