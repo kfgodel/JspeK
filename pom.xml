@@ -36,8 +36,8 @@
     <version.testng>6.8.8</version.testng>
     <version.guava>16.0.1</version.guava>
     <version.cucumber>1.1.6</version.cucumber>
-    <version.assertj>1.6.1</version.assertj>
     <version.hiearchicalrunner>4.11.3</version.hiearchicalrunner>
+    <version.assertj>1.6.1</version.assertj>
     <version.mockito>1.9.5</version.mockito>
   </properties>
 

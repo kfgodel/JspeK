@@ -84,6 +84,44 @@ public class JasmineLikeExampleTest extends JavaSpec {
 
         });
 
+        
+
+
+	describe("A spec", ()-> {
+	  Variable<Integer> foo = new Variable<>();
+	
+	  beforeEach(()-> {
+	    foo.set(0);
+	    foo.storeSumWith(1);
+	  });
+	
+	  afterEach(()-> {
+	    foo.set(0);
+	  });
+	
+	  it("is just a lambda, so it can contain any code", ()-> {
+	    assertThat(foo.get()).isEqualTo(1);
+	  });
+	
+	  it("can have more than one expectation", ()-> {
+	    assertThat(foo.get()).isEqualTo(1);
+	    assertThat(true).isTrue();
+	  });
+	
+	  describe("nested inside a second describe", ()-> {
+	    Variable<Integer> bar = new Variable<>();
+	
+	    beforeEach(()-> {
+	      bar.set(1);
+	    });
+	
+	    it("can reference both scopes as needed", ()-> {
+		    assertThat(foo.get()).isEqualTo(bar.get());
+	    });
+	  });
+	});
+
+
 
         // The this keyword
         describe("A spec", ()-> {
