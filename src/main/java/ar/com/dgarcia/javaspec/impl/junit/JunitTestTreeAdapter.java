@@ -1,6 +1,8 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.runner.Description;
 
@@ -15,6 +17,8 @@ import ar.com.dgarcia.javaspec.impl.model.SpecTree;
  * Created by kfgodel on 13/07/14.
  */
 public class JunitTestTreeAdapter {
+
+    public static final Annotation[] NO_ANNOTATIONS = new Annotation[0];
 
     private SpecTree specTree;
     private JunitTestTree junitTree;
@@ -40,7 +44,9 @@ public class JunitTestTreeAdapter {
     private void recursiveAdaptToJunit(SpecGroup currentGroup, Description currentDescription) {
         List<SpecElement> specElements = currentGroup.getSpecElements();
         for (SpecElement specElement : specElements) {
-            Description elementDescription = Description.createSuiteDescription(specElement.getName());
+            String specName = specElement.getName();
+            String specId = specName + String.valueOf(specElement.hashCode());
+            Description elementDescription = Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
             currentDescription.addChild(elementDescription);
             if(specElement instanceof SpecTest){
                 JunitTestCode junitTest = adaptToJunitTest((SpecTest) specElement, elementDescription);
