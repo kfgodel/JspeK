@@ -48,7 +48,7 @@ Based on Jasmine for javascript: http://jasmine.github.io/
 </dependency>
 ```
 
-### Non mave
+### Non maven
 
 Download the binaries from the [download section](https://bitbucket.org/kfgodel/java-spec/downloads)
 
