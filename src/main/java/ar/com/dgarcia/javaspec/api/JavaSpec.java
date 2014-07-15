@@ -57,7 +57,7 @@ public abstract class JavaSpec {
     }
 
     /**
-     * Declares an ignored pending test. It will not be run, but listed
+     * Declares an ignored test. It will not be run, but listed
      * @param testName The name to identify this test
      * @param aTestCode The ignored code of this tests
      */
@@ -84,7 +84,7 @@ public abstract class JavaSpec {
     }
 
     /**
-     * Declares a disabled suite of tests. Any sub-test or sub-context will be ignored and not listed
+     * Declares a disabled suite of tests. Any sub-test or sub-context will be ignored (listed but not run)
      * @param aGroupName The name identifying the group
      * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
      */
