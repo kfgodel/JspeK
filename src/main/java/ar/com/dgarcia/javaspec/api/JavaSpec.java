@@ -104,4 +104,9 @@ public abstract class JavaSpec {
         this.stack = SpecStack.create(this.specTree.getRootGroup());
         this.define();
     }
+
+    protected TestContext context() {
+        return null;
+    }
+
 }
