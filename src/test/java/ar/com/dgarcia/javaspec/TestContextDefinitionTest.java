@@ -15,10 +15,10 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
  * This type verifies the behavior of the implementation for test context
  * Created by kfgodel on 20/07/14.
  */
-public class TestContextTest  {
+public class TestContextDefinitionTest {
 
 
-    private MappedTestContext testContext;
+    private TestContextDefinition testContext;
 
     @Before
     public void createContext(){
@@ -43,18 +43,6 @@ public class TestContextTest  {
         Integer thirdValue = testContext.<Integer>get("rnd");
 
         assertThat(firstValue).isEqualTo(secondValue).isEqualTo(thirdValue);
-    }
-
-    @Test
-    public void itThrowsExceptionIfTriedToChangeCurrentDefinition(){
-        testContext.let("foo", () -> 1);
-
-        try{
-            testContext.let("foo", () -> 2);
-            failBecauseExceptionWasNotThrown(SpecException.class);
-        }catch(SpecException e){
-            assertThat(e).hasMessage("Variable [foo] cannot be re-defined. Current definition: [1]");
-        }
     }
 
     @Test

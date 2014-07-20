@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
 
@@ -89,5 +88,5 @@ public interface SpecGroup extends SpecElement {
      * The context returned can re-define some of the variables from parent context
      * @return The context for this group
      */
-    TestContext getTestContext();
+    TestContextDefinition getTestContext();
 }

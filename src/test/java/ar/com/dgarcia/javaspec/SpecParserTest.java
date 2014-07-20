@@ -3,12 +3,14 @@ package ar.com.dgarcia.javaspec;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import ar.com.dgarcia.javaspec.testSpecs.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -191,6 +193,22 @@ public class SpecParserTest {
 
         SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
 
-//        assertThat(onlyGroup.getTestContext().get("")).isTrue();
+        TestContextDefinition contextDefinition = onlyGroup.getTestContext();
+        assertThat(contextDefinition.getDefinitionFor("foo")).isNotNull();
     }
+
+    @Test
+    public void rootGroupShouldHaveVariableDefinitionAndChildGroupShouldUseParents(){
+        SpecTree readSpec = parser.parse(VariableDefinedInParentContextSpec.class);
+
+        SpecGroup rootGroup = readSpec.getRootGroup();
+        Supplier<Object> rootDefinition = rootGroup.getTestContext().getDefinitionFor("foo");
+        assertThat(rootDefinition).isNotNull();
+
+        SpecGroup onlyGroup = rootGroup.getSubGroups().get(0);
+        Supplier<Object> childDefinition = onlyGroup.getTestContext().getDefinitionFor("foo");
+        assertThat(childDefinition).isSameAs(rootDefinition);
+    }
+
+
 }

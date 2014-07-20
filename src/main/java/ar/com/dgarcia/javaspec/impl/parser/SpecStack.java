@@ -1,9 +1,11 @@
 package ar.com.dgarcia.javaspec.impl.parser;
 
-import java.util.LinkedList;
-
+import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
+
+import java.util.LinkedList;
 
 /**
  * This type represents the active stack used to define nesting of specs
@@ -12,16 +14,19 @@ import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 public class SpecStack {
 
     private LinkedList<SpecGroup> nestedGroups;
+    private Variable<TestContext> currentContext;
 
-    public static SpecStack create(SpecGroup rootGroup) {
+    public static SpecStack create(SpecGroup rootGroup, Variable<TestContext> sharedContext) {
         SpecStack stack = new SpecStack();
         stack.nestedGroups = new LinkedList<>();
+        stack.currentContext = sharedContext;
         stack.push(rootGroup);
         return stack;
     }
 
     private void push(SpecGroup group) {
         this.nestedGroups.push(group);
+        this.updateContext();
     }
 
     /**
@@ -39,8 +44,16 @@ public class SpecStack {
         }
     }
 
+    /**
+     * Grabs the context from current head and sets that as current context
+     */
+    private void updateContext() {
+        currentContext.set(getCurrentHead().getTestContext());
+    }
+
     private void pop() {
         this.nestedGroups.pop();
+        this.updateContext();
     }
 
     /**

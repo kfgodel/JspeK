@@ -15,7 +15,6 @@ public abstract class JavaSpec {
 
     private SpecTree specTree;
     private SpecStack stack;
-    private Variable<TestContext> currentContext;
 
     /**
      * Starting method to define the specs.<br>
@@ -45,7 +44,7 @@ public abstract class JavaSpec {
      * @param aTestCode The code that defines the test
      */
     public void it(String testName, Runnable aTestCode){
-        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode);
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
         stack.getCurrentHead().addTest(createdSpec);
     }
 
@@ -54,7 +53,7 @@ public abstract class JavaSpec {
      * @param testName The name to identify this test
      */
     public void it(String testName){
-        TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName);
+        TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
         stack.getCurrentHead().addTest(createdSpec);
     }
 
@@ -64,7 +63,7 @@ public abstract class JavaSpec {
      * @param aTestCode The ignored code of this tests
      */
     public void xit(String testName, Runnable aTestCode){
-        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode);
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
         createdSpec.markAsPending();
         stack.getCurrentHead().addTest(createdSpec);
     }
@@ -104,13 +103,18 @@ public abstract class JavaSpec {
     public void populate(SpecTree specTree) {
         this.specTree = specTree;
         SpecGroup rootGroup = this.specTree.getRootGroup();
-        this.stack = SpecStack.create(rootGroup);
-        this.currentContext = Variable.of(rootGroup.getTestContext());
+        Variable<TestContext> sharedContext = this.specTree.getSharedContext();
+        this.stack = SpecStack.create(rootGroup, sharedContext);
         this.define();
     }
 
+    /**
+     * Allows access to test context, to define variables or to access them.<br>
+     *  Usually you define variables in suites and access them in tests
+     * @return The current test context
+     */
     protected TestContext context() {
-        return currentContext.get();
+        return this.specTree.getSharedContext().get();
     }
 
 }

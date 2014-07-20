@@ -1,17 +1,21 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.impl.context.NullContextDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * This type represents a null group to be used as root container
  * Created by kfgodel on 12/07/14.
  */
 public class NullContainerGroup implements SpecGroup {
+
+    private TestContextDefinition testContext;
 
     @Override
     public boolean isEmpty() {
@@ -84,12 +88,13 @@ public class NullContainerGroup implements SpecGroup {
     }
 
     @Override
-    public TestContext getTestContext() {
-        return null;
+    public TestContextDefinition getTestContext() {
+        return testContext;
     }
 
     public static NullContainerGroup create() {
         NullContainerGroup nullContainerGroup = new NullContainerGroup();
+        nullContainerGroup.testContext = NullContextDefinition.create();
         return nullContainerGroup;
     }
 }

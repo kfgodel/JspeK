@@ -99,7 +99,7 @@ public class LetOperatorTest extends JavaSpec{
                         context().let("value", ()-> 2);
                         failBecauseExceptionWasNotThrown(SpecException.class);
                     }catch(SpecException e){
-                        assertThat(e).hasMessage("Value for variable[value] cannot be redefined. Current value is [1]");
+                        assertThat(e).hasMessage("Variable [value] cannot be re-defined once assigned. Current value: [1]");
                     }
                 });
             });

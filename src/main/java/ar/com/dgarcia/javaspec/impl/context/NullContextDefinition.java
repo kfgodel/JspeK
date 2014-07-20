@@ -25,4 +25,19 @@ public class NullContextDefinition implements TestContextDefinition {
     public <T> T get(String variableName) {
         throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
     }
+
+    @Override
+    public void setParentDefinition(TestContextDefinition parentDefinition) {
+        throw new UnsupportedOperationException("Null context cannot have parent context");
+    }
+
+    @Override
+    public TestContextDefinition getParentDefinition() {
+        return this;
+    }
+
+    @Override
+    public Supplier<Object> getDefinitionFor(String variableName) {
+        return null;
+    }
 }
