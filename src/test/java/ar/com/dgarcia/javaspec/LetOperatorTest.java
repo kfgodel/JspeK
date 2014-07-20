@@ -5,6 +5,8 @@ import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 
@@ -17,12 +19,6 @@ public class LetOperatorTest extends JavaSpec{
     @Override
     public void define() {
         describe("let/get operations", ()->{
-
-            it("are lazy named variables that can be used to define the context of a test", ()->{
-                context().let("foo", () -> 3);
-
-                assertThat(context().<Integer>get("foo")).isEqualTo(3);
-            });
 
             describe("can be used in suite contexts", ()->{
 
@@ -41,6 +37,13 @@ public class LetOperatorTest extends JavaSpec{
                     });
                 });
             });
+
+            it("can also be used inside a test", ()->{
+                context().let("foo", () -> 3);
+
+                assertThat(context().<Integer>get("foo")).isEqualTo(3);
+            });
+
 
             describe("definitions are prioritized", ()->{
 
@@ -77,18 +80,21 @@ public class LetOperatorTest extends JavaSpec{
                 describe("or nesting scenarios", ()->{
                     context().let("value", ()-> 1);
 
-                    it("with fixed context", ()->{
+                    it("with cleanly defined context", ()->{
                         assertThat(context().<Integer>get("sum")).isEqualTo(3);
                     });
                 });
+            });
+
+
+            describe("variable value is defined only once", ()->{
+
 
                 it("once defined, a variable value remains the same through test duration", ()->{
-                    context().let("value", ()-> 2);
+                    context().let("rnd", ()-> new Random().nextInt());
 
-                    Integer firstTime = context().<Integer>get("sum");
-                    assertThat(firstTime).isEqualTo(4);
-
-                    Integer secondTime = context().<Integer>get("sum");
+                    Integer firstTime = context().<Integer>get("rnd");
+                    Integer secondTime = context().<Integer>get("rnd");
                     assertThat(secondTime).isSameAs(firstTime);
                 });
 
