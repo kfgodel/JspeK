@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.model.DisabledStatus;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
@@ -90,6 +91,11 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
             }
         }
         return true;
+    }
+
+    @Override
+    public TestContext getTestContext() {
+        return null;
     }
 
     @Override

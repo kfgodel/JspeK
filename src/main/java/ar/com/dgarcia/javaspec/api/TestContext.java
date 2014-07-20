@@ -1,5 +1,7 @@
 package ar.com.dgarcia.javaspec.api;
 
+import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+
 import java.util.function.Supplier;
 
 /**
@@ -8,11 +10,12 @@ import java.util.function.Supplier;
  */
 public interface TestContext {
     /**
-     * Defines the value to a named variable in the current context, which may redefine previous value of broader context, or be redefined by a subcontext
+     * Defines the value to a named variable in the current context, which may redefine previous value of broader context,
+     * or be redefined by a subcontext.<br> An exception is thrown if a variable is tried to be defined twice in same context
      * @param variableName The name to identify the variable
      * @param valueDefinition A value supplier that can be used to lazily define the initial value of the variable
      */
-    void let(String variableName, Supplier<?> valueDefinition);
+    void let(String variableName, Supplier<?> valueDefinition) throws SpecException;
 
     /**
      * Gets the value of the named variable defined in the current context or parent context.<br>

@@ -1,28 +1,16 @@
 package ar.com.dgarcia.javaspec;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
-import ar.com.dgarcia.javaspec.testSpecs.AfterUsedInOneTestSpec;
-import ar.com.dgarcia.javaspec.testSpecs.BeforeAndAfterInheritedWhenNestedTest;
-import ar.com.dgarcia.javaspec.testSpecs.BeforeUsedInOneTestSpec;
-import ar.com.dgarcia.javaspec.testSpecs.DisabledSuiteSpec;
-import ar.com.dgarcia.javaspec.testSpecs.EmptySpec;
-import ar.com.dgarcia.javaspec.testSpecs.OneEmptyDescribeSpec;
-import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpec;
-import ar.com.dgarcia.javaspec.testSpecs.OneTestInsideDescribeSpec;
-import ar.com.dgarcia.javaspec.testSpecs.OneTestInsideDisabledSpecTest;
-import ar.com.dgarcia.javaspec.testSpecs.TwoBeforeAndAfterTestSpec;
-import ar.com.dgarcia.javaspec.testSpecs.TwoDescribeSpecs;
-import ar.com.dgarcia.javaspec.testSpecs.TwoPendingTestSpec;
+import ar.com.dgarcia.javaspec.testSpecs.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This class verifies that the spec parser read correctly the spec definitions from a JavaSpec subclass
@@ -195,5 +183,14 @@ public class SpecParserTest {
         SpecTest disabledTest = onlyGroup.getDeclaredTests().get(0);
 
         assertThat(disabledTest.isMarkedAsPending()).isTrue();
+    }
+
+    @Test
+    public void variableDefinedInGroupShouldHaveDefinition(){
+        SpecTree readSpec = parser.parse(VariableInSuitSpec.class);
+
+        SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
+
+//        assertThat(onlyGroup.getTestContext().get("")).isTrue();
     }
 }

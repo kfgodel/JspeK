@@ -3,6 +3,8 @@ package ar.com.dgarcia.javaspec.impl.model.impl;
 import java.util.List;
 
 /**
+ * This type represents a test to be run as a code block.<br>
+ * By this class we abstract the spec execution to Junit
  * Created by kfgodel on 13/07/14.
  */
 public class SpecExecutionBlock implements Runnable {

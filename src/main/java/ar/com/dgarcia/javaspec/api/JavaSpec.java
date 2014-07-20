@@ -1,5 +1,6 @@
 package ar.com.dgarcia.javaspec.api;
 
+import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
@@ -14,6 +15,7 @@ public abstract class JavaSpec {
 
     private SpecTree specTree;
     private SpecStack stack;
+    private Variable<TestContext> currentContext;
 
     /**
      * Starting method to define the specs.<br>
@@ -101,12 +103,14 @@ public abstract class JavaSpec {
      */
     public void populate(SpecTree specTree) {
         this.specTree = specTree;
-        this.stack = SpecStack.create(this.specTree.getRootGroup());
+        SpecGroup rootGroup = this.specTree.getRootGroup();
+        this.stack = SpecStack.create(rootGroup);
+        this.currentContext = Variable.of(rootGroup.getTestContext());
         this.define();
     }
 
     protected TestContext context() {
-        return null;
+        return currentContext.get();
     }
 
 }
