@@ -53,7 +53,12 @@ public class MappedTestContext implements TestContext{
             throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
         }
 
-        Object variableValue = variableDefinition.get();
+        Object variableValue = null;
+        try {
+            variableValue = variableDefinition.get();
+        } catch (Exception e) {
+            throw new SpecException("Definition for variable ["+variableName+"] failed to execute: " + e.getMessage(),e);
+        }
         storeValueFor(variableName, variableValue);
         return (T) variableValue;
     }

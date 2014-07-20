@@ -66,4 +66,17 @@ public class TestContextTest  {
             assertThat(e).hasMessage("Variable [undefined] cannot be accessed because lacks definition");
         }
     }
+
+    @Test
+    public void itThrowsAnExceptionIfVariableDefinitionFails(){
+        testContext.let("explosion", ()-> { throw new RuntimeException("Boom!"); } );
+
+        try{
+            testContext.get("explosion");
+            failBecauseExceptionWasNotThrown(SpecException.class);
+        }catch(SpecException e){
+            assertThat(e).hasMessage("Definition for variable [explosion] failed to execute: Boom!");
+        }
+
+    }
 }
