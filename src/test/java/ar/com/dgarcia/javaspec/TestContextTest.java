@@ -1,8 +1,8 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.context.MappedTestContext;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 public class TestContextTest  {
 
 
-    private TestContext testContext;
+    private MappedTestContext testContext;
 
     @Before
     public void createContext(){
@@ -77,6 +77,15 @@ public class TestContextTest  {
         }catch(SpecException e){
             assertThat(e).hasMessage("Definition for variable [explosion] failed to execute: Boom!");
         }
+    }
 
+    @Test
+    public void itUsesTheDefinitionOfParentContext(){
+        TestContextDefinition parentContext = MappedTestContext.create();
+        testContext.setParentDefinition(parentContext);
+
+        parentContext.let("foo", ()-> 2);
+
+        assertThat(testContext.<Integer>get("foo")).isEqualTo(2);
     }
 }

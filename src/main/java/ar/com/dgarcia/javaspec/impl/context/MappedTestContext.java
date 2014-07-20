@@ -2,6 +2,7 @@ package ar.com.dgarcia.javaspec.impl.context;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +12,9 @@ import java.util.function.Supplier;
  * This type implements a test context that has a parent context
  * Created by kfgodel on 20/07/14.
  */
-public class MappedTestContext implements TestContext{
+public class MappedTestContext implements TestContext, TestContextDefinition{
 
+    private TestContextDefinition parentDefinition;
     private Map<String, Supplier<Object>> variableDefinitions;
     private Map<String, Object> variableValues;
 
@@ -22,6 +24,28 @@ public class MappedTestContext implements TestContext{
             throw new SpecException("Variable [" + variableName + "] cannot be re-defined. Current definition: ["+get(variableName)+"]");
         }
         this.storeDefinitionFor(variableName, valueDefinition);
+    }
+
+    @Override
+    public <T> T get(String variableName) {
+        if (this.containsValueFor(variableName)) {
+            // Use cached value
+            return getValueFor(variableName);
+        }
+        if(!this.containsDefinitionFor(variableName)){
+            // Parent can have one
+            return parentDefinition.get(variableName);
+        }
+
+        Supplier<Object> variableDefinition = getDefinitionFor(variableName);
+        Object variableValue = null;
+        try {
+            variableValue = variableDefinition.get();
+        } catch (Exception e) {
+            throw new SpecException("Definition for variable ["+variableName+"] failed to execute: " + e.getMessage(),e);
+        }
+        storeValueFor(variableName, variableValue);
+        return (T) variableValue;
     }
 
     /**
@@ -40,27 +64,6 @@ public class MappedTestContext implements TestContext{
      */
     private boolean containsDefinitionFor(String variableName) {
         return variableDefinitions.containsKey(variableName);
-    }
-
-    @Override
-    public <T> T get(String variableName) {
-        if (this.containsValueFor(variableName)) {
-            return getValueFor(variableName);
-        }
-
-        Supplier<Object> variableDefinition = getDefinitionFor(variableName);
-        if(variableDefinition == null){
-            throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
-        }
-
-        Object variableValue = null;
-        try {
-            variableValue = variableDefinition.get();
-        } catch (Exception e) {
-            throw new SpecException("Definition for variable ["+variableName+"] failed to execute: " + e.getMessage(),e);
-        }
-        storeValueFor(variableName, variableValue);
-        return (T) variableValue;
     }
 
     private <T> T getValueFor(String variableName) {
@@ -88,6 +91,11 @@ public class MappedTestContext implements TestContext{
         MappedTestContext context = new MappedTestContext();
         context.variableDefinitions = new HashMap<>();
         context.variableValues = new HashMap<>();
+        context.parentDefinition = NullContextDefinition.create();
         return context;
+    }
+
+    public void setParentDefinition(TestContextDefinition parentDefinition) {
+        this.parentDefinition = parentDefinition;
     }
 }
