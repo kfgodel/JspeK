@@ -43,7 +43,7 @@ Based on Jasmine for javascript: http://jasmine.github.io/
 <dependency>
   <groupId>ar.com.dgarcia</groupId>
   <artifactId>java-spec</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <scope>test</scope>
 </dependency>
 ```
