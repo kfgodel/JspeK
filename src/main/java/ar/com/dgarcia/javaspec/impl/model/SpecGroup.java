@@ -1,9 +1,9 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import java.util.List;
-
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
+
+import java.util.List;
 
 /**
  * This type represents a test group inside a spec
@@ -82,4 +82,11 @@ public interface SpecGroup extends SpecElement {
      * @return true if this group has no test. False if it has, even if disabled
      */
     boolean hasNoTests();
+
+    /**
+     * Returns the context definition in the scope of this group.<br>
+     * The context returned can re-define some of the variables from parent context
+     * @return The context for this group
+     */
+    TestContextDefinition getTestContext();
 }

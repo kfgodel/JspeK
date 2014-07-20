@@ -1,0 +1,133 @@
+package ar.com.dgarcia.javaspec.impl.context;
+
+import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+/**
+ * This type implements a test context that has a parent context
+ * Created by kfgodel on 20/07/14.
+ */
+public class MappedTestContext implements TestContextDefinition{
+
+    private TestContextDefinition parentDefinition;
+    private Map<String, Supplier<Object>> variableDefinitions;
+    private Map<String, Object> variableValues;
+
+    @Override
+    public void let(String variableName, Supplier<?> valueDefinition) throws SpecException {
+        if(this.containsValueFor(variableName)){
+            throw new SpecException("Variable [" + variableName + "] cannot be re-defined once assigned. Current value: ["+get(variableName)+"]");
+        }
+        this.storeDefinitionFor(variableName, valueDefinition);
+    }
+
+    @Override
+    public <T> T get(String variableName) {
+        if (this.containsValueFor(variableName)) {
+            // Use cached value
+            return getValueFor(variableName);
+        }
+
+        Supplier<Object> variableDefinition = getDefinitionFor(variableName);
+        if(variableDefinition == null){
+            throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
+        }
+        Object variableValue = null;
+        try {
+            variableValue = variableDefinition.get();
+        } catch (Exception e) {
+            throw new SpecException("Definition for variable ["+variableName+"] failed to execute: " + e.getMessage(),e);
+        }
+        storeValueFor(variableName, variableValue);
+        return (T) variableValue;
+    }
+
+    /**
+     * Stores the definition for a variable in this context
+     * @param variableName The name of the variable
+     * @param valueDefinition The variable definition
+     */
+    private void storeDefinitionFor(String variableName, Supplier<?> valueDefinition) {
+        getVariableDefinitions().put(variableName, (Supplier<Object>) valueDefinition);
+    }
+
+    /**
+     * Indicates if this context has own definition for named variable
+     * @param variableName The variable to check
+     * @return true if there's a definition on this context
+     */
+    private boolean containsDefinitionFor(String variableName) {
+        if(variableDefinitions == null){
+            return false;
+        }
+        return getVariableDefinitions().containsKey(variableName);
+    }
+
+    private <T> T getValueFor(String variableName) {
+        if(variableValues == null){
+            return null;
+        }
+        return (T) getVariableValues().get(variableName);
+    }
+
+    private void storeValueFor(String variableName, Object variableValue) {
+        getVariableValues().put(variableName, variableValue);
+    }
+
+    @Override
+    public Supplier<Object> getDefinitionFor(String variableName) {
+        boolean weDontHaveADefinition = variableDefinitions == null || !variableDefinitions.containsKey(variableName);
+        if(weDontHaveADefinition){
+            return getParentDefinition().getDefinitionFor(variableName);
+        }
+
+        return getVariableDefinitions().get(variableName);
+    }
+
+    /**
+     * Indicates if this context has a value defined for a named variable
+     * @param variableName The name of the variable
+     * @return true if the variable was already resolved
+     */
+    private boolean containsValueFor(String variableName) {
+        if(variableValues == null){
+            return false;
+        }
+        return getVariableValues().containsKey(variableName);
+    }
+
+    public static MappedTestContext create() {
+        MappedTestContext context = new MappedTestContext();
+        context.parentDefinition = NullContextDefinition.create();
+        return context;
+    }
+
+    @Override
+    public void setParentDefinition(TestContextDefinition parentDefinition) {
+        this.parentDefinition = parentDefinition;
+    }
+
+    @Override
+    public TestContextDefinition getParentDefinition() {
+        return parentDefinition;
+    }
+
+    private Map<String, Supplier<Object>> getVariableDefinitions() {
+        if(variableDefinitions == null){
+            variableDefinitions = new HashMap<>();
+        }
+        return variableDefinitions;
+    }
+
+    private Map<String, Object> getVariableValues() {
+        if(variableValues == null) {
+            variableValues = new HashMap<>();
+        }
+        return variableValues;
+    }
+
+}

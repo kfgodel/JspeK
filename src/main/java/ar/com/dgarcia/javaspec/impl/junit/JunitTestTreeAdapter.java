@@ -1,16 +1,14 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
-import java.lang.annotation.Annotation;
-import java.util.List;
-import java.util.Objects;
-
-import org.junit.runner.Description;
-
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import org.junit.runner.Description;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
 
 /**
  * This type adapts the SpecTree to a Junit test tree by giving it a description and surrounding each test spec in a JunitTestCode
@@ -44,14 +42,17 @@ public class JunitTestTreeAdapter {
     private void recursiveAdaptToJunit(SpecGroup currentGroup, Description currentDescription) {
         List<SpecElement> specElements = currentGroup.getSpecElements();
         for (SpecElement specElement : specElements) {
+
             String specName = specElement.getName();
             String specId = specName + String.valueOf(specElement.hashCode());
             Description elementDescription = Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
             currentDescription.addChild(elementDescription);
+
             if(specElement instanceof SpecTest){
                 JunitTestCode junitTest = adaptToJunitTest((SpecTest) specElement, elementDescription);
                 this.junitTree.addTest(junitTest);
             }
+
             if(specElement instanceof SpecGroup){
                 SpecGroup specGroup = (SpecGroup) specElement;
                 recursiveAdaptToJunit(specGroup, elementDescription);

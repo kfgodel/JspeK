@@ -1,8 +1,10 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import java.util.List;
-
+import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
+
+import java.util.List;
 
 /**
  * This type represents the interpreted definition of a test spec
@@ -12,6 +14,7 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
     private Runnable testCode;
     private PendingStatus pendingState;
+    private Variable<TestContext> sharedContext;
 
     @Override
     public boolean isMarkedAsPending() {
@@ -40,25 +43,26 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
     @Override
     public Runnable getSpecExecutionCode() {
-        SpecExecutionBlock executionBlock = SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks());
+        SpecExecutionBlock executionBlock = SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks(), getContainerGroup().getTestContext(), sharedContext);
         return executionBlock;
     }
 
-    public static TestSpecDefinition create(String testName, Runnable testCode) {
+    public static TestSpecDefinition create(String testName, Runnable testCode, Variable<TestContext> sharedContext) {
         TestSpecDefinition test = new TestSpecDefinition();
         test.setName(testName);
         test.testCode = testCode;
         test.pendingState = PendingStatus.NORMAL;
+        test.sharedContext = sharedContext;
         return test;
     }
 
     /**
      * Creates a test in pending state
-     * @param testName The
-     * @return
+     * @param testName The name to identify the test
+     * @return The created definition
      */
-    public static TestSpecDefinition createPending(String testName) {
-        TestSpecDefinition test = create(testName, null);
+    public static TestSpecDefinition createPending(String testName, Variable<TestContext> sharedContext) {
+        TestSpecDefinition test = create(testName, null, sharedContext);
         test.markAsPending();
         return test;
     }

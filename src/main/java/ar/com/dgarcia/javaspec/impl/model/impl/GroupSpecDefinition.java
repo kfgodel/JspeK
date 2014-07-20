@@ -1,13 +1,11 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import ar.com.dgarcia.javaspec.impl.context.MappedTestContext;
+import ar.com.dgarcia.javaspec.impl.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import ar.com.dgarcia.javaspec.impl.model.DisabledStatus;
-import ar.com.dgarcia.javaspec.impl.model.SpecElement;
-import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
-import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 
 /**
  * This type represents a spec group definition
@@ -19,6 +17,7 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
     private List<SpecElement> elements;
     private List<Runnable> beforeBlocks;
     private List<Runnable> afterBlocks;
+    private TestContextDefinition testContext;
 
     @Override
     public boolean isEmpty() {
@@ -93,6 +92,11 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
     }
 
     @Override
+    public TestContextDefinition getTestContext() {
+        return testContext;
+    }
+
+    @Override
     public List<Runnable> getBeforeBlocks() {
         List<Runnable> containerBeforeBlocks = getContainerGroup().getBeforeBlocks();
         List<Runnable> inheritedBlocks = new ArrayList<>(containerBeforeBlocks.size() + beforeBlocks.size());
@@ -116,14 +120,21 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
         element.setContainerGroup(this);
     }
 
+    @Override
+    protected void setContainerGroup(SpecGroup containerGroup) {
+        super.setContainerGroup(containerGroup);
+        this.testContext.setParentDefinition(containerGroup.getTestContext());
+    }
+
     public static GroupSpecDefinition create(String groupName) {
         GroupSpecDefinition groupSpec = new GroupSpecDefinition();
         groupSpec.setName(groupName);
-        groupSpec.setContainerGroup(NullContainerGroup.create());
         groupSpec.disabledState = DisabledStatus.ENABLED;
         groupSpec.elements = new ArrayList<>();
         groupSpec.beforeBlocks = new ArrayList<>();
         groupSpec.afterBlocks = new ArrayList<>();
+        groupSpec.testContext = MappedTestContext.create();
+        groupSpec.setContainerGroup(NullContainerGroup.create());
         return groupSpec;
     }
 
