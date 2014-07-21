@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.impl.model.impl;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
-import ar.com.dgarcia.javaspec.impl.context.MappedTestContext;
+import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class SpecExecutionBlock implements Runnable {
      * @param codeToRun Code to run in own context
      */
     private void runWithOwnSubContext(Runnable codeToRun) {
-        MappedTestContext testRunContext = MappedTestContext.create();
+        MappedContext testRunContext = MappedContext.create();
         testRunContext.setParentDefinition(parentContext);
 
         TestContext previousContext = sharedContext.get();

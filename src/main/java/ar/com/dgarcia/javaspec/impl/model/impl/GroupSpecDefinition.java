@@ -1,6 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import ar.com.dgarcia.javaspec.impl.context.MappedTestContext;
+import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.model.*;
 
 import java.util.ArrayList;
@@ -133,7 +133,7 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
         groupSpec.elements = new ArrayList<>();
         groupSpec.beforeBlocks = new ArrayList<>();
         groupSpec.afterBlocks = new ArrayList<>();
-        groupSpec.testContext = MappedTestContext.create();
+        groupSpec.testContext = MappedContext.create();
         groupSpec.setContainerGroup(NullContainerGroup.create());
         return groupSpec;
     }

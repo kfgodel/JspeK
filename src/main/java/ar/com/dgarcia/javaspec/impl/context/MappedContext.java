@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  * This type implements a test context that has a parent context
  * Created by kfgodel on 20/07/14.
  */
-public class MappedTestContext implements TestContextDefinition{
+public class MappedContext implements TestContextDefinition{
 
     private TestContextDefinition parentDefinition;
     private Map<String, Supplier<Object>> variableDefinitions;
@@ -39,6 +39,10 @@ public class MappedTestContext implements TestContextDefinition{
         Object variableValue = null;
         try {
             variableValue = variableDefinition.get();
+        } catch (SpecException e){
+            throw e;
+        } catch(StackOverflowError e){
+            throw new SpecException("Got a Stackoverflow when evaluating variable ["+variableName+"]. Do we have a cyclic dependency on its definition?",e);
         } catch (Exception e) {
             throw new SpecException("Definition for variable ["+variableName+"] failed to execute: " + e.getMessage(),e);
         }
@@ -100,8 +104,8 @@ public class MappedTestContext implements TestContextDefinition{
         return getVariableValues().containsKey(variableName);
     }
 
-    public static MappedTestContext create() {
-        MappedTestContext context = new MappedTestContext();
+    public static MappedContext create() {
+        MappedContext context = new MappedContext();
         context.parentDefinition = NullContextDefinition.create();
         return context;
     }

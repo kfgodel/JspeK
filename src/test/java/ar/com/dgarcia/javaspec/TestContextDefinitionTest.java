@@ -1,6 +1,6 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.impl.context.MappedTestContext;
+import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import org.junit.Before;
@@ -22,7 +22,7 @@ public class TestContextDefinitionTest {
 
     @Before
     public void createContext(){
-        testContext = MappedTestContext.create();
+        testContext = MappedContext.create();
     }
 
 
@@ -69,11 +69,26 @@ public class TestContextDefinitionTest {
 
     @Test
     public void itUsesTheDefinitionOfParentContext(){
-        TestContextDefinition parentContext = MappedTestContext.create();
+        TestContextDefinition parentContext = MappedContext.create();
         testContext.setParentDefinition(parentContext);
 
         parentContext.let("foo", ()-> 2);
 
         assertThat(testContext.<Integer>get("foo")).isEqualTo(2);
+    }
+
+
+    @Test
+    public void itDetectsCyclicDependencies(){
+        testContext.let("foo", ()-> testContext.get("bar"));
+        testContext.let("bar", ()-> testContext.get("foo"));
+
+        try{
+            testContext.<Integer>get("foo");
+            failBecauseExceptionWasNotThrown(SpecException.class);
+        }catch( SpecException e){
+            assertThat(e.getMessage()).startsWith("Got a Stackoverflow when evaluating variable [");
+        }
+
     }
 }
