@@ -2,6 +2,7 @@ package ar.com.dgarcia.javaspec.impl.context.typed;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -18,7 +19,7 @@ public class TypedContextFactory {
      * @param <T> Type of expected instance
      * @return The created instance
      */
-    public static<T extends TestContext> T createInstanceOf(Class<T> typedTestContextClass, Variable<TestContext> sharedVariable) {
+    public static<T extends TestContext> T createInstanceOf(Class<T> typedTestContextClass, Variable<TestContext> sharedVariable) throws SpecException {
         InvocationHandler handler = TypedContextProxyHandler.create(sharedVariable);
         T createdInstance = (T) Proxy.newProxyInstance(typedTestContextClass.getClassLoader(),
                 new Class<?>[] { typedTestContextClass },
