@@ -34,7 +34,7 @@ public class MappedContext implements TestContextDefinition{
 
         Supplier<Object> variableDefinition = getDefinitionFor(variableName);
         if(variableDefinition == null){
-            throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
+            throw new SpecException("Variable ["+variableName+"] cannot be accessed because it lacks a definition in this context");
         }
         Object variableValue = null;
         try {
