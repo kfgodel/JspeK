@@ -20,7 +20,7 @@ public class ExampleTest extends JavaSpec<TestContext>{
     }
 }
 ```
-Based on Jasmine for javascript: http://jasmine.github.io/  
+Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby
 ##**[See more examples in the wiki](https://bitbucket.org/kfgodel/java-spec/wiki/Home)**
 
 
@@ -43,7 +43,7 @@ Based on Jasmine for javascript: http://jasmine.github.io/
 <dependency>
   <groupId>ar.com.dgarcia</groupId>
   <artifactId>java-spec</artifactId>
-  <version>1.1</version>
+  <version>2.0</version>
   <scope>test</scope>
 </dependency>
 ```
