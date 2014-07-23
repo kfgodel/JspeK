@@ -6,7 +6,7 @@ Define your Junit tests as Specs:
 #!java
 
 @RunWith(JavaSpecRunner.class)
-public class ExampleTest extends JavaSpec {
+public class ExampleTest extends JavaSpec<TestContext>{
 
     @Override
     public void define() {
