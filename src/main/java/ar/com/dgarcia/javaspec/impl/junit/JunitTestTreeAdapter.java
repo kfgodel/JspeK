@@ -33,7 +33,7 @@ public class JunitTestTreeAdapter {
      * @param clase
      */
     private void adaptToJunit(Class<? extends JavaSpec> clase) {
-    	Description rootDescription = Description.createSuiteDescription(clase.getSimpleName());
+    	Description rootDescription = Description.createSuiteDescription(clase);
         junitTree = JunitTestTree.create(rootDescription);
         SpecGroup rootGroup = specTree.getRootGroup();
         recursiveAdaptToJunit(rootGroup, rootDescription);
