@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.impl.context.typed;
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
@@ -43,8 +44,16 @@ public class TypedContextMethodInvocation {
     public Object invokeOn(TestContext context) {
         try {
             return this.method.invoke(context, this.args);
+        } catch(SpecException e) {
+            throw e;
+        } catch(InvocationTargetException e){
+            Throwable cause = e.getCause();
+            if(cause instanceof SpecException){
+                throw (SpecException)cause;
+            }
+            throw new SpecException("Invocation on proxied context failed: " + cause.getMessage(),cause);
         } catch (Exception e) {
-            throw new SpecException("Invocation on proxied context failed",e);
+            throw new SpecException("Unexpected error on proxied context invocation: " + e.getMessage(),e);
         }
     }
 

@@ -51,7 +51,7 @@ public class TestContextDefinitionTest {
             testContext.get("undefined");
             failBecauseExceptionWasNotThrown(SpecException.class);
         }catch(SpecException e){
-            assertThat(e).hasMessage("Variable [undefined] cannot be accessed because it lacks a definition in this context");
+            assertThat(e).hasMessage("Variable [undefined] cannot be accessed because it lacks a definition in this context[{}]");
         }
     }
 

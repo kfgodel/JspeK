@@ -34,7 +34,7 @@ public class MappedContext implements TestContextDefinition{
 
         Supplier<Object> variableDefinition = getDefinitionFor(variableName);
         if(variableDefinition == null){
-            throw new SpecException("Variable ["+variableName+"] cannot be accessed because it lacks a definition in this context");
+            throw new SpecException("Variable ["+variableName+"] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]");
         }
         Object variableValue = null;
         try {
@@ -134,4 +134,8 @@ public class MappedContext implements TestContextDefinition{
         return variableValues;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ": " + variableDefinitions;
+    }
 }

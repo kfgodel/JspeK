@@ -1,16 +1,16 @@
 package ar.com.dgarcia.javaspec;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import ar.com.dgarcia.javaspec.api.JavaSpec;
+import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.Variable;
+import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import org.junit.runner.RunWith;
-
-import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.dgarcia.javaspec.api.Variable;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * This class serves as an example of Java-Spec.<br>
@@ -18,7 +18,7 @@ import ar.com.dgarcia.javaspec.api.Variable;
  * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class JasmineLikeExampleTest extends JavaSpec {
+public class JasmineLikeExampleTest extends JavaSpec<TestContext> {
 
     private Variable<Integer> foo = new Variable<>();
     private Variable<String> bar = new Variable<>();

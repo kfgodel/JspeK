@@ -2,6 +2,7 @@ package ar.com.dgarcia.javaspec;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
+import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import org.junit.runner.RunWith;
 
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
  * Created by kfgodel on 18/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class LetOperatorTest extends JavaSpec{
+public class LetOperatorTest extends JavaSpec<TestContext>{
     @Override
     public void define() {
         describe("let/get operations", ()->{
