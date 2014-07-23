@@ -33,6 +33,8 @@ public class TypedContextMethodInvocation {
         return this.method.getDeclaringClass().equals(TestContext.class);
     }
 
+
+
     /**
      * Executes this invocation on the given test context instance
      * @param context The context to be used as receiver
@@ -69,13 +71,20 @@ public class TypedContextMethodInvocation {
      * @return The method name without let or get prefixes
      */
     public String getVariableName() {
-        String methodName = this.method.getName();
-        if(methodName.startsWith(LET_PREFIX)){
-            return methodName.substring(LET_PREFIX.length());
+        return extractVariableNameFrom(this.method);
+    }
+
+    public static String extractVariableNameFrom(Method method){
+        String variableName = method.getName();
+        if(variableName.startsWith(LET_PREFIX) && variableName.length() > LET_PREFIX.length()){
+            variableName =  variableName.substring(LET_PREFIX.length());
+        }else if(variableName.startsWith(GET_PREFIX) && variableName.length() > GET_PREFIX.length()){
+            variableName =  variableName.substring(GET_PREFIX.length());
         }
-        if(methodName.startsWith(GET_PREFIX)){
-            return methodName.substring(GET_PREFIX.length());
+        char firstLetter = variableName.charAt(0);
+        if(Character.isUpperCase(firstLetter)){
+            variableName = Character.toLowerCase(firstLetter) + variableName.substring(1);
         }
-        return methodName;
+        return variableName;
     }
 }

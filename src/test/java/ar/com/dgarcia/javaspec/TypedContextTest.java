@@ -49,7 +49,7 @@ public class TypedContextTest {
         context.letFoo(()-> 2);
 
         assertThat(context.getFoo()).isEqualTo(2);
-        assertThat(sharedVariable.get().<Integer>get("Foo")).isEqualTo(2);
+        assertThat(sharedVariable.get().<Integer>get("foo")).isEqualTo(2);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class TypedContextTest {
     public void itShouldAllowMixedVariableDefinition(){
         context.letFoo(() -> 3);
 
-        assertThat(context.<Integer>get("Foo")).isEqualTo(3);
+        assertThat(context.<Integer>get("foo")).isEqualTo(3);
     }
 
     @Test
