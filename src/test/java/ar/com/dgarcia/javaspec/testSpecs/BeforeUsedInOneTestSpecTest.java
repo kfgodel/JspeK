@@ -13,30 +13,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class TwoBeforeAndAfterTestSpec extends JavaSpec<TestContext> {
+public class BeforeUsedInOneTestSpecTest extends JavaSpec<TestContext> {
     @Override
     public void define() {
-        Variable<Object> foo = Variable.create();
+        Variable<Integer> foo = Variable.create();
 
         beforeEach(()-> {
             foo.set(0);
         });
 
-        beforeEach(()-> {
-            foo.storeSumWith(1);
+        it("test with before", ()-> {
+            assertThat(foo.get()).isEqualTo(0);
         });
 
-        it("test with 2 before and 2 after", ()-> {
-            assertThat(foo.get()).isEqualTo(1);
-            foo.set("text");
-        });
-
-        afterEach(()-> {
-            foo.storeSumWith(" added something");
-        });
-
-        afterEach(()-> {
-            foo.storeSumWith(" period .");
-        });
     }
 }

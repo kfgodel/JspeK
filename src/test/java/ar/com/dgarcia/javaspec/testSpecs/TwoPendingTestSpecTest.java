@@ -13,7 +13,7 @@ import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
  * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class TwoPendingTestSpec extends JavaSpec<TestContext> {
+public class TwoPendingTestSpecTest extends JavaSpec<TestContext> {
     @Override
     public void define() {
         xit("xit pending test", ()->{

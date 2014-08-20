@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 22/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class TypedContextSpec extends JavaSpec<TypedContextSpec.TestingContext> {
+public class TypedContextSpecTest extends JavaSpec<TypedContextSpecTest.TestingContext> {
 
     public static interface TestingContext extends TestContext{
 

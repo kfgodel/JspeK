@@ -11,19 +11,13 @@ import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
  * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class TwoDescribeSpecs extends JavaSpec<TestContext> {
+public class OneRootTestSpecTest extends JavaSpec<TestContext> {
+
+
     @Override
     public void define() {
-        describe("first group", ()->{
-            it("test in first group", ()->{
+        it("only test", ()->{
 
-            });
-        });
-
-        describe("second group", ()->{
-            it("test in second group", ()->{
-
-            });
         });
     }
 }

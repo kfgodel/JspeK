@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 20/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class VariableIndependenceBetweenTestsSpec extends JavaSpec<TestContext> {
+public class VariableIndependenceBetweenTestsSpecTest extends JavaSpec<TestContext> {
 
     @Override
     public void define() {

@@ -9,19 +9,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This class serves as input spec for parser test
- * Created by kfgodel on 12/07/14.
+ * Created by kfgodel on 20/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class OneTestInsideDescribeSpec extends JavaSpec<TestContext> {
-
+public class VariableDefinedInParentContextSpecTest extends JavaSpec<TestContext> {
     @Override
     public void define() {
-    	
-        describe("A suite", ()-> {
-            it("contains spec with an expectation", ()-> {
-                assertThat(true).isEqualTo(true);
+
+        context().let("foo", ()-> 2);
+
+        describe("a suite inherits variables from its container", ()->{
+
+            it("can be accessed from its tests", ()->{
+                assertThat(context().<Integer>get("foo")).isEqualTo(2);
             });
         });
-        
     }
 }

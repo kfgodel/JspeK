@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.testSpecs;
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.Variable;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,16 +13,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class DisabledSuiteSpec extends JavaSpec<TestContext> {
+public class AfterUsedInOneTestSpecTest extends JavaSpec<TestContext> {
     @Override
     public void define() {
+        Variable<Object> foo = Variable.create();
 
-        xdescribe("a disabled spec", ()->{
+        afterEach(()-> {
+            foo.storeSumWith("appended text");
+        });
 
-            it("ignored test", ()-> {
-                assertThat(true).isEqualTo(false);
-            });
-
+        it("test with after", ()-> {
+            assertThat(foo.get()).isNull();
+            foo.set("a text");
         });
 
     }

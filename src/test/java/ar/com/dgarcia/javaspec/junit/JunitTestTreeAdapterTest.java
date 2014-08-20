@@ -7,7 +7,7 @@ import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import ar.com.dgarcia.javaspec.testSpecs.EmptySpec;
 import ar.com.dgarcia.javaspec.testSpecs.OneEmptyDescribeSpec;
-import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpec;
+import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpecTest;
 import org.junit.Test;
 import org.junit.runner.Description;
 
@@ -43,7 +43,7 @@ public class JunitTestTreeAdapterTest {
 
     @Test
     public void itCreatesATestPerSpecTest(){
-        Class<? extends JavaSpec> specClass = OneRootTestSpec.class;
+        Class<? extends JavaSpec> specClass = OneRootTestSpecTest.class;
         SpecTree specTree = SpecParser.create().parse(specClass);
 
         JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
