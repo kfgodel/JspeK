@@ -13,6 +13,9 @@ public abstract class SpecElementSupport implements SpecElement {
     private SpecGroup containerGroup;
 
     protected void setName(String newName){
+        if(newName == null || newName.trim().isEmpty()){
+            throw new IllegalArgumentException("Empty string cannot be used with it() or describe() because Junit doesn't support it");
+        }
         this.name = newName;
     }
 
