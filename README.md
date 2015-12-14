@@ -60,7 +60,18 @@ java.lang.NoSuchMethodError: org.junit.runner.Description.createSuiteDescription
     at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.adaptToJunit(JunitTestTreeAdapter.java:39)
     at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.create(JunitTestTreeAdapter.java:27)
 ```
-The problem is the junit version. You need at least version 4.11 that exposes the Description object that is needed for JavaSpec to describe the tests.
+The problem is the junit version. You need at least version **4.11** that exposes the Description object that is needed for JavaSpec to describe the tests.  
+
+```
+#!xml
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.11</version>
+  <scope>test</scope>
+</dependency>
+```
 
 
 ### Who do I talk to? ###
