@@ -30,8 +30,7 @@ public class SpecExecutionBlock implements Runnable {
      * @param codeToRun Code to run in own context
      */
     private void runWithOwnSubContext(Runnable codeToRun) {
-        MappedContext testRunContext = MappedContext.create();
-        testRunContext.setParentDefinition(parentContext);
+        MappedContext testRunContext = MappedContext.createWithParent(parentContext);
 
         TestContext previousContext = sharedContext.get();
         sharedContext.set(testRunContext);

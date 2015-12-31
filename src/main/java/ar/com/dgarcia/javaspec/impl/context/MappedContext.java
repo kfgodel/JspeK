@@ -104,10 +104,15 @@ public class MappedContext implements TestContextDefinition{
         return getVariableValues().containsKey(variableName);
     }
 
-    public static MappedContext create() {
+    public static MappedContext createWithParent(TestContextDefinition parentDefinition) {
         MappedContext context = new MappedContext();
-        context.parentDefinition = NullContextDefinition.create();
+        context.parentDefinition = parentDefinition;
         return context;
+    }
+
+
+    public static MappedContext create() {
+        return createWithParent(NullContextDefinition.create());
     }
 
     @Override
