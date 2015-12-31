@@ -3,8 +3,6 @@
 Define your Junit tests as Specs:  
 
 ```
-#!java
-
 @RunWith(JavaSpecRunner.class)
 public class ExampleTest extends JavaSpec<TestContext>{
 
@@ -21,14 +19,13 @@ public class ExampleTest extends JavaSpec<TestContext>{
 }
 ```
 Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby
-##**[See more examples in the wiki](https://bitbucket.org/kfgodel/java-spec/wiki/Home)**
+##**[See more examples in the wiki](https://github.com/kfgodel/java-spec/wiki)**
 
 
 ### Maven dependency ###
 
 * Add this repository to your pom:  
 ```
-#!xml
     <repository>
       <id>kfgodel_mosquito</id>
       <name>Repo Mosquito</name>
@@ -38,8 +35,6 @@ Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://
 
 * Declare the dependency
 ```
-#!xml
-
 <dependency>
   <groupId>ar.com.dgarcia</groupId>
   <artifactId>java-spec</artifactId>
@@ -47,10 +42,6 @@ Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://
   <scope>test</scope>
 </dependency>
 ```
-
-### Non maven
-
-Download the binaries from the [download section](https://bitbucket.org/kfgodel/java-spec/downloads)
 
 ### Junit error
 If you get this error:
@@ -60,11 +51,9 @@ java.lang.NoSuchMethodError: org.junit.runner.Description.createSuiteDescription
     at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.adaptToJunit(JunitTestTreeAdapter.java:39)
     at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.create(JunitTestTreeAdapter.java:27)
 ```
-The problem is the junit version. You need at least version **4.11** that exposes the Description object that is needed for JavaSpec to describe the tests.  
+The problem is the junit version. You need at least version **4.11** that exposes the Description object which is needed for JavaSpec to describe the tests.  
 
 ```
-#!xml
-
 <dependency>
   <groupId>junit</groupId>
   <artifactId>junit</artifactId>
