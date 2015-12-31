@@ -1,7 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
-import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 
@@ -12,7 +10,12 @@ import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 public class SpecTreeDefinition implements SpecTree {
 
     private SpecGroup rootGroup;
-    private Variable<TestContext> sharedContext;
+
+    public Class<?> getDefiningClass() {
+        return definingClass;
+    }
+
+    private Class<?> definingClass;
 
     @Override
     public boolean hasNoTests() {
@@ -24,14 +27,12 @@ public class SpecTreeDefinition implements SpecTree {
         return rootGroup;
     }
 
-    public static SpecTreeDefinition create() {
+    public static SpecTreeDefinition create(Class<?> definingClass) {
         SpecTreeDefinition tree = new SpecTreeDefinition();
-        tree.rootGroup = GroupSpecDefinition.create("anonymous root");
-        tree.sharedContext = Variable.create();
+        tree.definingClass = definingClass;
+        String rootGroupName = definingClass.getSimpleName() + " root";
+        tree.rootGroup = GroupSpecDefinition.create(rootGroupName);
         return tree;
     }
 
-    public Variable<TestContext> getSharedContext() {
-        return sharedContext;
-    }
 }

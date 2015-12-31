@@ -5,6 +5,7 @@ import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
+import ar.com.dgarcia.javaspec.impl.model.impl.SpecTreeDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
@@ -19,8 +20,8 @@ import java.util.Optional;
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
-    private SpecTree specTree;
     private SpecStack stack;
+    private Variable<TestContext> sharedContext;
     private T typedContext;
 
     /**
@@ -56,8 +57,8 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
     }
 
     private TestSpecDefinition addTestDefinition(String testName, Optional<Runnable> testBody) {
-        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, testBody, specTree.getSharedContext());
-        stack.getCurrentGroup().addTest(createdSpec);
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, testBody, sharedContext);
+        stack.getCurrentGroup().addSubElement(createdSpec);
         return createdSpec;
     }
 
@@ -81,18 +82,20 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
 
 
     /**
-     * Uses the definition of this spec class to create the nodes in the tree.<br>
-     *     The defined tree must be validated before using it
-     * @param specTree The tree that will represent this spec
+     * Creates a spec definition tree with the specification defined by the user in the subclass
      */
-    public void populate(SpecTree specTree) {
-        this.specTree = specTree;
-        SpecGroup rootGroup = this.specTree.getRootGroup();
-        Variable<TestContext> sharedContext = this.specTree.getSharedContext();
+    public SpecTree defineTree() {
+        SpecTree specTree = SpecTreeDefinition.create(this.getClass());
+
+        this.sharedContext = Variable.create();
+        SpecGroup rootGroup = specTree.getRootGroup();
         this.stack = SpecStack.create(rootGroup, sharedContext);
+
         Class<T> expectedContextType = this.getContextTypeFromSubclassDeclaration();
         this.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, sharedContext);
+
         this.define();
+        return specTree;
     }
 
     @Override

@@ -40,7 +40,7 @@ public class SpecStack {
      * @param code The code to execute with the newHead
      */
     public void runNesting(GroupSpecDefinition newHead, Runnable code) {
-      this.getCurrentGroup().addSubGroup(newHead);
+      this.getCurrentGroup().addSubElement(newHead);
       this.push(newHead);
       try{
           code.run();

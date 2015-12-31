@@ -44,7 +44,7 @@ public class JavaSpecRunner extends Runner {
         if(specTree.hasNoTests()){
             throw new InitializationError("The spec class["+clase.getSimpleName()+"] has no tests. You must at least use one it() or one xit() inside your definition method");
         }
-        return JunitTestTreeAdapter.create(specTree, clase);
+        return JunitTestTreeAdapter.create(specTree);
     }
 
 

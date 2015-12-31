@@ -58,13 +58,8 @@ public class NullContainerGroup implements SpecGroup {
     }
 
     @Override
-    public void addSubGroup(GroupSpecDefinition addedGroup) {
-        throw new UnsupportedOperationException("Null container cannot have subgroup");
-    }
-
-    @Override
-    public void addTest(TestSpecDefinition addedSpec) {
-        throw new UnsupportedOperationException("Null container cannot have test");
+    public void addSubElement(SpecElement subElement) {
+        throw new UnsupportedOperationException("Null container cannot have sub elements");
     }
 
     @Override
