@@ -17,7 +17,7 @@ import java.util.Optional;
  *     The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
  * Created by kfgodel on 12/07/14.
  */
-public abstract class  JavaSpec<T extends TestContext> {
+public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
     private SpecTree specTree;
     private SpecStack stack;
@@ -29,44 +29,27 @@ public abstract class  JavaSpec<T extends TestContext> {
      */
     public abstract void define();
 
-    /**
-     * Code to execute before every it() test. It's scoped to the parent describe() or define(), and executed before every child it() test (direct or nested).<br>
-     * @param aCodeBlock A code to execute before every test
-     */
+    @Override
     public void beforeEach(Runnable aCodeBlock) {
         stack.getCurrentGroup().addBeforeBlock(aCodeBlock);
     }
 
-    /**
-     * Code to execute after every it() test. It's scoped to the parent describe() or define(), and executed after every child it() test (direct or nested).<br>
-     * @param aCodeBlock
-     */
+    @Override
     public void afterEach(Runnable aCodeBlock) {
         stack.getCurrentGroup().addAfterBlock(aCodeBlock);
     }
 
-    /**
-     * Defines the test code to be run as a test.<br> Every parent beforeEach() is executed prior to this test. Every parent afterEach() is executed after.
-     * @param testName The name to identify this test
-     * @param aTestCode The code that defines the test
-     */
+    @Override
     public void it(String testName, Runnable aTestCode){
         addTestDefinition(testName, Optional.of(aTestCode));
     }
 
-    /**
-     * Declares a pending test that will be listed as ignored
-     * @param testName The name to identify this test
-     */
+    @Override
     public void it(String testName){
         addTestDefinition(testName, Optional.empty());
     }
 
-    /**
-     * Declares an ignored test. It will not be run, but listed
-     * @param testName The name to identify this test
-     * @param aTestCode The ignored code of this tests
-     */
+    @Override
     public void xit(String testName, Runnable aTestCode){
         TestSpecDefinition createdTestDefinition = addTestDefinition(testName, Optional.of(aTestCode));
         createdTestDefinition.markAsPending();
@@ -79,20 +62,12 @@ public abstract class  JavaSpec<T extends TestContext> {
     }
 
 
-    /**
-     * Describes a set of test, and allows nesting of scenarios
-     * @param aGroupName The name of the test group
-     * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
-     */
+    @Override
     public void describe(String aGroupName, Runnable aGroupDefinition){
         nestGroupDefinition(aGroupName, aGroupDefinition);
     }
 
-    /**
-     * Declares a disabled suite of tests. Any sub-test or sub-context will be ignored (listed but not run)
-     * @param aGroupName The name identifying the group
-     * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
-     */
+    @Override
     public void xdescribe(String aGroupName, Runnable aGroupDefinition){
         GroupSpecDefinition createdGroup = nestGroupDefinition(aGroupName, aGroupDefinition);
         createdGroup.markAsDisabled();
@@ -120,12 +95,8 @@ public abstract class  JavaSpec<T extends TestContext> {
         this.define();
     }
 
-    /**
-     * Allows access to test context, to define variables or to access them.<br>
-     *  Usually you define variables in suites and access them in tests
-     * @return The current test context
-     */
-    protected T context() {
+    @Override
+    public T context() {
         return typedContext;
     }
 
