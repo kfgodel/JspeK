@@ -1,7 +1,8 @@
 package ar.com.dgarcia.javaspec.api;
 
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.parser.SpecInterpreter;
+import ar.com.dgarcia.javaspec.impl.parser.DefinitionInterpreter;
+import ar.com.dgarcia.javaspec.impl.parser.ExecutionInterpreter;
 
 /**
  * This class is the extension point to add testing expressiveness with Java Specs.<br>
@@ -10,7 +11,7 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecInterpreter;
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
-  private SpecInterpreter<T> interpreter;
+  private JavaSpecApi<T> currentInterpreter;
 
   /**
    * Starting method to define the specs.<br>
@@ -22,51 +23,54 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    * Creates a spec definition tree with the specification defined by the user in the subclass
    */
   public SpecTree defineTree() {
+    DefinitionInterpreter<T> definitionInterpreter = DefinitionInterpreter.create(this.getClass());
+
     // Needs to be instance variable to be accesed in the define method
-    this.interpreter = SpecInterpreter.create(this.getClass());
-
+    this.currentInterpreter = definitionInterpreter;
     this.define();
+    // We lock every method call after definition, to prevent inadverted user errors
+    this.currentInterpreter = ExecutionInterpreter.create(definitionInterpreter);
 
-    return interpreter.getSpecTree();
+    return definitionInterpreter.getSpecTree();
   }
 
   @Override
   public T context() {
-    return interpreter.context();
+    return currentInterpreter.context();
   }
 
   @Override
   public void beforeEach(Runnable aCodeBlock) {
-    interpreter.beforeEach(aCodeBlock);
+    currentInterpreter.beforeEach(aCodeBlock);
   }
 
   @Override
   public void afterEach(Runnable aCodeBlock) {
-    interpreter.afterEach(aCodeBlock);
+    currentInterpreter.afterEach(aCodeBlock);
   }
 
   @Override
   public void it(String testName, Runnable aTestCode) {
-    interpreter.it(testName, aTestCode);
+    currentInterpreter.it(testName, aTestCode);
   }
 
   @Override
   public void it(String testName) {
-    interpreter.it(testName);
+    currentInterpreter.it(testName);
   }
 
   @Override
   public void xit(String testName, Runnable aTestCode) {
-    interpreter.xit(testName, aTestCode);
+    currentInterpreter.xit(testName, aTestCode);
   }
 
   @Override
   public void describe(String aGroupName, Runnable aGroupDefinition) {
-    interpreter.describe(aGroupName, aGroupDefinition);
+    currentInterpreter.describe(aGroupName, aGroupDefinition);
   }
 
   @Override
   public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    interpreter.xdescribe(aGroupName, aGroupDefinition);
+    currentInterpreter.xdescribe(aGroupName, aGroupDefinition);
   }
 }

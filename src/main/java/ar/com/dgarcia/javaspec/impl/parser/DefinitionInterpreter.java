@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * Created by tenpines on 31/12/15.
  */
-public class SpecInterpreter<T extends TestContext> implements JavaSpecApi<T> {
+public class DefinitionInterpreter<T extends TestContext> implements JavaSpecApi<T> {
 
   private SpecTreeDefinition specTree;
   private Variable<TestContext> sharedContext;
@@ -30,8 +30,8 @@ public class SpecInterpreter<T extends TestContext> implements JavaSpecApi<T> {
   private T typedContext;
   private Class<?> specClass;
 
-  public static<T extends TestContext> SpecInterpreter<T> create(Class<?> specClass){
-    SpecInterpreter<T> interpreter = new SpecInterpreter<>();
+  public static<T extends TestContext> DefinitionInterpreter<T> create(Class<?> specClass){
+    DefinitionInterpreter<T> interpreter = new DefinitionInterpreter<>();
     interpreter.specClass = specClass;
     interpreter.initialize();
     return interpreter;
