@@ -1,14 +1,13 @@
 package ar.com.dgarcia.javaspec.junit;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestTree;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Description;
 
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestTree;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * This type verifies that the JunitTestTree behaves as expected

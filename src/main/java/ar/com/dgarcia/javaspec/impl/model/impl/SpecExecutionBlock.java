@@ -17,12 +17,12 @@ public class SpecExecutionBlock implements Runnable {
     private Variable<TestContext> sharedContext;
     private TestContextDefinition parentContext;
     private List<Runnable> beforeBlocks;
-    private Runnable testCode;
+    private Runnable testBlock;
     private List<Runnable> afterBlocks;
 
     @Override
     public void run() {
-        runWithOwnSubContext(() -> executeTestCode());
+        runWithOwnSubContext(this::executeTestCode);
     }
 
     /**
@@ -46,15 +46,15 @@ public class SpecExecutionBlock implements Runnable {
         for (Runnable beforeBlock : beforeBlocks) {
             beforeBlock.run();
         }
-        testCode.run();
+        testBlock.run();
         for (Runnable afterBlock : afterBlocks) {
             afterBlock.run();
         }
     }
 
-    public static SpecExecutionBlock create(List<Runnable> befores, Runnable testCode, List<Runnable> afters, TestContextDefinition parentContext, Variable<TestContext> sharedContext) {
+    public static SpecExecutionBlock create(List<Runnable> befores, Runnable testBlock, List<Runnable> afters, TestContextDefinition parentContext, Variable<TestContext> sharedContext) {
         SpecExecutionBlock executionBlock = new SpecExecutionBlock();
-        executionBlock.testCode = testCode;
+        executionBlock.testBlock = testBlock;
         executionBlock.afterBlocks = afters;
         executionBlock.beforeBlocks = befores;
         executionBlock.sharedContext = sharedContext;

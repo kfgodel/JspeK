@@ -17,8 +17,8 @@ public class SpecParser {
     }
 
     public SpecTree parse(Class<? extends JavaSpec> specClass) {
-        SpecTree createdTree = SpecTreeDefinition.create();
         JavaSpec createdSpec = instantiate(specClass);
+        SpecTree createdTree = SpecTreeDefinition.create();
         createdSpec.populate(createdTree);
         return createdTree;
     }

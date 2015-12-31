@@ -10,6 +10,7 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 /**
  * This class is the extension point to add testing expressiveness with Java Specs.<br>
@@ -33,7 +34,7 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aCodeBlock A code to execute before every test
      */
     public void beforeEach(Runnable aCodeBlock) {
-        stack.getCurrentHead().addBeforeBlock(aCodeBlock);
+        stack.getCurrentGroup().addBeforeBlock(aCodeBlock);
     }
 
     /**
@@ -41,7 +42,7 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aCodeBlock
      */
     public void afterEach(Runnable aCodeBlock) {
-        stack.getCurrentHead().addAfterBlock(aCodeBlock);
+        stack.getCurrentGroup().addAfterBlock(aCodeBlock);
     }
 
     /**
@@ -50,8 +51,7 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aTestCode The code that defines the test
      */
     public void it(String testName, Runnable aTestCode){
-        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
-        stack.getCurrentHead().addTest(createdSpec);
+        addTestDefinition(testName, Optional.of(aTestCode));
     }
 
     /**
@@ -59,8 +59,7 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param testName The name to identify this test
      */
     public void it(String testName){
-        TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
-        stack.getCurrentHead().addTest(createdSpec);
+        addTestDefinition(testName, Optional.empty());
     }
 
     /**
@@ -69,10 +68,16 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aTestCode The ignored code of this tests
      */
     public void xit(String testName, Runnable aTestCode){
-        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
-        createdSpec.markAsPending();
-        stack.getCurrentHead().addTest(createdSpec);
+        TestSpecDefinition createdTestDefinition = addTestDefinition(testName, Optional.of(aTestCode));
+        createdTestDefinition.markAsPending();
     }
+
+    private TestSpecDefinition addTestDefinition(String testName, Optional<Runnable> testBody) {
+        TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, testBody, specTree.getSharedContext());
+        stack.getCurrentGroup().addTest(createdSpec);
+        return createdSpec;
+    }
+
 
     /**
      * Describes a set of test, and allows nesting of scenarios
@@ -80,14 +85,7 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
      */
     public void describe(String aGroupName, Runnable aGroupDefinition){
-        createGroupDefinition(aGroupName, aGroupDefinition);
-    }
-
-    private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
-        GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
-        stack.executeAsCurrent(createdGroup, aGroupDefinition);
-        stack.getCurrentHead().addSubGroup(createdGroup);
-        return createdGroup;
+        nestGroupDefinition(aGroupName, aGroupDefinition);
     }
 
     /**
@@ -96,8 +94,14 @@ public abstract class  JavaSpec<T extends TestContext> {
      * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
      */
     public void xdescribe(String aGroupName, Runnable aGroupDefinition){
-        GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
+        GroupSpecDefinition createdGroup = nestGroupDefinition(aGroupName, aGroupDefinition);
         createdGroup.markAsDisabled();
+    }
+
+    private GroupSpecDefinition nestGroupDefinition(String aGroupName, Runnable definitionBlock) {
+        GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
+        stack.runNesting(createdGroup, definitionBlock::run);
+        return createdGroup;
     }
 
 

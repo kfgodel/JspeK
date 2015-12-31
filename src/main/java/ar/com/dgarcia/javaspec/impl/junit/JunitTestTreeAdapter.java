@@ -9,6 +9,7 @@ import org.junit.runner.Description;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type adapts the SpecTree to a Junit test tree by giving it a description and surrounding each test spec in a JunitTestCode
@@ -61,11 +62,11 @@ public class JunitTestTreeAdapter {
     }
 
     private JunitTestCode adaptToJunitTest(SpecTest specTest, Description elementDescription) {
-        Runnable specTestCode = specTest.getSpecExecutionCode();
-        JunitTestCode junitTest = JunitTestCode.create(specTestCode, elementDescription);
-        if(specTest.isMarkedAsPending()){
-            junitTest.ignoreTest();
-        }
+        Optional<Runnable> fullTestCode = specTest.getFullExecutionCode();
+        // Convert the spec code to a junit equivalent, taking into account if it's marked as ignored
+        JunitTestCode junitTest = fullTestCode
+          .map((runnable)-> (JunitTestCode) JunitRunnableTestCode.create(runnable, elementDescription))
+          .orElse(JunitIgnoredTestCode.create(elementDescription));
         return junitTest;
     }
 
