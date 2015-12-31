@@ -5,7 +5,7 @@
   <artifactId>java-spec</artifactId>
   <version>2.1-SNAPSHOT</version>
   <name>JavaSpec</name>
-  <description>Java Junit testing extension to improve test expression abilities</description>
+  <description>Junit testing extension to allow specs expressibility</description>
   
   
   <scm>
