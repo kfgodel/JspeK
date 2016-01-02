@@ -1,11 +1,7 @@
 package ar.com.dgarcia.javaspec.junit;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
+import ar.com.dgarcia.javaspec.impl.junit.JunitIgnoredTestCode;
+import ar.com.dgarcia.javaspec.impl.junit.JunitRunnableTestCode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.internal.AssumptionViolatedException;
@@ -14,25 +10,29 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.mockito.ArgumentMatcher;
 
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.*;
 
 /**
  * This type verifyes that JunitTestCode behaves as expected to junit
  * Created by kfgodel on 13/07/14.
  */
-public class JunitTestCodeTest {
+public class JunitTestCodeRunnableTest {
 
     private RunNotifier mockedNotifier;
     private Description mockedDescription;
     private Runnable mockedCode;
-    private JunitTestCode junitTest;
+    private JunitRunnableTestCode junitTest;
+    private JunitIgnoredTestCode ignoredJunitTest;
 
     @Before
     public void prepareTestDoubles(){
         mockedNotifier = mock(RunNotifier.class);
         mockedDescription = mock(Description.class);
         mockedCode = mock(Runnable.class);
-        junitTest = JunitTestCode.create(mockedCode, mockedDescription);
+        junitTest = JunitRunnableTestCode.create(mockedCode, mockedDescription);
+        ignoredJunitTest = JunitIgnoredTestCode.create(mockedDescription);
     }
 
     @Test
@@ -79,12 +79,7 @@ public class JunitTestCodeTest {
 
     @Test
     public void notifiesWhenTestIsIgnored(){
-        doAnswer(invocationOnMock -> {
-            throw new RuntimeException("Shouldn't execute");
-        }).when(mockedCode).run();
-
-        junitTest.ignoreTest();
-        junitTest.executeNotifying(mockedNotifier);
+        ignoredJunitTest.executeNotifying(mockedNotifier);
 
         verify(mockedNotifier).fireTestIgnored(mockedDescription);
     }

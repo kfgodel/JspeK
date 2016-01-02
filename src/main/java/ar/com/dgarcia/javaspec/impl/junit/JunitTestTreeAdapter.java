@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
-import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
@@ -9,6 +8,7 @@ import org.junit.runner.Description;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type adapts the SpecTree to a Junit test tree by giving it a description and surrounding each test spec in a JunitTestCode
@@ -21,59 +21,60 @@ public class JunitTestTreeAdapter {
     private SpecTree specTree;
     private JunitTestTree junitTree;
 
-    public static JunitTestTreeAdapter create(SpecTree specTree, Class<? extends JavaSpec> clase) {
+    public static JunitTestTreeAdapter create(SpecTree specTree) {
         JunitTestTreeAdapter adapter = new JunitTestTreeAdapter();
         adapter.specTree = specTree;
-        adapter.adaptToJunit(clase);
+        adapter.adaptToJunit();
         return adapter;
     }
 
     /**
      * Creates a junit test tree with the spec tree
-     * @param clase
      */
-    private void adaptToJunit(Class<? extends JavaSpec> clase) {
-    	Description rootDescription = Description.createSuiteDescription(clase);
+    private void adaptToJunit() {
+        Description rootDescription = Description.createSuiteDescription(specTree.getDefiningClass());
         junitTree = JunitTestTree.create(rootDescription);
+
         SpecGroup rootGroup = specTree.getRootGroup();
-        recursiveAdaptToJunit(rootGroup, rootDescription);
+        adaptGroupToJunit(rootGroup, rootDescription);
     }
 
-    private void recursiveAdaptToJunit(SpecGroup currentGroup, Description currentDescription) {
+    private void adaptGroupToJunit(SpecGroup currentGroup, Description currentDescription) {
         List<SpecElement> specElements = currentGroup.getSpecElements();
         for (SpecElement specElement : specElements) {
-
-            String specName = specElement.getName();
-            String specId = specName + String.valueOf(specElement.hashCode());
-            Description elementDescription = Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
-            currentDescription.addChild(elementDescription);
-
-            if(specElement instanceof SpecTest){
-                JunitTestCode junitTest = adaptToJunitTest((SpecTest) specElement, elementDescription);
-                this.junitTree.addTest(junitTest);
-            }
-
-            if(specElement instanceof SpecGroup){
-                SpecGroup specGroup = (SpecGroup) specElement;
-                recursiveAdaptToJunit(specGroup, elementDescription);
-            }
+            adaptElementToJunit(currentDescription, specElement);
         }
     }
 
-    private JunitTestCode adaptToJunitTest(SpecTest specTest, Description elementDescription) {
-        Runnable specTestCode = specTest.getSpecExecutionCode();
-        JunitTestCode junitTest = JunitTestCode.create(specTestCode, elementDescription);
-        if(specTest.isMarkedAsPending()){
-            junitTest.ignoreTest();
-        }
-        return junitTest;
+    private void adaptElementToJunit(Description parentDescription, SpecElement specElement) {
+      Description elementDescription = createElementDescription(specElement);
+      parentDescription.addChild(elementDescription);
+
+      if (specElement instanceof SpecTest) {
+        adaptTestToJunit((SpecTest) specElement, elementDescription);
+      }
+
+      if (specElement instanceof SpecGroup) {
+        adaptGroupToJunit((SpecGroup) specElement, elementDescription);
+      }
     }
+
+  private Description createElementDescription(SpecElement specElement) {
+    String specName = specElement.getName();
+    String specId = specName + String.valueOf(specElement.hashCode());
+    return Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
+  }
+
+  private void adaptTestToJunit(SpecTest specTest, Description elementDescription) {
+    Optional<Runnable> fullTestCode = specTest.getFullExecutionCode();
+    // Convert the spec code to a junit equivalent, taking into account if it's marked as ignored
+    JunitTestCode junitTest = fullTestCode
+      .map((runnable) -> (JunitTestCode) JunitRunnableTestCode.create(runnable, elementDescription))
+      .orElse(JunitIgnoredTestCode.create(elementDescription));
+    this.junitTree.addTest(junitTest);
+  }
 
     public JunitTestTree getJunitTree() {
         return junitTree;
-    }
-
-    public SpecTree getSpecTree() {
-        return specTree;
     }
 }

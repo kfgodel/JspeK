@@ -1,6 +1,8 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
 
+import java.util.Optional;
+
 /**
  * This type represents a single test to be run in a spec
  * Created by kfgodel on 12/07/14.
@@ -20,11 +22,11 @@ public interface SpecTest extends SpecElement {
 
 
     /**
-     * Returns the code that defines this test execution.<br>
-     *     Code may be null if this is a pending test
+     * Returns the code that is particular to this test as defined by the user.<br>
+     *     Code may be not be available if this is a pending test
      * @return The code to run for this test
      */
-    Runnable getTestCode();
+    Optional<Runnable> getTestBodyCode();
 
     /**
      * Marks this test spec as pending.<br>
@@ -33,8 +35,9 @@ public interface SpecTest extends SpecElement {
     void markAsPending();
 
     /**
-     * Returns a code block to be run as the spec. It will execute before and after code blocks as well as test code.
+     * Returns a code block to be run as the full spec. Including before and after code blocks as well as test code,
+     * as a single runnable unit.
      * @return The code to execute as a complete spec test
      */
-    Runnable getSpecExecutionCode();
+    Optional<Runnable> getFullExecutionCode();
 }

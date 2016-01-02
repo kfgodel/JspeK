@@ -53,13 +53,11 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
     }
 
     @Override
-    public void addSubGroup(GroupSpecDefinition addedGroup) {
-        this.addContainedElement(addedGroup);
-    }
-
-    @Override
-    public void addTest(TestSpecDefinition addedSpec) {
-        this.addContainedElement(addedSpec);
+    public void addSubElement(SpecElement subElement) {
+        if(!SpecElementSupport.class.isInstance(subElement)){
+            throw new UnsupportedOperationException("This class doesn't support elements that are not instances of " + SpecElementSupport.class);
+        }
+        this.addContainedElement((SpecElementSupport) subElement);
     }
 
     @Override

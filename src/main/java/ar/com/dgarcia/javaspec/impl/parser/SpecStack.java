@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.impl.parser;
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 
 import java.util.LinkedList;
@@ -24,9 +25,12 @@ public class SpecStack {
         return stack;
     }
 
-    private void push(SpecGroup group) {
-        this.nestedGroups.push(group);
-        this.updateContext();
+    /**
+     * Returns the current head of the stack
+     * @return The group that represents the current active group
+     */
+    public SpecGroup getCurrentGroup() {
+        return this.nestedGroups.peek();
     }
 
     /**
@@ -35,32 +39,32 @@ public class SpecStack {
      * @param newHead The group to used a stack head
      * @param code The code to execute with the newHead
      */
-    public void executeAsCurrent(GroupSpecDefinition newHead, Runnable code) {
-        this.push(newHead);
-        try{
-            code.run();
-        }finally {
-            this.pop();
-        }
+    public void runNesting(GroupSpecDefinition newHead, Runnable code) {
+      this.getCurrentGroup().addSubElement(newHead);
+      this.push(newHead);
+      try{
+          code.run();
+      }finally {
+          this.pop();
+      }
+    }
+
+    private void push(SpecGroup group) {
+        this.nestedGroups.push(group);
+        this.updateCurrentContext();
     }
 
     /**
      * Grabs the context from current head and sets that as current context
      */
-    private void updateContext() {
-        currentContext.set(getCurrentHead().getTestContext());
+    private void updateCurrentContext() {
+        TestContextDefinition currentGroupContext = getCurrentGroup().getTestContext();
+        currentContext.set(currentGroupContext);
     }
 
     private void pop() {
         this.nestedGroups.pop();
-        this.updateContext();
+        this.updateCurrentContext();
     }
 
-    /**
-     * Returns the current head of the stack
-     * @return The group that represents the current active group
-     */
-    public SpecGroup getCurrentHead() {
-        return this.nestedGroups.peek();
-    }
 }

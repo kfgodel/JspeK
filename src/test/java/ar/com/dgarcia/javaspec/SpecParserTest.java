@@ -83,12 +83,12 @@ public class SpecParserTest {
         SpecTest firstTest = declaredTest.get(0);
         assertThat(firstTest.getName()).isEqualTo("xit pending test");
         assertThat(firstTest.isMarkedAsPending()).isTrue();
-        assertThat(firstTest.getTestCode()).isNotNull();
+        assertThat(firstTest.getTestBodyCode().isPresent()).isTrue();
 
         SpecTest secondTest = declaredTest.get(1);
         assertThat(secondTest.getName()).isEqualTo("non lambda pending test");
         assertThat(secondTest.isMarkedAsPending()).isTrue();
-        assertThat(secondTest.getTestCode()).isNull();
+        assertThat(secondTest.getTestBodyCode().isPresent()).isFalse();
     }
 
     @Test

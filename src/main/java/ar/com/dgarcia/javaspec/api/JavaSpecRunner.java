@@ -1,17 +1,16 @@
 package ar.com.dgarcia.javaspec.api;
 
-import java.util.List;
-
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
+import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
+import java.util.List;
 
 /**
  * This type implements the Java Spec runner needed to extend Junit running mechanism
@@ -19,7 +18,6 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
  */
 public class JavaSpecRunner extends Runner {
 
-    private Class<? extends JavaSpec> clase;
     private JunitTestTreeAdapter junitAdapter;
 
     /**
@@ -30,22 +28,17 @@ public class JavaSpecRunner extends Runner {
      */
     @SuppressWarnings("unchecked")
 	public JavaSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
-        if(!JavaSpec.class.isAssignableFrom(klass)){
-            throw new InitializationError("Your class["+klass+"] must extend " + JavaSpec.class + " to be run with " +  JavaSpecRunner.class.getSimpleName());
+        SpecParser specParser = SpecParser.create();
+        SpecTree specTree = null;
+        try {
+            specTree = specParser.parse(klass);
+        } catch (IllegalArgumentException e) {
+            throw new InitializationError(e);
         }
-        this.clase = (Class<? extends JavaSpec>) klass;
-        createJunitTestTreeFromSpecClass();
-    }
-
-    /**
-     * Creates the test tree to be used to describe and execute the tests in junit
-     */
-    private void createJunitTestTreeFromSpecClass() throws InitializationError {
-        SpecTree specTree = SpecParser.create().parse(clase);
         if(specTree.hasNoTests()){
-            throw new InitializationError("The spec class["+clase.getSimpleName()+"] has no tests. You must at least use one it() or one xit() inside your definition method");
+            throw new InitializationError("The spec class["+ ((Class<? extends JavaSpec>) klass).getSimpleName()+"] has no tests. You must at least use one it() or one xit() inside your definition method");
         }
-        junitAdapter = JunitTestTreeAdapter.create(specTree, clase);
+        junitAdapter = JunitTestTreeAdapter.create(specTree);
     }
 
 

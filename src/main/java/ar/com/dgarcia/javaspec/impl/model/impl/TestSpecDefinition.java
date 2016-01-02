@@ -5,6 +5,7 @@ import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type represents the interpreted definition of a test spec
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
-    private Runnable testCode;
+    private Optional<Runnable> testCode;
     private PendingStatus pendingState;
     private Variable<TestContext> sharedContext;
 
@@ -32,7 +33,7 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
     }
 
     @Override
-    public Runnable getTestCode() {
+    public Optional<Runnable> getTestBodyCode() {
         return testCode;
     }
 
@@ -42,18 +43,12 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
     }
 
     @Override
-    public Runnable getSpecExecutionCode() {
-        SpecExecutionBlock executionBlock = SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks(), getContainerGroup().getTestContext(), sharedContext);
-        return executionBlock;
-    }
-
-    public static TestSpecDefinition create(String testName, Runnable testCode, Variable<TestContext> sharedContext) {
-        TestSpecDefinition test = new TestSpecDefinition();
-        test.setName(testName);
-        test.testCode = testCode;
-        test.pendingState = PendingStatus.NORMAL;
-        test.sharedContext = sharedContext;
-        return test;
+    public Optional<Runnable> getFullExecutionCode() {
+        if(isMarkedAsPending()){
+            return Optional.empty();
+        }
+        return getTestBodyCode()
+          .map((testBlock) -> SpecExecutionBlock.create(this.getBeforeBlocks(), testBlock, this.getAfterBlocks(), getContainerGroup().getTestContext(), sharedContext));
     }
 
     /**
@@ -61,9 +56,13 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
      * @param testName The name to identify the test
      * @return The created definition
      */
-    public static TestSpecDefinition createPending(String testName, Variable<TestContext> sharedContext) {
-        TestSpecDefinition test = create(testName, null, sharedContext);
-        test.markAsPending();
+    public static TestSpecDefinition create(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext) {
+        TestSpecDefinition test = new TestSpecDefinition();
+        test.setName(testName);
+        test.testCode = testCode;
+        // State will be pending if there's no code to run as test
+        test.pendingState = testCode.map((code)-> PendingStatus.NORMAL).orElse(PendingStatus.PENDING);
+        test.sharedContext = sharedContext;
         return test;
     }
 }
