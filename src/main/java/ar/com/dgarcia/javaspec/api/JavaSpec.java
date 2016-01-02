@@ -1,7 +1,5 @@
 package ar.com.dgarcia.javaspec.api;
 
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.parser.DefinitionInterpreter;
 import ar.com.dgarcia.javaspec.impl.parser.ExecutionInterpreter;
 
 /**
@@ -9,7 +7,7 @@ import ar.com.dgarcia.javaspec.impl.parser.ExecutionInterpreter;
  * The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
  * Created by kfgodel on 12/07/14.
  */
-public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
+public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T>, JavaSpecTestable<T> {
 
   private JavaSpecApi<T> currentInterpreter;
 
@@ -19,19 +17,13 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    */
   public abstract void define();
 
-  /**
-   * Creates a spec definition tree with the specification defined by the user in the subclass
-   */
-  public SpecTree defineTree() {
-    DefinitionInterpreter<T> definitionInterpreter = DefinitionInterpreter.create(this.getClass());
-
+  @Override
+  public void defineSpecs(JavaSpecApi<T> spec) {
     // Needs to be instance variable to be accesed in the define method
-    this.currentInterpreter = definitionInterpreter;
+    this.currentInterpreter = spec;
     this.define();
     // We lock every method call after definition, to prevent inadverted user errors
-    this.currentInterpreter = ExecutionInterpreter.create(definitionInterpreter);
-
-    return definitionInterpreter.getSpecTree();
+    this.currentInterpreter = ExecutionInterpreter.create(spec);
   }
 
   @Override

@@ -1,9 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.parser;
 
-import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
-import ar.com.dgarcia.javaspec.api.TestContext;
-import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.api.*;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
 import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
@@ -44,7 +41,7 @@ public class DefinitionInterpreter<T extends TestContext> implements JavaSpecApi
     SpecGroup rootGroup = specTree.getRootGroup();
     this.stack = SpecStack.create(rootGroup, sharedContext);
 
-    Class<T> expectedContextType = this.getContextTypeFromSubclassDeclaration();
+    Class<T> expectedContextType = this.getContextTypeFromClassDeclaration();
     this.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, sharedContext);
   }
 
@@ -107,13 +104,10 @@ public class DefinitionInterpreter<T extends TestContext> implements JavaSpecApi
     return specTree;
   }
 
-  public Class<T> getContextTypeFromSubclassDeclaration() {
-    if(!(specClass.getSuperclass().equals(JavaSpec.class))){
-      throw new SpecException("A java spec class["+ specClass + "] must inherit directly from " +JavaSpec.class);
-    }
-    Type generifiedJavaSpec = specClass.getGenericSuperclass();
+  public Class<T> getContextTypeFromClassDeclaration() {
+    Type generifiedJavaSpec = getGenerifiedType();
     if(!(generifiedJavaSpec instanceof ParameterizedType)){
-      throw new SpecException("JavaSpec superclass must be generified with a type of TestContext. For example JavaSpec<TestContext>");
+      throw new SpecException("JavaSpec class must be generified with a type of TestContext. For example JavaSpec<TestContext>");
     }
     Type contextType = ((ParameterizedType) generifiedJavaSpec).getActualTypeArguments()[0];
     if(!(contextType instanceof Class)){
@@ -122,4 +116,25 @@ public class DefinitionInterpreter<T extends TestContext> implements JavaSpecApi
     return (Class<T>) contextType;
   }
 
+  public Type getGenerifiedType() {
+    if(specClass.getSuperclass().equals(JavaSpec.class)){
+      // It's generic parameter is defined in the superclass declaration
+      return specClass.getGenericSuperclass();
+    }
+    // If not by inheritance, then by implementation
+    Optional<Type> implementedInterface = getGenerifiedInterface();
+    return implementedInterface.orElseThrow(()-> new SpecException("JavaSpec interface must be generified with a type of TestContext. For example JavaSpecTestablce<TestContext>"));
+  }
+
+  public Optional<Type> getGenerifiedInterface() {
+    Type[] genericInterfaces = specClass.getGenericInterfaces();
+    Class<?>[] rawInterfaces = specClass.getInterfaces();
+    for (int i = 0; i < rawInterfaces.length; i++) {
+      Class<?> aRawInterface = rawInterfaces[i];
+      if(aRawInterface.equals(JavaSpecTestable.class)){
+        return Optional.of(genericInterfaces[i]);
+      }
+    }
+    return Optional.empty();
+  }
 }

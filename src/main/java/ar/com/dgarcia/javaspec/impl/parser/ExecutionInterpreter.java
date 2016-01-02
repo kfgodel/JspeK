@@ -11,7 +11,7 @@ import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
  * Created by tenpines on 31/12/15.
  */
 public class ExecutionInterpreter<T extends TestContext> implements JavaSpecApi<T> {
-  private DefinitionInterpreter<T> definitionInterpreter;
+  private JavaSpecApi<T> definitionInterpreter;
 
   @Override
   public void beforeEach(Runnable aCodeBlock) {
@@ -53,7 +53,7 @@ public class ExecutionInterpreter<T extends TestContext> implements JavaSpecApi<
     return definitionInterpreter.context();
   }
 
-  public static<T extends TestContext> ExecutionInterpreter<T> create(DefinitionInterpreter<T> definitionInterpreter){
+  public static<T extends TestContext> ExecutionInterpreter<T> create(JavaSpecApi<T> definitionInterpreter){
     ExecutionInterpreter<T> executionInterpreter = new ExecutionInterpreter<>();
     executionInterpreter.definitionInterpreter = definitionInterpreter;
     return executionInterpreter;

@@ -1,7 +1,8 @@
 package ar.com.dgarcia.javaspec.api;
 
 /**
- * This type represents the available api for tests written with Java-Spec
+ * This type represents the public available api for tests written using Java-Spec.<br>
+ *   The methods defined here are to be used by users of JavaSpec
  * Created by tenpines on 31/12/15.
  */
 public interface JavaSpecApi<T extends TestContext> {
