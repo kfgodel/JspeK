@@ -43,7 +43,7 @@ public class TypedContextValidatorTest {
             TypedContextValidator.create(MissingGetDeclarationInterface.class).validate();
             failBecauseExceptionWasNotThrown(SpecException.class);
         } catch( SpecException e){
-            assertThat(e).hasMessage("Variable [foo] is missing get operation in [MissingGetDeclarationInterface]");
+            assertThat(e).hasMessage("Variable [foo] doesn't have a matching getter method in [MissingGetDeclarationInterface]");
         }
     }
 
@@ -56,7 +56,7 @@ public class TypedContextValidatorTest {
             TypedContextValidator.create(MissingLetDeclarationInterface.class).validate();
             failBecauseExceptionWasNotThrown(SpecException.class);
         } catch( SpecException e){
-            assertThat(e).hasMessage("Variable [foo] is missing let operation in [MissingLetDeclarationInterface]");
+            assertThat(e).hasMessage("Variable [foo] doesn't have a matching setter method in [MissingLetDeclarationInterface]");
         }
     }
 
