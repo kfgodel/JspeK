@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec;
 
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.context.MappedContext;
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import org.junit.Before;
 import org.junit.Test;

@@ -3,7 +3,7 @@ package ar.com.dgarcia.javaspec;
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.api.TestContext;
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import org.junit.runner.RunWith;
 
 import java.util.Random;

@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec.impl.exceptions;
+package ar.com.dgarcia.javaspec.api.exceptions;
 
 /**
  * This type represents the base clase of all JavaSpec exceptions

@@ -1,6 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.context;
 
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.function.Supplier;
@@ -11,33 +11,43 @@ import java.util.function.Supplier;
  */
 public class NullContextDefinition implements TestContextDefinition {
 
-    public static NullContextDefinition create() {
-        NullContextDefinition definition = new NullContextDefinition();
-        return definition;
-    }
+  public static NullContextDefinition create() {
+    NullContextDefinition definition = new NullContextDefinition();
+    return definition;
+  }
 
-    @Override
-    public void let(String variableName, Supplier<?> valueDefinition) throws SpecException {
-        throw new UnsupportedOperationException("Null context cannot define variables: " + variableName);
-    }
+  @Override
+  public void let(String variableName, Supplier<?> valueDefinition) throws SpecException {
+    throw new UnsupportedOperationException("Null context cannot define variables: " + variableName);
+  }
 
-    @Override
-    public <T> T get(String variableName) {
-        throw new SpecException("Variable ["+variableName+"] cannot be accessed because lacks definition");
-    }
+  @Override
+  public <T> T get(String variableName) {
+    throw new SpecException("Variable [" + variableName + "] cannot be accessed because lacks definition");
+  }
 
-    @Override
-    public void setParentDefinition(TestContextDefinition parentDefinition) {
-        throw new UnsupportedOperationException("Null context cannot have parent context");
-    }
+  @Override
+  public void describedClass(Supplier<Class> definition) {
+    throw new UnsupportedOperationException("Null context cannot define a described class");
+  }
 
-    @Override
-    public TestContextDefinition getParentDefinition() {
-        return this;
-    }
+  @Override
+  public <T> Class<T> describedClass() throws SpecException {
+    throw new SpecException("Described class cannot be accessed because lacks definition");
+  }
 
-    @Override
-    public Supplier<Object> getDefinitionFor(String variableName) {
-        return null;
-    }
+  @Override
+  public void setParentDefinition(TestContextDefinition parentDefinition) {
+    throw new UnsupportedOperationException("Null context cannot have parent context");
+  }
+
+  @Override
+  public TestContextDefinition getParentDefinition() {
+    return this;
+  }
+
+  @Override
+  public Supplier<Object> getDefinitionFor(String variableName) {
+    return null;
+  }
 }

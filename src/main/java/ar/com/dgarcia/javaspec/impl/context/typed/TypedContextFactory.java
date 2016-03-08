@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.impl.context.typed;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -19,7 +19,7 @@ public class TypedContextFactory {
      * @param sharedVariable The variable to access current context
      * @param <T> Type of expected instance
      * @return The created instance
-     * @throws ar.com.dgarcia.javaspec.impl.exceptions.SpecException if there's a validation error with the interface
+     * @throws ar.com.dgarcia.javaspec.api.exceptions.SpecException if there's a validation error with the interface
      */
     public static<T extends TestContext> T createInstanceOf(Class<T> typedTestContextClass, Variable<TestContext> sharedVariable) throws SpecException {
         //We first validate the interface

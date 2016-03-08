@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.parser;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.impl.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecTreeDefinition;
 
