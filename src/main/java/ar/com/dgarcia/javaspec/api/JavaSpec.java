@@ -1,5 +1,7 @@
 package ar.com.dgarcia.javaspec.api;
 
+import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
@@ -96,13 +98,19 @@ public abstract class JavaSpec<T extends TestContext> {
    * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
    */
   public void describe(Class<?> aClass, Runnable aGroupDefinition){
+    // Sanity check to verify correct usage
+    if(!ClassBasedTestContext.class.isInstance(context())){
+      throw new SpecException("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
+    }
     // Junit likes to split the description if I use the full class name
     String groupName = "class: " + aClass.getSimpleName();
     describe(groupName, aGroupDefinition);
-    context().describedClass(()-> aClass);
+    ClassBasedTestContext classContext = (ClassBasedTestContext) context();
+    classContext.describedClass(()-> aClass);
   }
 
   private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
+
     GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
     stack.executeAsCurrent(createdGroup, aGroupDefinition);
     stack.getCurrentHead().addSubGroup(createdGroup);

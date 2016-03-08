@@ -1,0 +1,28 @@
+package ar.com.dgarcia.javaspec.api.contexts;
+
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+
+import java.util.function.Supplier;
+
+/**
+ * This type represents a test context where tests are centered on a class and
+ * the test subject is an instance of that class
+ *
+ * Created by kfgodel on 08/03/16.
+ */
+public interface ClassBasedTestContext<T> extends TestContext {
+
+  /**
+   * Defines or overrides the described class in the current context
+   * @param definition The class supplier definition
+   */
+  void describedClass(Supplier<Class<T>> definition);
+
+  /**
+   * The class under test that was declared with describe(Class,lmabda)
+   *
+   * @return The class under test or throws an excception if the class was not defined
+   */
+  Class<T> describedClass() throws SpecException;
+
+}

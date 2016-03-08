@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecExecutionBlock;
 import com.google.common.collect.Lists;
@@ -15,9 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * This type verifies the behavior of spec execution block

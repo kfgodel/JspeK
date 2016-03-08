@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.testSpecs;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import org.junit.runner.RunWith;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
  * Created by kfgodel on 08/03/16.
  */
 @RunWith(JavaSpecRunner.class)
-public class ClassBasedSpec extends JavaSpec<TestContext> {
+public class ClassBasedSpec extends JavaSpec<ClassBasedTestContext<Object>> {
   @Override
   public void define() {
 

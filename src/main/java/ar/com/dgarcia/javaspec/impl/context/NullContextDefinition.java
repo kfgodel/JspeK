@@ -27,16 +27,6 @@ public class NullContextDefinition implements TestContextDefinition {
   }
 
   @Override
-  public void describedClass(Supplier<Class> definition) {
-    throw new UnsupportedOperationException("Null context cannot define a described class");
-  }
-
-  @Override
-  public <T> Class<T> describedClass() throws SpecException {
-    throw new SpecException("Described class cannot be accessed because lacks definition");
-  }
-
-  @Override
   public void setParentDefinition(TestContextDefinition parentDefinition) {
     throw new UnsupportedOperationException("Null context cannot have parent context");
   }

@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 

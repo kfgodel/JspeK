@@ -1,6 +1,6 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextValidator;
 import org.junit.Test;

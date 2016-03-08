@@ -52,16 +52,6 @@ public class MappedContext implements TestContextDefinition {
     return (T) variableValue;
   }
 
-  @Override
-  public void describedClass(Supplier<Class> definition) {
-    let(DESCRIBED_CLASS_VARIABLE_NAME, definition);
-  }
-
-  @Override
-  public <T> Class<T> describedClass() throws SpecException {
-    return get(DESCRIBED_CLASS_VARIABLE_NAME);
-  }
-
   /**
    * Stores the definition for a variable in this context
    *

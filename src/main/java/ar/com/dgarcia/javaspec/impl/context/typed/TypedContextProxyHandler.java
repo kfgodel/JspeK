@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.context.typed;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

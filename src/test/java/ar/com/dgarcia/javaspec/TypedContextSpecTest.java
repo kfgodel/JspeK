@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import org.junit.runner.RunWith;
 
 import java.util.function.Supplier;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class TypedContextSpecTest extends JavaSpec<TypedContextSpecTest.TestingContext> {
 
-    public static interface TestingContext extends TestContext{
+    public static interface TestingContext extends TestContext {
 
         //Foo declaration
         void letFoo(Supplier<Integer> definition);

@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec.testSpecs;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
-import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
 /**
  * This class serves as input spec for parser test

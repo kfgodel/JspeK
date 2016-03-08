@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
 import ar.com.dgarcia.javaspec.api.Variable;
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
 /**
  * This type represents the specification of tests defined in one subclass of JavaSpec

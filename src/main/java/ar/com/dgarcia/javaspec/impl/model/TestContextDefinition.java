@@ -1,6 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import ar.com.dgarcia.javaspec.api.TestContext;
+
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
 import java.util.function.Supplier;
 

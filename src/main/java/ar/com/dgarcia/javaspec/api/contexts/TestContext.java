@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec.api;
+package ar.com.dgarcia.javaspec.api.contexts;
 
 
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
@@ -29,18 +29,5 @@ public interface TestContext {
    * @return The value of the variable
    */
   <T> T get(String variableName);
-
-
-  /**
-   * Defines or overrides the described class in the current context
-   * @param definition The class supplier definition
-   */
-  void describedClass(Supplier<Class> definition);
-  /**
-   * The class under test that was declared with describe(Class,lmabda)
-   *
-   * @return The class under test or throws an excception if the class was not defined
-   */
-  <T>Class<T> describedClass() throws SpecException;
 
 }
