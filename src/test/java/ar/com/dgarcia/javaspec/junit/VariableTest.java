@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec;
+package ar.com.dgarcia.javaspec.junit;
 
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import org.assertj.core.api.Assertions;
