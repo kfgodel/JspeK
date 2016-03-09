@@ -1,15 +1,9 @@
 package ar.com.dgarcia.javaspec.api;
 
-import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
-import ar.com.dgarcia.javaspec.api.variable.Variable;
-import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
-import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
+import ar.com.dgarcia.javaspec.impl.SpecDescriber;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
-import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
-import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -21,9 +15,7 @@ import java.lang.reflect.Type;
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
-  private SpecTree specTree;
-  private SpecStack stack;
-  private T typedContext;
+  private SpecDescriber<T> describer;
 
   /**
    * Starting method to define the specs.<br>
@@ -31,93 +23,22 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    */
   public abstract void define();
 
-  @Override
-  public void beforeEach(Runnable aCodeBlock) {
-    stack.getCurrentHead().addBeforeBlock(aCodeBlock);
-  }
-
-  @Override
-  public void afterEach(Runnable aCodeBlock) {
-    stack.getCurrentHead().addAfterBlock(aCodeBlock);
-  }
-
-  @Override
-  public void it(String testName, Runnable aTestCode) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
-    stack.getCurrentHead().addTest(createdSpec);
-  }
-
-  @Override
-  public void it(String testName) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
-    stack.getCurrentHead().addTest(createdSpec);
-  }
-
-  @Override
-  public void xit(String testName, Runnable aTestCode) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
-    createdSpec.markAsPending();
-    stack.getCurrentHead().addTest(createdSpec);
-  }
-
-  @Override
-  public void describe(String aGroupName, Runnable aGroupDefinition) {
-    createGroupDefinition(aGroupName, aGroupDefinition);
-  }
-
-  @Override
-  public void describe(Class<?> aClass, Runnable aGroupDefinition){
-    // Sanity check to verify correct usage
-    if(!ClassBasedTestContext.class.isInstance(context())){
-      throw new SpecException("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
-    }
-    // Junit likes to split the description if I use the full class name
-    String groupName = "class: " + aClass.getSimpleName();
-    describe(groupName, aGroupDefinition);
-    ClassBasedTestContext classContext = (ClassBasedTestContext) context();
-    classContext.describedClass(()-> aClass);
-  }
-
-  @Override
-  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
-    createdGroup.markAsDisabled();
-  }
-
-  private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
-
-    GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
-    stack.executeAsCurrent(createdGroup, aGroupDefinition);
-    stack.getCurrentHead().addSubGroup(createdGroup);
-    return createdGroup;
-  }
-
   /**
-   * Uses the definition of this spec class to create the nodes in the tree.<br>
-   * The defined tree must be validated before using it
+   * Uses the user definition of this spec class (contained in the define() method) to create
+   * the nodes in the given tree.<br>
    *
    * @param specTree The tree that will represent this spec
    */
   public void populate(SpecTree specTree) {
-    this.specTree = specTree;
-    SpecGroup rootGroup = this.specTree.getRootGroup();
-    Variable<TestContext> sharedContext = this.specTree.getSharedContext();
-    this.stack = SpecStack.create(rootGroup, sharedContext);
-    Class<T> expectedContextType = this.getContextTypeFromSubclassDeclaration();
-    this.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, sharedContext);
+    this.describer = SpecDescriber.create(specTree, getContextTypeFromSubclassDeclaration());
     this.define();
   }
 
   /**
-   * Allows access to test context, to define variables or to access them.<br>
-   * Usually you define variables in suites and access them in tests
-   *
-   * @return The current test context
+   * Using reflection gets the concrete type used to parameterize this class.<br>
+   * That parameter is going to be proxied later and made available to the user
+   * @return The concrete test context subtype or an exception if pre-conditions are not met
    */
-  protected T context() {
-    return typedContext;
-  }
-
   public Class<T> getContextTypeFromSubclassDeclaration() {
     Class<? extends JavaSpec> subClass = getClass();
     if (!(subClass.getSuperclass().equals(JavaSpec.class))) {
@@ -150,5 +71,55 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
       throw new SpecException("JavaSpec generic parameter can't be a type wildcard: " + contextType);
     }
     return (Class<T>) contextType;
+  }
+
+
+  // **************************************************
+  //  Any API call delegate it to the describer to build the meta tree for the spec description
+  // **************************************************
+
+  @Override
+  public T context() {
+    return describer.context();
+  }
+
+  @Override
+  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
+    describer.xdescribe(aGroupName, aGroupDefinition);
+  }
+
+  @Override
+  public void describe(Class<?> aClass, Runnable aGroupDefinition) {
+    describer.describe(aClass, aGroupDefinition);
+  }
+
+  @Override
+  public void describe(String aGroupName, Runnable aGroupDefinition) {
+    describer.describe(aGroupName, aGroupDefinition);
+  }
+
+  @Override
+  public void xit(String testName, Runnable aTestCode) {
+    describer.xit(testName, aTestCode);
+  }
+
+  @Override
+  public void it(String testName) {
+    describer.it(testName);
+  }
+
+  @Override
+  public void it(String testName, Runnable aTestCode) {
+    describer.it(testName, aTestCode);
+  }
+
+  @Override
+  public void afterEach(Runnable aCodeBlock) {
+    describer.afterEach(aCodeBlock);
+  }
+
+  @Override
+  public void beforeEach(Runnable aCodeBlock) {
+    describer.beforeEach(aCodeBlock);
   }
 }

@@ -68,4 +68,12 @@ public interface JavaSpecApi<T extends TestContext> {
    * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
    */
   void xdescribe(String aGroupName, Runnable aGroupDefinition);
+
+  /**
+   * Allows access to test context, to define variables or to access them.<br>
+   * Usually you define variables in suites and access them in tests
+   *
+   * @return The current test context
+   */
+  T context();
 }
