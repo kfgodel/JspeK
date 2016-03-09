@@ -131,4 +131,19 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   public void beforeEach(Runnable aCodeBlock) {
     currentMode.beforeEach(aCodeBlock);
   }
+
+  @Override
+  public void given(Runnable setupCode) {
+    currentMode.given(setupCode);
+  }
+
+  @Override
+  public void when(Runnable exerciseCode) {
+    currentMode.when(exerciseCode);
+  }
+
+  @Override
+  public void then(Runnable assertionCode) {
+    currentMode.then(assertionCode);
+  }
 }

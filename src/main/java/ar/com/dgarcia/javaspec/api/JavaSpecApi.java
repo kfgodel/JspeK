@@ -85,4 +85,25 @@ public interface JavaSpecApi<T extends TestContext> {
    * @return The current test context
    */
   T context();
+
+  /**
+   * Defines the code to be executed on tests as part of the test setup
+   * @param setupCode The code to execute at the beginning of the test to prepare
+   *                  the context conditions for the exercise code
+   */
+  void given(Runnable setupCode);
+
+  /**
+   * Defines the exercise code that will execute some logic using the context
+   * prepared by the setup code
+   * @param exerciseCode The code that will affect the context to prepare it
+   *                     for the assertion code
+   */
+  void when(Runnable exerciseCode);
+
+  /**
+   * Defines the assertion code to verify the state of the context is the expected
+   * @param assertionCode The code that checks the context against prepared expectations
+   */
+  void then(Runnable assertionCode);
 }

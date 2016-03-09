@@ -31,6 +31,21 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
+  public void given(Runnable setupCode) {
+    setupCode.run();
+  }
+
+  @Override
+  public void when(Runnable exerciseCode) {
+    exerciseCode.run();
+  }
+
+  @Override
+  public void then(Runnable assertionCode) {
+    assertionCode.run();
+  }
+
+  @Override
   public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
     throw new SpecException("A running test cannot declare an ignored group spec calling xdescribe()");
   }

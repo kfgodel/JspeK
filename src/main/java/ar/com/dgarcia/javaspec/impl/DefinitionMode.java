@@ -111,6 +111,21 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     return typedContext;
   }
 
+  @Override
+  public void given(Runnable setupCode) {
+    throw new SpecException("Setup code is not yet supported on contexts");
+  }
+
+  @Override
+  public void when(Runnable exerciseCode) {
+    throw new SpecException("Excercise code is yet not supported on contexts");
+  }
+
+  @Override
+  public void then(Runnable assertionCode) {
+    throw new SpecException("Assertion code is yet not supported on contexts");
+  }
+
   /**
    * Creates a new spec describer  that will populate the branches of the given tree when its methods
    * are called

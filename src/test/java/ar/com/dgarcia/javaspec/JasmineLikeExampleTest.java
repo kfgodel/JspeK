@@ -5,12 +5,12 @@ import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * This class serves as an example of Java-Spec.<br>
@@ -171,7 +171,7 @@ public class JasmineLikeExampleTest extends JavaSpec<TestContext> {
 
             it("use mockito as usuarl", ()->{
 				List<String> mockedList = mock(List.class);
-                when(mockedList.get(0)).thenReturn("First");
+                Mockito.when(mockedList.get(0)).thenReturn("First");
 
                 assertThat(mockedList.get(0)).isEqualTo("First");
             });
