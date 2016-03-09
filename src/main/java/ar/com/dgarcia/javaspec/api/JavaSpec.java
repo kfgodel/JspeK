@@ -93,6 +93,11 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   }
 
   @Override
+  public void xdescribe(Class<?> aGroupName, Runnable aGroupDefinition) {
+    currentMode.xdescribe(aGroupName, aGroupDefinition);
+  }
+
+  @Override
   public void describe(Class<?> aClass, Runnable aGroupDefinition) {
     currentMode.describe(aClass, aGroupDefinition);
   }

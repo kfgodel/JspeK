@@ -71,6 +71,15 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
         }
       });
 
+      it("throws an error if user tries to describe an ignored class spec",()->{
+        try {
+          xdescribe(Object.class, () -> {});
+          failBecauseExceptionWasNotThrown(SpecException.class);
+        } catch (SpecException e) {
+          assertThat(e).hasMessage("A running test cannot declare an ignored class spec calling xdescribe()");
+        }
+      });
+
       it("throws an error if user tries to add before blocks",()->{
         try {
           beforeEach(() -> {});
@@ -142,6 +151,12 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare an ignored group spec calling xdescribe()");
+    }
+    try {
+      xdescribe(Object.class, () -> {});
+      failBecauseExceptionWasNotThrown(SpecException.class);
+    } catch (SpecException e) {
+      assertThat(e).hasMessage("A running test cannot declare an ignored class spec calling xdescribe()");
     }
     try {
       beforeEach(() -> {});

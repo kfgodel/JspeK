@@ -59,22 +59,39 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
+  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
+    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
+    createdGroup.markAsDisabled();
+  }
+
+  @Override
   public void describe(Class<?> aClass, Runnable aGroupDefinition){
+    createClassBasedGroupDescription(aClass, aGroupDefinition);
+  }
+
+  @Override
+  public void xdescribe(Class<?> aClass, Runnable aGroupDefinition) {
+    GroupSpecDefinition groupDefinition = createClassBasedGroupDescription(aClass, aGroupDefinition);
+    groupDefinition.markAsDisabled();
+  }
+
+  /**
+   * Creates the description of a class based test group
+   * @param aClass The class to base the group on
+   * @param aGroupDefinition The test definitions
+   * @return The created group
+   */
+  private GroupSpecDefinition createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
     // Sanity check to verify correct usage
     if(!ClassBasedTestContext.class.isInstance(context())){
       throw new SpecException("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
     }
     // Junit likes to split the description if I use the full class name
     String groupName = "class: " + aClass.getSimpleName();
-    describe(groupName, aGroupDefinition);
+    GroupSpecDefinition groupDefinition = createGroupDefinition(groupName, aGroupDefinition);
     ClassBasedTestContext classContext = (ClassBasedTestContext) context();
     classContext.describedClass(()-> aClass);
-  }
-
-  @Override
-  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
-    createdGroup.markAsDisabled();
+    return groupDefinition;
   }
 
   private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {

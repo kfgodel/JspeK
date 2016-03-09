@@ -70,6 +70,15 @@ public interface JavaSpecApi<T extends TestContext> {
   void xdescribe(String aGroupName, Runnable aGroupDefinition);
 
   /**
+   * Declares a disabled suite of class based tests.
+   * Any sub-test or sub-context will be ignored (listed but not run)
+   *
+   * @param aGroupName       The name identifying the group
+   * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
+   */
+  void xdescribe(Class<?> aGroupName, Runnable aGroupDefinition);
+
+  /**
    * Allows access to test context, to define variables or to access them.<br>
    * Usually you define variables in suites and access them in tests
    *
