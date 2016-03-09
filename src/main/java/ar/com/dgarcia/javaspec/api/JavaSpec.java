@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.api;
 import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
@@ -18,7 +19,7 @@ import java.lang.reflect.Type;
  * The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
  * Created by kfgodel on 12/07/14.
  */
-public abstract class JavaSpec<T extends TestContext> {
+public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
   private SpecTree specTree;
   private SpecStack stack;
@@ -30,73 +31,41 @@ public abstract class JavaSpec<T extends TestContext> {
    */
   public abstract void define();
 
-  /**
-   * Code to execute before every it() test. It's scoped to the parent describe() or define(), and executed before every child it() test (direct or nested).<br>
-   *
-   * @param aCodeBlock A code to execute before every test
-   */
+  @Override
   public void beforeEach(Runnable aCodeBlock) {
     stack.getCurrentHead().addBeforeBlock(aCodeBlock);
   }
 
-  /**
-   * Code to execute after every it() test. It's scoped to the parent describe() or define(), and executed after every child it() test (direct or nested).<br>
-   *
-   * @param aCodeBlock
-   */
+  @Override
   public void afterEach(Runnable aCodeBlock) {
     stack.getCurrentHead().addAfterBlock(aCodeBlock);
   }
 
-  /**
-   * Defines the test code to be run as a test.<br> Every parent beforeEach() is executed prior to this test. Every parent afterEach() is executed after.
-   *
-   * @param testName  The name to identify this test
-   * @param aTestCode The code that defines the test
-   */
+  @Override
   public void it(String testName, Runnable aTestCode) {
     TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
     stack.getCurrentHead().addTest(createdSpec);
   }
 
-  /**
-   * Declares a pending test that will be listed as ignored
-   *
-   * @param testName The name to identify this test
-   */
+  @Override
   public void it(String testName) {
     TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
     stack.getCurrentHead().addTest(createdSpec);
   }
 
-  /**
-   * Declares an ignored test. It will not be run, but listed
-   *
-   * @param testName  The name to identify this test
-   * @param aTestCode The ignored code of this tests
-   */
+  @Override
   public void xit(String testName, Runnable aTestCode) {
     TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
     createdSpec.markAsPending();
     stack.getCurrentHead().addTest(createdSpec);
   }
 
-  /**
-   * Describes a set of test, and allows nesting of scenarios
-   *
-   * @param aGroupName       The name of the test group
-   * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
-   */
+  @Override
   public void describe(String aGroupName, Runnable aGroupDefinition) {
     createGroupDefinition(aGroupName, aGroupDefinition);
   }
 
-  /**
-   * Describes a set of tests centered on the given class as test subject
-   *
-   * @param aClass The class to test
-   * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
-   */
+  @Override
   public void describe(Class<?> aClass, Runnable aGroupDefinition){
     // Sanity check to verify correct usage
     if(!ClassBasedTestContext.class.isInstance(context())){
@@ -109,6 +78,12 @@ public abstract class JavaSpec<T extends TestContext> {
     classContext.describedClass(()-> aClass);
   }
 
+  @Override
+  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
+    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
+    createdGroup.markAsDisabled();
+  }
+
   private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
 
     GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
@@ -116,18 +91,6 @@ public abstract class JavaSpec<T extends TestContext> {
     stack.getCurrentHead().addSubGroup(createdGroup);
     return createdGroup;
   }
-
-  /**
-   * Declares a disabled suite of tests. Any sub-test or sub-context will be ignored (listed but not run)
-   *
-   * @param aGroupName       The name identifying the group
-   * @param aGroupDefinition The code that defines sub-tests, or sub-contexts
-   */
-  public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
-    createdGroup.markAsDisabled();
-  }
-
 
   /**
    * Uses the definition of this spec class to create the nodes in the tree.<br>

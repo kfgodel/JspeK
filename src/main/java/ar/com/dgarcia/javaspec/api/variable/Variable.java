@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec.api;
+package ar.com.dgarcia.javaspec.api.variable;
 
 /**
  * This type represents a variable that can be used to share variables between lambdas
