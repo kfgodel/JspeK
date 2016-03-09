@@ -28,6 +28,36 @@ public class NullContextDefinition implements TestContextDefinition {
   }
 
   @Override
+  public Runnable setupCode() {
+    throw new SpecException("Setup code is not defined");
+  }
+
+  @Override
+  public void setupCode(Supplier<Runnable> definition) {
+    throw new UnsupportedOperationException("Null context cannot define setup code");
+  }
+
+  @Override
+  public Runnable exerciseCode() {
+    throw new SpecException("Exercise code is not defined");
+  }
+
+  @Override
+  public void exerciseCode(Supplier<Runnable> definition) {
+    throw new UnsupportedOperationException("Null context cannot define exercise code");
+  }
+
+  @Override
+  public Runnable assertionCode() {
+    throw new SpecException("Assertion code is not defined");
+  }
+
+  @Override
+  public void assertionCode(Supplier<Runnable> definition) {
+    throw new UnsupportedOperationException("Null context cannot define assertion code");
+  }
+
+  @Override
   public void setParentDefinition(TestContextDefinition parentDefinition) {
     throw new UnsupportedOperationException("Null context cannot have parent context");
   }

@@ -113,17 +113,17 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
 
   @Override
   public void given(Runnable setupCode) {
-    throw new SpecException("Setup code is not yet supported on contexts");
+    context().setupCode(()-> setupCode);
   }
 
   @Override
   public void when(Runnable exerciseCode) {
-    throw new SpecException("Excercise code is yet not supported on contexts");
+    context().exerciseCode(()-> exerciseCode);
   }
 
   @Override
   public void then(Runnable assertionCode) {
-    throw new SpecException("Assertion code is yet not supported on contexts");
+    context().assertionCode(()-> assertionCode);
   }
 
   /**

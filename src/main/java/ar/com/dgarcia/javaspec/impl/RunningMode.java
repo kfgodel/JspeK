@@ -32,17 +32,27 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
 
   @Override
   public void given(Runnable setupCode) {
-    setupCode.run();
+    context().setupCode(()-> setupCode);
   }
 
   @Override
   public void when(Runnable exerciseCode) {
-    exerciseCode.run();
+    context().exerciseCode(()-> exerciseCode);
   }
 
   @Override
   public void then(Runnable assertionCode) {
-    assertionCode.run();
+    context().assertionCode(()-> assertionCode);
+    executeAsThreePartSpec();
+  }
+
+  /**
+   * Executes a three part spec by using the 3 parts code from the context
+   */
+  private void executeAsThreePartSpec() {
+    context().setupCode().run();
+    context().exerciseCode().run();
+    context().assertionCode().run();
   }
 
   @Override

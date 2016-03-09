@@ -17,6 +17,9 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
 
   public static final String DESCRIBED_CLASS_VARIABLE_NAME = "describedClass";
   public static final String SUBJECT_VARIABLE_NAME = "subject";
+  public static final String SETUP_CODE_VARIABLE_NAME = "setupCode";
+  public static final String EXERCISE_CODE_VARIABLE_NAME = "exerciseCode";
+  public static final String ASSERTION_CODE_VARIABLE_NAME = "assertionCode";
 
   private TestContextDefinition parentDefinition;
   private Map<String, Supplier<Object>> variableDefinitions;
@@ -41,6 +44,36 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
     return variableDefinition
       .map((definition) -> this.createNewValueFrom(definition, variableName))
       .orElseThrow(()-> new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]"));
+  }
+
+  @Override
+  public Runnable setupCode() {
+    return get(SETUP_CODE_VARIABLE_NAME);
+  }
+
+  @Override
+  public void setupCode(Supplier<Runnable> definition) {
+    let(SETUP_CODE_VARIABLE_NAME, definition);
+  }
+
+  @Override
+  public Runnable exerciseCode() {
+    return get(EXERCISE_CODE_VARIABLE_NAME);
+  }
+
+  @Override
+  public void exerciseCode(Supplier<Runnable> definition) {
+    let(EXERCISE_CODE_VARIABLE_NAME, definition);
+  }
+
+  @Override
+  public Runnable assertionCode() {
+    return get(ASSERTION_CODE_VARIABLE_NAME);
+  }
+
+  @Override
+  public void assertionCode(Supplier<Runnable> definition) {
+    let(ASSERTION_CODE_VARIABLE_NAME, definition);
   }
 
   private <T> T createNewValueFrom(Supplier<T> variableDefinition, String variableName) {
