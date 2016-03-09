@@ -1,11 +1,11 @@
 package ar.com.dgarcia.javaspec;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import ar.com.dgarcia.javaspec.api.Variable;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 /**
  * This type verifies Variable behavior

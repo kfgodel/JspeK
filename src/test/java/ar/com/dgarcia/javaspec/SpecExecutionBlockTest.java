@@ -1,7 +1,7 @@
 package ar.com.dgarcia.javaspec;
 
-import ar.com.dgarcia.javaspec.api.Variable;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecExecutionBlock;
 import com.google.common.collect.Lists;
