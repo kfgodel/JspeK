@@ -6,6 +6,7 @@ import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -36,13 +37,17 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
       return getValueFor(variableName);
     }
 
-    Supplier<Object> variableDefinition = getDefinitionFor(variableName);
-    if (variableDefinition == null) {
-      throw new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]");
-    }
-    Object variableValue = null;
+    Optional<Supplier<T>> variableDefinition = (Optional) getDefinitionFor(variableName);
+    return variableDefinition
+      .map((definition) -> this.createNewValueFrom(definition, variableName))
+      .orElseThrow(()-> new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]"));
+  }
+
+  private <T> T createNewValueFrom(Supplier<T> variableDefinition, String variableName) {
     try {
-      variableValue = variableDefinition.get();
+      T variableValue = variableDefinition.get();
+      storeValueFor(variableName, variableValue);
+      return variableValue;
     } catch (SpecException e) {
       throw e;
     } catch (StackOverflowError e) {
@@ -50,8 +55,6 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
     } catch (Exception e) {
       throw new SpecException("Definition for variable [" + variableName + "] failed to execute: " + e.getMessage(), e);
     }
-    storeValueFor(variableName, variableValue);
-    return (T) variableValue;
   }
 
   /**
@@ -76,13 +79,13 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
-  public Supplier<Object> getDefinitionFor(String variableName) {
+  public Optional<Supplier<Object>> getDefinitionFor(String variableName) {
     boolean weDontHaveADefinition = variableDefinitions == null || !variableDefinitions.containsKey(variableName);
     if (weDontHaveADefinition) {
       return getParentDefinition().getDefinitionFor(variableName);
     }
 
-    return getVariableDefinitions().get(variableName);
+    return Optional.ofNullable(getVariableDefinitions().get(variableName));
   }
 
   /**
@@ -158,7 +161,7 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
    * Indicates if this context has a definition for the given variable
    */
   private boolean lacksVariableDefinitionFor(String variableName) {
-    return this.getDefinitionFor(variableName) == null;
+    return !this.getDefinitionFor(variableName).isPresent();
   }
 
   /**

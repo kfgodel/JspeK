@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.impl.context;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -37,7 +38,7 @@ public class NullContextDefinition implements TestContextDefinition {
   }
 
   @Override
-  public Supplier<Object> getDefinitionFor(String variableName) {
-    return null;
+  public Optional<Supplier<Object>> getDefinitionFor(String variableName) {
+    return Optional.empty();
   }
 }

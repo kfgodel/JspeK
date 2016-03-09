@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.impl.model;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -27,6 +28,6 @@ public interface TestContextDefinition extends TestContext {
      * @param variableName The name that identifies the variable
      * @return The variable definition or null if there's none in this context
      */
-    Supplier<Object> getDefinitionFor(String variableName);
+    Optional<Supplier<Object>> getDefinitionFor(String variableName);
 
 }

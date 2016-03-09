@@ -202,11 +202,11 @@ public class SpecParserTest {
         SpecTree readSpec = parser.parse(VariableDefinedInParentContextSpecTest.class);
 
         SpecGroup rootGroup = readSpec.getRootGroup();
-        Supplier<Object> rootDefinition = rootGroup.getTestContext().getDefinitionFor("foo");
+        Supplier<Object> rootDefinition = rootGroup.getTestContext().getDefinitionFor("foo").get();
         assertThat(rootDefinition).isNotNull();
 
         SpecGroup onlyGroup = rootGroup.getSubGroups().get(0);
-        Supplier<Object> childDefinition = onlyGroup.getTestContext().getDefinitionFor("foo");
+        Supplier<Object> childDefinition = onlyGroup.getTestContext().getDefinitionFor("foo").get();
         assertThat(childDefinition).isSameAs(rootDefinition);
     }
 
