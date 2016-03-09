@@ -13,15 +13,13 @@ import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 /**
- * This type represents the behavior of a javaspec instance to be used
- * as a component (by delegation) instead of inheritance.<br>
- *   Due to the way specs are defined for junit, it's easier for the user to extend Javaspec
- *   than use delegation. However the behavior for defining specs is extracted in this class so it
- *   can potentially play with other testing frameworks too, or be used programmatically
+ * This type represents the available api when the tests are being defined.<br>
+ *   Through an instance of this class a spec tree can be populated by calling the
+ *   user available methods to create a complete spec definition
  *
  * Created by kfgodel on 09/03/16.
  */
-public class SpecDescriber<T extends TestContext> implements JavaSpecApi<T> {
+public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
 
   private SpecStack stack;
   private SpecTree specTree;
@@ -103,8 +101,8 @@ public class SpecDescriber<T extends TestContext> implements JavaSpecApi<T> {
    * @param <T> The type of test context
    * @return The created describer
    */
-  public static<T extends TestContext> SpecDescriber<T> create(SpecTree specTree, Class<T> expectedContextType) {
-    SpecDescriber<T> describer = new SpecDescriber<>();
+  public static<T extends TestContext> DefinitionMode<T> create(SpecTree specTree, Class<T> expectedContextType) {
+    DefinitionMode<T> describer = new DefinitionMode<>();
     describer.specTree = specTree;
     describer.initialize(expectedContextType);
     return describer;

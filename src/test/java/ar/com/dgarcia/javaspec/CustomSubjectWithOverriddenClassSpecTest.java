@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec.testSpecs;
+package ar.com.dgarcia.javaspec;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;

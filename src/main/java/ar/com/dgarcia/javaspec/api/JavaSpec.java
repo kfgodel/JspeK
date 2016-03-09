@@ -2,7 +2,8 @@ package ar.com.dgarcia.javaspec.api;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
-import ar.com.dgarcia.javaspec.impl.SpecDescriber;
+import ar.com.dgarcia.javaspec.impl.RunningMode;
+import ar.com.dgarcia.javaspec.impl.DefinitionMode;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 
 import java.lang.reflect.ParameterizedType;
@@ -15,7 +16,7 @@ import java.lang.reflect.Type;
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
-  private SpecDescriber<T> describer;
+  private JavaSpecApi<T> currentMode;
 
   /**
    * Starting method to define the specs.<br>
@@ -30,8 +31,10 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    * @param specTree The tree that will represent this spec
    */
   public void populate(SpecTree specTree) {
-    this.describer = SpecDescriber.create(specTree, getContextTypeFromSubclassDeclaration());
+    this.currentMode =  DefinitionMode.create(specTree, getContextTypeFromSubclassDeclaration());
     this.define();
+    // Switch to execution mode to prepare for test to be run
+    this.currentMode = RunningMode.create(this.currentMode.context());
   }
 
   /**
@@ -75,51 +78,52 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
 
 
   // **************************************************
-  //  Any API call delegate it to the describer to build the meta tree for the spec description
+  //  Any API call delegate it to the api to build the meta tree for the spec description
+  //  or execute running test behavior
   // **************************************************
 
   @Override
   public T context() {
-    return describer.context();
+    return currentMode.context();
   }
 
   @Override
   public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    describer.xdescribe(aGroupName, aGroupDefinition);
+    currentMode.xdescribe(aGroupName, aGroupDefinition);
   }
 
   @Override
   public void describe(Class<?> aClass, Runnable aGroupDefinition) {
-    describer.describe(aClass, aGroupDefinition);
+    currentMode.describe(aClass, aGroupDefinition);
   }
 
   @Override
   public void describe(String aGroupName, Runnable aGroupDefinition) {
-    describer.describe(aGroupName, aGroupDefinition);
+    currentMode.describe(aGroupName, aGroupDefinition);
   }
 
   @Override
   public void xit(String testName, Runnable aTestCode) {
-    describer.xit(testName, aTestCode);
+    currentMode.xit(testName, aTestCode);
   }
 
   @Override
   public void it(String testName) {
-    describer.it(testName);
+    currentMode.it(testName);
   }
 
   @Override
   public void it(String testName, Runnable aTestCode) {
-    describer.it(testName, aTestCode);
+    currentMode.it(testName, aTestCode);
   }
 
   @Override
   public void afterEach(Runnable aCodeBlock) {
-    describer.afterEach(aCodeBlock);
+    currentMode.afterEach(aCodeBlock);
   }
 
   @Override
   public void beforeEach(Runnable aCodeBlock) {
-    describer.beforeEach(aCodeBlock);
+    currentMode.beforeEach(aCodeBlock);
   }
 }

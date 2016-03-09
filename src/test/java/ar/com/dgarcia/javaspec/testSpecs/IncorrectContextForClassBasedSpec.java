@@ -18,13 +18,17 @@ public class IncorrectContextForClassBasedSpec extends JavaSpec<TestContext> {
   @Override
   public void define() {
     describe("when a class based spec doesn't use the correct test context", () -> {
-      it("throws an error when describe is called with a class",()->{
-        try{
-          describe(Object.class, ()->{});
-          failBecauseExceptionWasNotThrown(SpecException.class);
-        }catch(SpecException e){
-          assertThat(e).hasMessage("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
-        }
+
+      // it throws an error when describe is called with a class
+      try{
+        describe(Object.class, ()->{});
+        failBecauseExceptionWasNotThrown(SpecException.class);
+      }catch(SpecException e){
+        assertThat(e).hasMessage("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
+      }
+
+      it("dummy test",()->{
+          // needed to avoid empty test validation
       });   
     });
 
