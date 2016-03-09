@@ -29,9 +29,11 @@ public class TypedContextMethodInvocation {
     /**
      * Inficates if this invocation can be executed directly over a TestContext instance
      * @return false if it's not part of the TestContext interface
+     * @param testContext
      */
-    public boolean canBeHandledByTestContext() {
-        return this.method.getDeclaringClass().equals(TestContext.class);
+    public boolean canBeHandledByTestContext(TestContext testContext) {
+        Class<?> receiverType = this.method.getDeclaringClass();
+        return receiverType.isInstance(testContext);
     }
 
 

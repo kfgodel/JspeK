@@ -35,7 +35,7 @@ public class TypedContextProxyHandler implements InvocationHandler {
      * @return The created operation
      */
     private Function<TestContext, Object> createOperationBasedOn(TypedContextMethodInvocation methodInvocation) {
-        if(methodInvocation.canBeHandledByTestContext()){
+        if(methodInvocation.canBeHandledByTestContext(currentContext.get())){
             return methodInvocation::invokeOn;
         }
 

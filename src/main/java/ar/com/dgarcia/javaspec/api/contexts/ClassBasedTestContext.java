@@ -25,4 +25,15 @@ public interface ClassBasedTestContext<T> extends TestContext {
    */
   Class<T> describedClass() throws SpecException;
 
+  /**
+   * @return An instance of the class under test, created by default with the empty constructor.<br>
+   *   A new instance is created per test
+   */
+  T subject();
+
+  /**
+   * Defines or overrides the definition of a subject creation
+   * @param definition The supplier to get a subject instance
+   */
+  void subject(Supplier<T> definition);
 }

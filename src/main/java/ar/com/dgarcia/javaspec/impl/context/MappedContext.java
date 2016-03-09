@@ -1,5 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.context;
 
+import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
@@ -11,9 +12,10 @@ import java.util.function.Supplier;
  * This type implements a test context that has a parent context
  * Created by kfgodel on 20/07/14.
  */
-public class MappedContext implements TestContextDefinition {
+public class MappedContext implements TestContextDefinition, ClassBasedTestContext<Object> {
 
   public static final String DESCRIBED_CLASS_VARIABLE_NAME = "describedClass";
+  public static final String SUBJECT_VARIABLE_NAME = "subject";
 
   private TestContextDefinition parentDefinition;
   private Map<String, Supplier<Object>> variableDefinitions;
@@ -130,4 +132,62 @@ public class MappedContext implements TestContextDefinition {
   public String toString() {
     return getClass().getSimpleName() + ": " + variableDefinitions;
   }
+
+  @Override
+  public void describedClass(Supplier<Class<Object>> definition) {
+    let(DESCRIBED_CLASS_VARIABLE_NAME, definition);
+  }
+
+  @Override
+  public void subject(Supplier<Object> definition) {
+    let(SUBJECT_VARIABLE_NAME, definition);
+  }
+
+  /**
+   * Overridden to improve the error message when not defined
+   */
+  @Override
+  public Class<Object> describedClass() throws SpecException {
+    if (lacksVariableDefinitionFor(DESCRIBED_CLASS_VARIABLE_NAME)) {
+      throw new SpecException("Described class is not defined in this context[" + this.getVariableDefinitions() + "].\nUse describe(class,lambda) to define it before accessing it");
+    }
+    return get(DESCRIBED_CLASS_VARIABLE_NAME);
+  }
+
+  /**
+   * Indicates if this context has a definition for the given variable
+   */
+  private boolean lacksVariableDefinitionFor(String variableName) {
+    return this.getDefinitionFor(variableName) == null;
+  }
+
+  /**
+   * Overridden to improve the error message when not defined and
+   * lazily define a default subject
+   */
+  @Override
+  public Object subject() {
+    if (lacksVariableDefinitionFor(SUBJECT_VARIABLE_NAME)) {
+      tryToDefineADefaultSubject();
+    }
+    return get(SUBJECT_VARIABLE_NAME);
+  }
+
+  private void tryToDefineADefaultSubject() {
+    if(lacksVariableDefinitionFor(DESCRIBED_CLASS_VARIABLE_NAME)){
+      throw new SpecException("Subject is not defined in this context[" + this.getVariableDefinitions() + "].\nUse describe(class,lambda) to define a class whose subject is going to be tested");
+    }
+    Class<Object> testedClass = describedClass();
+    subject(()-> this.instantiateSubjectFrom(testedClass));
+  }
+
+  private Object instantiateSubjectFrom(Class<Object> testedClass) {
+    try {
+      return testedClass.newInstance();
+    } catch (Exception e) {
+      throw new SpecException("Unknown error trying to instantiate subject", e);
+    }
+  }
+
+
 }
