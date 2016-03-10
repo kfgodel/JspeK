@@ -146,4 +146,9 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   public void then(Runnable assertionCode) {
     currentMode.then(assertionCode);
   }
+
+  @Override
+  public void executeAsGivenWhenThenTest() {
+    currentMode.executeAsGivenWhenThenTest();
+  }
 }

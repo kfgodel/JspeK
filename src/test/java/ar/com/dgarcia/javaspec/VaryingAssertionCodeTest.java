@@ -2,7 +2,6 @@ package ar.com.dgarcia.javaspec;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.dgarcia.javaspec.api.variable.Variable;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
@@ -10,8 +9,8 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This type verifies the correct execution of test using given-when-then
- * where the assertion is the only part that varies between tests
+ * This type verifies the behavior of a test with fixed setup and exercise code but
+ * varying assertions per test
  * <p/>
  * Created by kfgodel on 09/03/16.
  */
@@ -27,13 +26,10 @@ public class VaryingAssertionCodeTest extends JavaSpec<GiveWhenThenTestContext> 
         context().list().add("element");
       });
 
-      it("needs only to define the assertion code", () -> {
-        Variable<Boolean> executed = Variable.of(false);
+      it("only needs to define the assertion code to be run", () -> {
         then(() -> {
-          executed.set(true);
           assertThat(context().list()).hasSize(1);
         });
-        assertThat(executed.get()).isTrue();
       });
       it("defines a different test only by indicating a different assertion", () -> {
         then(() -> {

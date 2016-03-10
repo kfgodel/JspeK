@@ -126,6 +126,11 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     context().assertionCode(()-> assertionCode);
   }
 
+  @Override
+  public void executeAsGivenWhenThenTest() {
+    throw new SpecException("Execution can't be done outside a test. it must be called inside an it() lambda");
+  }
+
   /**
    * Creates a new spec describer  that will populate the branches of the given tree when its methods
    * are called
