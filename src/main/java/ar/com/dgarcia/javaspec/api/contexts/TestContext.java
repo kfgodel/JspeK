@@ -30,4 +30,36 @@ public interface TestContext {
    */
   <T> T get(String variableName);
 
+  /**
+   * @return The code defined as the setup part of a single test.<br>
+   */
+  Runnable setupCode();
+  /**
+   * Defines or overrides the code for the setup part of a test indicated with #given().<br>
+   * @param definition The code to define the initial context state for the test
+   */
+  void setupCode(Supplier<Runnable> definition);
+
+  /**
+   * @return The code defined as the exercise part of a single test
+   */
+  Runnable exerciseCode();
+  /**
+   * Defines or overrides the code for the exercise part of a test indicated with #when()
+   * @param definition The code to define the context modification, the tested logic
+   */
+  void exerciseCode(Supplier<Runnable> definition);
+
+  /**
+   * @return The code defined as the assertion part of a single test
+   */
+  Runnable assertionCode();
+
+  /**
+   * Defines or overrides the code for the assertion part of a test indicated with #then()
+   * @param definition The code to define the assertions over the context to verify the expected final state
+   */
+  void assertionCode(Supplier<Runnable> definition);
+
+
 }

@@ -85,4 +85,40 @@ public interface JavaSpecApi<T extends TestContext> {
    * @return The current test context
    */
   T context();
-}
+
+  /**
+   * Defines the code to be executed on tests as part of the test setup.<br>
+   *   If this is the last part of the spec, then #executeAsGivenWhenThenSpec must be called
+   *   explicitly to run the 3 parts. The other two should be defined in previous context
+   * @param setupCode The code to execute at the beginning of the test to prepare
+   *                  the context conditions for the exercise code
+   */
+  void given(Runnable setupCode);
+
+  /**
+   * Defines the exercise code that will execute some logic using the context
+   * prepared by the setup code, and leave a side effect to be verified by the assertion code
+   *   If this is the last part of the spec, then #executeAsGivenWhenThenSpec must be called
+   *   explicitly to run the 3 parts. The other two should be defined in previous context
+   * @param exerciseCode The code that will affect the context to prepare it
+   *                     for the assertion code
+   */
+  void when(Runnable exerciseCode);
+
+  /**
+   * Defines the assertion code to verify the state of the context is the expected.<br>
+   *   When this method is called during execution, it automatically calls #executeAsGivenWhenThenSpec
+   *   to run the 3 parts of the spec. So this should be the last declared part during execution
+   * @param assertionCode The code that checks the context against prepared expectations
+   */
+  void then(Runnable assertionCode);
+
+  /**
+   * Executes the three defined parts of the spec "given", "when", "then" in order,
+   * taking them from the context.<br>
+   *   This can only be called during a test execution (inside the lambda of an it() element),
+   *   and it's not necessary when a "then" block is declared inside the spec
+   */
+  void executeAsGivenWhenThenTest();
+
+  }
