@@ -89,7 +89,7 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     // Junit likes to split the description if I use the full class name
     String groupName = "class: " + aClass.getSimpleName();
     GroupSpecDefinition groupDefinition = createGroupDefinition(groupName, aGroupDefinition);
-    ClassBasedTestContext classContext = (ClassBasedTestContext) context();
+    ClassBasedTestContext classContext = (ClassBasedTestContext) groupDefinition.getTestContext();
     classContext.describedClass(()-> aClass);
     return groupDefinition;
   }

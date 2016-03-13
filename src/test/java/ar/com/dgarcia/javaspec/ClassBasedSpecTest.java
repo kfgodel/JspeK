@@ -61,6 +61,13 @@ public class ClassBasedSpecTest extends JavaSpec<ClassBasedTestContext<Object>> 
           });   
         });
       });
+
+      xdescribe(Object.class, ()->{
+        it("can ignore groups of tests",()->{
+          // Never executed
+          assertThat(true).isFalse();
+        });
+      });
     });
   }
 }

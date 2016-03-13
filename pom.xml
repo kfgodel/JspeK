@@ -268,5 +268,17 @@ of a fixed location is recommended. -->
 
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>kfgodel_mosquito</id>
+      <name>Internal Releases</name>
+      <url>http://kfgodel.info:8081/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>kfgodel_mosquito</id>
+      <name>Internal Snapshots</name>
+      <url>http://kfgodel.info:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
