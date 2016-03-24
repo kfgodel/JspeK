@@ -30,4 +30,19 @@
     </repository>
   </repositories>
 
+  <properties>
+    <version.junit>4.11</version.junit>
+  </properties>
+
+  <dependencies>
+
+    <!-- Test runner -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${version.junit}</version>
+    </dependency>
+
+  </dependencies>
+
 </project>
