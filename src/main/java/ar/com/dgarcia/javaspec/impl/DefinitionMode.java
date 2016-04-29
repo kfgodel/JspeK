@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.impl;
 import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
@@ -11,6 +12,8 @@ import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
+
+import java.util.function.Consumer;
 
 /**
  * This type represents the available api when the tests are being defined.<br>
@@ -51,6 +54,25 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
     createdSpec.markAsPending();
     stack.getCurrentHead().addTest(createdSpec);
+  }
+
+  @Override
+  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+    String expectedTypeName = expectedExceptionType.getSimpleName();
+    String testName = "throws " + expectedTypeName + " " +  testNameSuffix;
+    Runnable testCode = ()->{
+      try{
+        aTestCode.run();
+        throw new AssertionError("Expected an exception of type: " + expectedTypeName + " but none was thrown");
+      }catch (Throwable e){
+        if(expectedExceptionType.isAssignableFrom(e.getClass())){
+          exceptionAssertions.accept((X) e);
+        }else{
+          throw new AssertionError("Expection an exception of type: " + expectedTypeName + " but caught a different: " + e, e);
+        }
+      }
+    };
+    it(testName, testCode);
   }
 
   @Override

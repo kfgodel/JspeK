@@ -2,7 +2,10 @@ package ar.com.dgarcia.javaspec.impl;
 
 import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+
+import java.util.function.Consumer;
 
 /**
  * This type represents the available api when the tests are being run.<br>
@@ -97,5 +100,10 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   @Override
   public void beforeEach(Runnable aCodeBlock) {
     throw new SpecException("A running test cannot declare a before block calling beforeEach()");
+  }
+
+  @Override
+  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+    throw new SpecException("A running test cannot declare a nested failure test calling itThrows()");
   }
 }

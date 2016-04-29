@@ -210,5 +210,17 @@ public class SpecParserTest {
         assertThat(childDefinition).isSameAs(rootDefinition);
     }
 
+    @Test
+    public void specNameShouldIncludeExceptionAndConsequenceWhenItThrowsIsUsed(){
+        SpecTree readSpec = parser.parse(ItThrowsSpecTest.class);
+        assertThat(readSpec.hasNoTests()).isFalse();
 
+        SpecGroup rootGroup = readSpec.getRootGroup();
+        List<SpecTest> declaredTests = rootGroup.getDeclaredTests();
+
+        assertThat(declaredTests).hasSize(1);
+
+        SpecTest onlyTest = declaredTests.get(0);
+        assertThat(onlyTest.getName()).isEqualTo("throws RuntimeException when a condition");
+    }
 }
