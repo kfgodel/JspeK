@@ -1,13 +1,15 @@
 package ar.com.dgarcia.javaspec.api;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
-import ar.com.dgarcia.javaspec.impl.RunningMode;
 import ar.com.dgarcia.javaspec.impl.DefinitionMode;
+import ar.com.dgarcia.javaspec.impl.RunningMode;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.function.Consumer;
 
 /**
  * This class is the extension point to add testing expressiveness with Java Specs.<br>
@@ -150,5 +152,10 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   @Override
   public void executeAsGivenWhenThenTest() {
     currentMode.executeAsGivenWhenThenTest();
+  }
+
+  @Override
+  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+    currentMode.itThrows(expectedExceptionType, testNameSuffix, aTestCode, exceptionAssertions);
   }
 }

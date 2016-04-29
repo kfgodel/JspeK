@@ -98,6 +98,15 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
         }
       });
 
+      it("throws an error if user tries to declare another nested failure test",()->{
+        try {
+          itThrows(RuntimeException.class, "", ()->{}, (e)->{});
+          failBecauseExceptionWasNotThrown(SpecException.class);
+        } catch (SpecException e) {
+          assertThat(e).hasMessage("A running test cannot declare a nested failure test calling itThrows()");
+        }
+      });
+
       describe("when declaration is done on a before/after block", () -> {
         beforeEach(()->{
           testAllDeclarationAttempts();
