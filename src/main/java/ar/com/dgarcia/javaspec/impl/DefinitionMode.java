@@ -61,9 +61,11 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     String expectedTypeName = expectedExceptionType.getSimpleName();
     String testName = "throws " + expectedTypeName + " " +  testNameSuffix;
     Runnable testCode = ()->{
-      try{
+      try {
         aTestCode.run();
         throw new AssertionError("Expected an exception of type: " + expectedTypeName + " but none was thrown");
+      }catch (AssertionError e){
+        throw e;
       }catch (Throwable e){
         if(expectedExceptionType.isAssignableFrom(e.getClass())){
           exceptionAssertions.accept((X) e);
