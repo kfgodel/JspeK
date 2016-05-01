@@ -11,7 +11,7 @@
 
   <groupId>ar.com.dgarcia</groupId>
   <artifactId>java-spec</artifactId>
-  <version>2.1.1</version>
+  <version>2.2-SNAPSHOT</version>
 
   <name>JavaSpec</name>
   <description>Junit testing extension to allow specs expressibility</description>
