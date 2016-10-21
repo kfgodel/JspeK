@@ -133,6 +133,15 @@ public interface JavaSpecApi<T extends TestContext> {
   void then(Runnable assertionCode);
 
   /**
+   * Declares a test and defines the assertion code at the same time.<br>
+   *   This is equivalent to calling it() and inside it defining a then() block with the runnable argument.
+   * It's a shorthand to reduce verbosity of declaring tests.
+   * @param testName The name for this test to be given
+   * @param assertionCode The code that checks the context against prepared expectations (with given() then())
+   */
+  void itThen(String testName, Runnable assertionCode);
+
+  /**
    * Executes the three defined parts of the spec "given", "when", "then" in order,
    * taking them from the context.<br>
    * This can only be called during a test execution (inside the lambda of an it() element),

@@ -95,7 +95,7 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
         when(() -> {
           context().list().add("hello");
         });
-        it("completes the test by defining the assertion code", () -> {
+        it("completes the test by defining the assertion part", () -> {
           then(() -> {
             assertThat(context().list()).containsExactly("hello");
           });
@@ -104,6 +104,9 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
           then(() -> {
             assertThat(context().list()).isNotEmpty();
           });
+        });
+        itThen("allows skipping the explicit assertion definition",()->{
+          assertThat(context().list()).isNotEmpty();
         });
       });
 
@@ -177,5 +180,6 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
     });
 
   }
+
 
 }

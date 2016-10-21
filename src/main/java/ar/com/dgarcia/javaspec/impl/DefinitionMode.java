@@ -27,6 +27,7 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
   private SpecStack stack;
   private SpecTree specTree;
   private T typedContext;
+  private RunningMode<T> runningMode;
 
   public void beforeEach(Runnable aCodeBlock) {
     stack.getCurrentHead().addBeforeBlock(aCodeBlock);
@@ -151,6 +152,14 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
+  public void itThen(String testName, Runnable assertionCode) {
+    it(testName, ()->{
+      // We call then() method, but the running test version
+      runningMode.then(assertionCode);
+    });
+  }
+
+  @Override
   public void executeAsGivenWhenThenTest() {
     throw new SpecException("Execution can't be done outside a test. it must be called inside an it() lambda");
   }
@@ -179,6 +188,14 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     Variable<TestContext> sharedContext = this.specTree.getSharedContext();
     this.stack = SpecStack.create(rootGroup, sharedContext);
     this.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, sharedContext);
+    this.runningMode = RunningMode.create(this.context());
   }
 
+  /**
+   * Creates a running mode based on the current definitions for this instance
+   * @return The running version of this mode
+   */
+  public RunningMode<T> changeToRunning() {
+    return runningMode;
+  }
 }

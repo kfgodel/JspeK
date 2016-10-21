@@ -4,7 +4,6 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.impl.DefinitionMode;
-import ar.com.dgarcia.javaspec.impl.RunningMode;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 
 import java.lang.reflect.ParameterizedType;
@@ -33,10 +32,11 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    * @param specTree The tree that will represent this spec
    */
   public void populate(SpecTree specTree) {
-    this.currentMode =  DefinitionMode.create(specTree, getContextTypeFromSubclassDeclaration());
+    DefinitionMode<T> definitionMode = DefinitionMode.create(specTree, getContextTypeFromSubclassDeclaration());
+    this.currentMode = definitionMode;
     this.define();
     // Switch to execution mode to prepare for test to be run
-    this.currentMode = RunningMode.create(this.currentMode.context());
+    this.currentMode = definitionMode.changeToRunning();
   }
 
   /**
@@ -147,6 +147,11 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   @Override
   public void then(Runnable assertionCode) {
     currentMode.then(assertionCode);
+  }
+
+  @Override
+  public void itThen(String testName, Runnable assertionCode) {
+    currentMode.itThen(testName, assertionCode);
   }
 
   @Override

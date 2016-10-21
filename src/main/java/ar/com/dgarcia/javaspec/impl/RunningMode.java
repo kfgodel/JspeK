@@ -50,6 +50,11 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
+  public void itThen(String testName, Runnable assertionCode) {
+    throw new SpecException("A running test cannot declare a nested itThen() sub-test");
+  }
+
+  @Override
   public void executeAsGivenWhenThenTest() {
     context().setupCode().run();
     context().exerciseCode().run();
