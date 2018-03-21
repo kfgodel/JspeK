@@ -20,7 +20,7 @@ public class ExampleTest extends JavaSpec<TestContext>{
 ```
 Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby  
 
-##**[See more syntax in the wiki](https://github.com/kfgodel/java-spec/wiki)**
+## **[See more syntax in the wiki](https://github.com/kfgodel/java-spec/wiki)**
 
 
 ### Maven dependency ###
