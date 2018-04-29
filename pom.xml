@@ -10,7 +10,7 @@
   <parent>
     <groupId>ar.com.kfgodel</groupId>
     <artifactId>java-pom</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
   </parent>
 
   <name>JavaSpec</name>
