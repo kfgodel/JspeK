@@ -15,11 +15,20 @@
 
   <name>JavaSpec</name>
   <description>Junit testing extension to allow specs expressibility</description>
+  <url>https://github.com/kfgodel/java-spec</url>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <scm>
-    <connection>scm:git:ssh://github.com/kfgodel/java-spec.git</connection>
     <developerConnection>scm:git:ssh://github.com/kfgodel/java-spec.git</developerConnection>
-    <url>https://github.com/kfgodel/java-spec.git</url>
+    <connection>${project.scm.developerConnection}</connection>
+    <url>${project.url}</url>
   </scm>
 
   <repositories>
