@@ -6,7 +6,7 @@
   <parent>
     <groupId>ar.com.kfgodel</groupId>
     <artifactId>java-pom</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
   </parent>
 
   <groupId>ar.com.dgarcia</groupId>
@@ -36,6 +36,12 @@
       <id>kfgodel_mosquito</id>
       <name>Repo Mosquito</name>
       <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <updatePolicy>interval:5</updatePolicy>
+      </snapshots>
     </repository>
   </repositories>
 
@@ -53,5 +59,19 @@
     </dependency>
 
   </dependencies>
+
+  <developers>
+    <developer>
+      <id>dlgarcia</id>
+      <name>Dario L Garcia</name>
+      <email>dario.garcia@10pines.com</email>
+      <organization>10Pines SRL</organization>
+      <organizationUrl>https://www.10pines.com/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
 
 </project>
