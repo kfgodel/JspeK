@@ -3,14 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ar.com.kfgodel</groupId>
   <artifactId>java-spec</artifactId>
   <version>2.4.1-SNAPSHOT</version>
 
   <parent>
-    <groupId>ar.com.kfgodel</groupId>
+    <groupId>info.kfgodel</groupId>
     <artifactId>java-pom</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
   </parent>
 
   <name>JavaSpec</name>
@@ -30,20 +29,6 @@
     <connection>${project.scm.developerConnection}</connection>
     <url>${project.url}</url>
   </scm>
-
-  <repositories>
-    <repository>
-      <id>kfgodel_mosquito</id>
-      <name>Repo Mosquito</name>
-      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <updatePolicy>interval:5</updatePolicy>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <properties>
     <version.junit>4.11</version.junit>
