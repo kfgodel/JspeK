@@ -20,26 +20,17 @@ public class ExampleTest extends JavaSpec<TestContext>{
 ```
 Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby  
 
-## **[See more syntax in the wiki](https://github.com/kfgodel/java-spec/wiki)**
+## **[See more examples in the wiki](https://github.com/kfgodel/java-spec/wiki)**
 
 
 ### Maven dependency ###
 
-* Add this repository to your pom:  
-```
-    <repository>
-      <id>kfgodel_mosquito</id>
-      <name>Repo Mosquito</name>
-      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
-    </repository>
-```
-
 * Declare the dependency
 ```
 <dependency>
-  <groupId>ar.com.dgarcia</groupId>
+  <groupId>info.kfgodel</groupId>
   <artifactId>java-spec</artifactId>
-  <version>2.0</version>
+  <version>2.4.1</version>
   <scope>test</scope>
 </dependency>
 ```
