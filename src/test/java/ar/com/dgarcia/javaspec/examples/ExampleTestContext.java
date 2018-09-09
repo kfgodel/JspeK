@@ -23,4 +23,7 @@ public interface ExampleTestContext extends TestContext {
   Runnable code();
   void code(Supplier<Runnable> definition);
 
+  List<String> list();
+  void list(Supplier<List<String>> definition);
+
 }
