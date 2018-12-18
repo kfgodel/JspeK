@@ -41,9 +41,10 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
     }
 
     Optional<Supplier<T>> variableDefinition = (Optional) getDefinitionFor(variableName);
-    return variableDefinition
-      .map((definition) -> this.createNewValueFrom(definition, variableName))
-      .orElseThrow(()-> new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]"));
+    if (!variableDefinition.isPresent()) {
+      throw new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]");
+    }
+    return this.createNewValueFrom(variableDefinition.get(), variableName);
   }
 
   @Override
