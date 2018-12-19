@@ -63,7 +63,7 @@ Adds the ability to used type variables on `let` definitions
 <dependency>
   <groupId>info.kfgodel</groupId>
   <artifactId>java-spec</artifactId>
-  <version>2.4.1</version>
+  <version>2.4.3</version>
   <scope>test</scope>
 </dependency>
 ```
