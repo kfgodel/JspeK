@@ -37,13 +37,11 @@ public class UsingContextAliasTest extends JavaSpec<ExampleTestContext> {
         it("returns the first list element when accessed", () -> {
           assertThat(test().list().get(0)).isEqualTo("1");
         });
-        it("is not empty",()->{
-            assertThat(test().list().isEmpty()).isFalse();
+        it("is not empty", () -> {
+          assertThat(test().list().isEmpty()).isFalse();
         });
       });
 
-
     });
-
   }
 }
