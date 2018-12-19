@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.testSpecs;
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,5 +24,10 @@ public class UseNullAsValidValueTest extends JavaSpec<TestContext> {
       });
     });
 
+    itThrows(SpecException.class, "when the variable is not defined and accessed", () -> {
+      context().get("undefinedVariable");
+    }, e -> {
+      assertThat(e).hasMessage("Variable [undefinedVariable] must be defined before accessing it in current context[{}]");
+    });
   }
 }

@@ -26,7 +26,7 @@ public class ManualGWTContextManagementTest extends JavaSpec<TestContext> {
             context().setupCode();
             failBecauseExceptionWasNotThrown(SpecException.class);
           } catch (SpecException e) {
-            assertThat(e).hasMessage("Variable [setupCode] cannot be accessed because it lacks a definition in this context[{}]");
+            assertThat(e).hasMessage("Variable [setupCode] must be defined before accessing it in current context[{}]");
           }
         });
         it("throws an exception when the exercise code is accessed", () -> {
@@ -34,7 +34,7 @@ public class ManualGWTContextManagementTest extends JavaSpec<TestContext> {
             context().exerciseCode();
             failBecauseExceptionWasNotThrown(SpecException.class);
           } catch (SpecException e) {
-            assertThat(e).hasMessage("Variable [exerciseCode] cannot be accessed because it lacks a definition in this context[{}]");
+            assertThat(e).hasMessage("Variable [exerciseCode] must be defined before accessing it in current context[{}]");
           }
         });
         it("throws an exception when the assertion code is accessed", () -> {
@@ -42,7 +42,7 @@ public class ManualGWTContextManagementTest extends JavaSpec<TestContext> {
             context().assertionCode();
             failBecauseExceptionWasNotThrown(SpecException.class);
           } catch (SpecException e) {
-            assertThat(e).hasMessage("Variable [assertionCode] cannot be accessed because it lacks a definition in this context[{}]");
+            assertThat(e).hasMessage("Variable [assertionCode] must be defined before accessing it in current context[{}]");
           }
         });
       });

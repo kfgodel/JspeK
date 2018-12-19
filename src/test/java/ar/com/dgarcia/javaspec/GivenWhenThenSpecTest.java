@@ -56,7 +56,7 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
           });
           failBecauseExceptionWasNotThrown(SpecException.class);
         }catch (SpecException e){
-          assertThat(e.getMessage()).startsWith("Variable [setupCode] cannot be accessed because it lacks a definition in this context");
+          assertThat(e.getMessage()).startsWith("Variable [setupCode] must be defined before accessing it in current context");
         }
       });
       it("throws an error if the exercise code is not defined",()->{
@@ -69,7 +69,7 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
           });
           failBecauseExceptionWasNotThrown(SpecException.class);
         }catch (SpecException e){
-          assertThat(e.getMessage()).startsWith("Variable [exerciseCode] cannot be accessed because it lacks a definition in this context");
+          assertThat(e.getMessage()).startsWith("Variable [exerciseCode] must be defined before accessing it in current context");
         }
       });
       it("throws an error if the assertion code is not defined", () -> {
@@ -83,7 +83,7 @@ public class GivenWhenThenSpecTest extends JavaSpec<GiveWhenThenTestContext> {
           executeAsGivenWhenThenTest();
           failBecauseExceptionWasNotThrown(SpecException.class);
         }catch (SpecException e){
-          assertThat(e.getMessage()).startsWith("Variable [assertionCode] cannot be accessed because it lacks a definition in this context");
+          assertThat(e.getMessage()).startsWith("Variable [assertionCode] must be defined before accessing it in current context");
         }
       });
 
