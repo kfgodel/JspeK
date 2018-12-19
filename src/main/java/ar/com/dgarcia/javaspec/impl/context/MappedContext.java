@@ -41,9 +41,10 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
     }
 
     Optional<Supplier<T>> variableDefinition = (Optional) getDefinitionFor(variableName);
-    return variableDefinition
-      .map((definition) -> this.createNewValueFrom(definition, variableName))
-      .orElseThrow(()-> new SpecException("Variable [" + variableName + "] cannot be accessed because it lacks a definition in this context[" + this.getVariableDefinitions() + "]"));
+    if (!variableDefinition.isPresent()) {
+      throw new SpecException("Variable [" + variableName + "] must be defined before accessing it in current context[" + this.getVariableDefinitions() + "]");
+    }
+    return this.createNewValueFrom(variableDefinition.get(), variableName);
   }
 
   @Override
@@ -81,12 +82,8 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
       T variableValue = variableDefinition.get();
       storeValueFor(variableName, variableValue);
       return variableValue;
-    } catch (SpecException e) {
-      throw e;
     } catch (StackOverflowError e) {
       throw new SpecException("Got a Stackoverflow when evaluating variable [" + variableName + "]. Do we have a cyclic dependency on its definition?", e);
-    } catch (Exception e) {
-      throw new SpecException("Definition for variable [" + variableName + "] failed to execute: " + e.getMessage(), e);
     }
   }
 

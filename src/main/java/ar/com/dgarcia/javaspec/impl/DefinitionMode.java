@@ -71,7 +71,7 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
         if(expectedExceptionType.isAssignableFrom(e.getClass())){
           exceptionAssertions.accept((X) e);
         }else{
-          throw new AssertionError("Caught " + e + " but we expected an exception of type" + expectedTypeName, e);
+          throw new AssertionError("Caught " + e + " while expecting " + expectedTypeName, e);
         }
       }
     };

@@ -51,19 +51,19 @@ public class TestContextDefinitionTest {
             testContext.get("undefined");
             failBecauseExceptionWasNotThrown(SpecException.class);
         }catch(SpecException e){
-            assertThat(e).hasMessage("Variable [undefined] cannot be accessed because it lacks a definition in this context[{}]");
+            assertThat(e).hasMessage("Variable [undefined] must be defined before accessing it in current context[{}]");
         }
     }
 
     @Test
-    public void itThrowsAnExceptionIfVariableDefinitionFails(){
+    public void itForwardsTheOriginalExceptionIfVariableDefinitionFails() {
         testContext.let("explosion", ()-> { throw new RuntimeException("Boom!"); } );
 
         try{
             testContext.get("explosion");
-            failBecauseExceptionWasNotThrown(SpecException.class);
-        }catch(SpecException e){
-            assertThat(e).hasMessage("Definition for variable [explosion] failed to execute: Boom!");
+            failBecauseExceptionWasNotThrown(RuntimeException.class);
+        } catch (RuntimeException e) {
+            assertThat(e).hasMessage("Boom!");
         }
     }
 
