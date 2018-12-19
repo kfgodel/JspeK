@@ -103,6 +103,15 @@ public interface JavaSpecApi<T extends TestContext> {
   T context();
 
   /**
+   * Allows access to test context. This is an alias to {@link #context()} to improve readability when needed or ambiguous
+   *
+   * @return The current test context
+   */
+  default T test(){
+    return this.context();
+  };
+
+  /**
    * Defines the code to be executed on tests as part of the test setup.<br>
    * If this is the last part of the spec, then #executeAsGivenWhenThenSpec must be called
    * explicitly to run the 3 parts. The other two should be defined in previous context

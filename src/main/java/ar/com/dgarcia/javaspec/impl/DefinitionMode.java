@@ -64,14 +64,14 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
     Runnable testCode = ()->{
       try {
         aTestCode.run();
-        throw new AssertionError("Expected an exception of type: " + expectedTypeName + " but none was thrown");
+        throw new AssertionError("No exception thrown while expecting: " + expectedTypeName);
       }catch (AssertionError e){
         throw e;
       }catch (Throwable e){
         if(expectedExceptionType.isAssignableFrom(e.getClass())){
           exceptionAssertions.accept((X) e);
         }else{
-          throw new AssertionError("Expecting " + expectedTypeName + " but caught: " + e, e);
+          throw new AssertionError("Caught " + e + " while expecting " + expectedTypeName, e);
         }
       }
     };
