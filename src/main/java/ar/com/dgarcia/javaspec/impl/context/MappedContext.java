@@ -82,12 +82,8 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
       T variableValue = variableDefinition.get();
       storeValueFor(variableName, variableValue);
       return variableValue;
-    } catch (SpecException e) {
-      throw e;
     } catch (StackOverflowError e) {
       throw new SpecException("Got a Stackoverflow when evaluating variable [" + variableName + "]. Do we have a cyclic dependency on its definition?", e);
-    } catch (Exception e) {
-      throw new SpecException("Definition for variable [" + variableName + "] failed to execute: " + e.getMessage(), e);
     }
   }
 
