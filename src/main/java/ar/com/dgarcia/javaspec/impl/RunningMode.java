@@ -4,6 +4,7 @@ import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.variable.Let;
 
 import java.util.function.Consumer;
 
@@ -74,7 +75,6 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   @Override
   public void describe(Class<?> aClass, Runnable aGroupDefinition) {
     throw new SpecException("A running test cannot declare a class spec calling describe()");
-
   }
 
   @Override
@@ -110,5 +110,10 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   @Override
   public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
     throw new SpecException("A running test cannot declare a nested failure test calling itThrows()");
+  }
+
+  @Override
+  public <X> Let<X> localLet(String variableName) {
+    throw new SpecException("A running test cannot declare a let object");
   }
 }

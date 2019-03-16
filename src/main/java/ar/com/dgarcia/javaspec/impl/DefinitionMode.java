@@ -5,6 +5,7 @@ import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
@@ -134,6 +135,11 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
    */
   public T context() {
     return typedContext;
+  }
+
+  @Override
+  public <X> Let<X> localLet(String variableName) {
+    return Let.create(variableName, this::context);
   }
 
   @Override

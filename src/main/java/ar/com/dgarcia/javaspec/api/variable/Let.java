@@ -6,26 +6,26 @@ import java.util.function.Supplier;
 
 public class Let<T> {
 
-  private String name;
+  private String variableName;
   private Supplier<TestContext> context;
 
-  public static <T> Let<T> create(String name, Supplier<TestContext> context) {
+  public static <T> Let<T> create(String variableName, Supplier<TestContext> context) {
     Let<T> let = new Let<>();
-    let.name = name;
+    let.variableName = variableName;
     let.context = context;
     return let;
   }
 
   public void set(Supplier<T> definition) {
-    context().let(name(), definition);
+    context().let(variableName(), definition);
   }
 
   public T get() {
-    return context().get(name());
+    return context().get(variableName());
   }
 
-  private String name() {
-    return name;
+  private String variableName() {
+    return variableName;
   }
 
   private TestContext context() {

@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.api;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.impl.DefinitionMode;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 
@@ -87,6 +88,11 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   @Override
   public T context() {
     return currentMode.context();
+  }
+
+  @Override
+  public <X> Let<X> localLet(String variableName) {
+    return currentMode.localLet(variableName);
   }
 
   @Override
