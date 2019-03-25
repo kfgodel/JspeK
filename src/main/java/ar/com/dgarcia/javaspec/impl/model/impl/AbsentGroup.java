@@ -1,5 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.NullContextDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
@@ -8,6 +10,7 @@ import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type represents the the container group for those groups that  have no container.<br>
@@ -62,6 +65,11 @@ public class AbsentGroup implements SpecGroup {
   @Override
   public SpecGroup createGroup(String aGroupName) {
     throw new UnsupportedOperationException("Absent group cannot create a subgroup: " + aGroupName);
+  }
+
+  @Override
+  public SpecTest createTest(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext) {
+    throw new UnsupportedOperationException("Absent group cannot create a test: " + testName);
   }
 
   @Override

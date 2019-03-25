@@ -1,8 +1,11 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecTestDefinition;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type represents a test group inside a spec
@@ -50,6 +53,17 @@ public interface SpecGroup extends SpecElement {
      * @return The created sub-group
      */
     SpecGroup createGroup(String aGroupName);
+
+    /**
+     * Adds a new Test spec to this group as the next contained element
+     *
+     * @param testName      The name of the test
+     * @param testCode      The code to execute for the test
+     * @param sharedContext The shared variable accessible to the test
+     * @return The created test
+     */
+    SpecTest createTest(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext);
+
 
     /**
      * Adds a new test spec to this group

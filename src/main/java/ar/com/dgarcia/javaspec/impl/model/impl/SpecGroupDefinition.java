@@ -1,5 +1,7 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
+import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.model.DisabledStatus;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
@@ -9,6 +11,7 @@ import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -63,6 +66,13 @@ public class SpecGroupDefinition extends SpecElementSupport implements SpecGroup
         this.addContainedElement(subgroup);
         return subgroup;
     }
+
+  @Override
+  public SpecTest createTest(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext) {
+    SpecTestDefinition createdTestSpec = SpecTestDefinition.create(testName, testCode, sharedContext);
+    this.addContainedElement(createdTestSpec);
+    return createdTestSpec;
+  }
 
     @Override
     public void addTest(SpecTestDefinition addedSpec) {

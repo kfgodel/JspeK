@@ -6,10 +6,11 @@ import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
+import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.model.impl.SpecTestDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -37,22 +38,19 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   @Override
   public void it(String testName, Runnable aTestCode) {
-    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, aTestCode, specTree.getSharedContext());
-    stack.getCurrentHead().addTest(createdSpec);
+    stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specTree.getSharedContext());
   }
 
   @Override
   public void xit(String testName) {
-    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, null, specTree.getSharedContext());
+    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.empty(), specTree.getSharedContext());
     createdSpec.markAsPending();
-    stack.getCurrentHead().addTest(createdSpec);
   }
 
   @Override
   public void xit(String testName, Runnable aTestCode) {
-    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, aTestCode, specTree.getSharedContext());
+    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specTree.getSharedContext());
     createdSpec.markAsPending();
-    stack.getCurrentHead().addTest(createdSpec);
   }
 
   @Override

@@ -1,10 +1,12 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type represents the interpreted definition of a test spec
@@ -12,7 +14,7 @@ import java.util.List;
  */
 public class SpecTestDefinition extends SpecElementSupport implements SpecTest {
 
-    private Runnable testCode;
+    private Optional<Runnable> testCode;
     private PendingStatus pendingState;
     private Variable<TestContext> sharedContext;
 
@@ -33,7 +35,8 @@ public class SpecTestDefinition extends SpecElementSupport implements SpecTest {
 
     @Override
     public Runnable getTestCode() {
-        return testCode;
+        return testCode
+          .orElseThrow(() -> new SpecException("An ignored test without test code cannot be run"));
     }
 
     @Override
@@ -47,7 +50,7 @@ public class SpecTestDefinition extends SpecElementSupport implements SpecTest {
         return executionBlock;
     }
 
-    public static SpecTestDefinition create(String testName, Runnable testCode, Variable<TestContext> sharedContext) {
+    public static SpecTestDefinition create(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext) {
         SpecTestDefinition test = new SpecTestDefinition();
         test.setName(testName);
         test.testCode = testCode;
