@@ -119,16 +119,6 @@ public interface JavaSpecApi<T extends TestContext> {
    */
   default T test(){
     return this.context();
-  };
-
-  /**
-   * Defines the code to be executed on tests as part of the test setup.<br>
-   * If this is the last part of the spec, then #executeAsGivenWhenThenSpec must be called
-   * explicitly to run the 3 parts. The other two should be defined in previous context
-   *
-   * @param setupCode The code to execute at the beginning of the test to prepare
-   *                  the context conditions for the exercise code
-   */
-  void given(Runnable setupCode);
+  }
 
 }

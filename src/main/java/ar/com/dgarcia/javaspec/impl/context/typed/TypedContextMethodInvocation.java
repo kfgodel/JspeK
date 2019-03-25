@@ -68,7 +68,7 @@ public class TypedContextMethodInvocation {
             return null;
         }
         Object firstArgument = this.args[0];
-        Supplier<Object> variableDefinition = null;
+        Supplier<Object> variableDefinition;
         try {
             variableDefinition = (Supplier<Object>) firstArgument;
         } catch (ClassCastException e) {

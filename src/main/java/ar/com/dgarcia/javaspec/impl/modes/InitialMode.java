@@ -77,9 +77,4 @@ public class InitialMode implements JavaSpecApi<TestContext> {
     throw new SpecException("A local let can't be defined outside the method define");
   }
 
-  @Override
-  public void given(Runnable setupCode) {
-    throw new SpecException("A setup block can't be defined outside the method define");
-  }
-
 }
