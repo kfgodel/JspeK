@@ -27,7 +27,7 @@ public class SpecTreeDefinition implements SpecTree {
 
   public static SpecTreeDefinition create() {
     SpecTreeDefinition tree = new SpecTreeDefinition();
-    tree.rootGroup = GroupSpecDefinition.create("anonymous root");
+    tree.rootGroup = SpecGroupDefinition.create("anonymous root", AbsentGroup.create());
     tree.sharedContext = Variable.of(tree.rootGroup.getTestContext());
     return tree;
   }

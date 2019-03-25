@@ -1,7 +1,6 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
-import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
-import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
+import ar.com.dgarcia.javaspec.impl.model.impl.SpecTestDefinition;
 
 import java.util.List;
 
@@ -46,16 +45,17 @@ public interface SpecGroup extends SpecElement {
     void markAsDisabled();
 
     /**
-     * Adds a new group definition to this group.<br>
-     * @param addedGroup The group to add as child of this
+     * Creates and adds a sub-group definition inside this group as the next element
+     * @param aGroupName The name for the sub-group
+     * @return The created sub-group
      */
-    void addSubGroup(GroupSpecDefinition addedGroup);
+    SpecGroup createGroup(String aGroupName);
 
     /**
      * Adds a new test spec to this group
      * @param addedSpec The test to add as child of this group
      */
-    void addTest(TestSpecDefinition addedSpec);
+    void addTest(SpecTestDefinition addedSpec);
 
     /**
      * Adds a before block to this group definition. Every test on this group, and every subgroup will execute it
@@ -89,4 +89,5 @@ public interface SpecGroup extends SpecElement {
      * @return The context for this group
      */
     TestContextDefinition getTestContext();
+
 }

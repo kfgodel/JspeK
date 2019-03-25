@@ -1,7 +1,11 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
 import ar.com.dgarcia.javaspec.impl.context.MappedContext;
-import ar.com.dgarcia.javaspec.impl.model.*;
+import ar.com.dgarcia.javaspec.impl.model.DisabledStatus;
+import ar.com.dgarcia.javaspec.impl.model.SpecElement;
+import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
+import ar.com.dgarcia.javaspec.impl.model.SpecTest;
+import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +15,7 @@ import java.util.stream.Collectors;
  * This type represents a spec group definition
  * Created by kfgodel on 12/07/14.
  */
-public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup {
+public class SpecGroupDefinition extends SpecElementSupport implements SpecGroup {
 
     private DisabledStatus disabledState;
     private List<SpecElement> elements;
@@ -52,13 +56,16 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
         this.disabledState = DisabledStatus.DISABLED;
     }
 
+
     @Override
-    public void addSubGroup(GroupSpecDefinition addedGroup) {
-        this.addContainedElement(addedGroup);
+    public SpecGroup createGroup(String aGroupName) {
+        SpecGroupDefinition subgroup = SpecGroupDefinition.create(aGroupName, this);
+        this.addContainedElement(subgroup);
+        return subgroup;
     }
 
     @Override
-    public void addTest(TestSpecDefinition addedSpec) {
+    public void addTest(SpecTestDefinition addedSpec) {
         this.addContainedElement(addedSpec);
     }
 
@@ -126,15 +133,15 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
         this.testContext.setParentDefinition(containerGroup.getTestContext());
     }
 
-    public static GroupSpecDefinition create(String groupName) {
-        GroupSpecDefinition groupSpec = new GroupSpecDefinition();
+    public static SpecGroupDefinition create(String groupName, SpecGroup parentContainer) {
+        SpecGroupDefinition groupSpec = new SpecGroupDefinition();
         groupSpec.setName(groupName);
         groupSpec.disabledState = DisabledStatus.ENABLED;
         groupSpec.elements = new ArrayList<>();
         groupSpec.beforeBlocks = new ArrayList<>();
         groupSpec.afterBlocks = new ArrayList<>();
         groupSpec.testContext = MappedContext.create();
-        groupSpec.setContainerGroup(NullContainerGroup.create());
+        groupSpec.setContainerGroup(parentContainer);
         return groupSpec;
     }
 

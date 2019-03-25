@@ -10,7 +10,7 @@ import java.util.List;
  * This type represents the interpreted definition of a test spec
  * Created by kfgodel on 12/07/14.
  */
-public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
+public class SpecTestDefinition extends SpecElementSupport implements SpecTest {
 
     private Runnable testCode;
     private PendingStatus pendingState;
@@ -47,8 +47,8 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
         return executionBlock;
     }
 
-    public static TestSpecDefinition create(String testName, Runnable testCode, Variable<TestContext> sharedContext) {
-        TestSpecDefinition test = new TestSpecDefinition();
+    public static SpecTestDefinition create(String testName, Runnable testCode, Variable<TestContext> sharedContext) {
+        SpecTestDefinition test = new SpecTestDefinition();
         test.setName(testName);
         test.testCode = testCode;
         test.pendingState = PendingStatus.NORMAL;
@@ -56,14 +56,4 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
         return test;
     }
 
-    /**
-     * Creates a test in pending state
-     * @param testName The name to identify the test
-     * @return The created definition
-     */
-    public static TestSpecDefinition createPending(String testName, Variable<TestContext> sharedContext) {
-        TestSpecDefinition test = create(testName, null, sharedContext);
-        test.markAsPending();
-        return test;
-    }
 }

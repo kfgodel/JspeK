@@ -5,9 +5,9 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
+import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
-import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
+import ar.com.dgarcia.javaspec.impl.model.impl.SpecTestDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.util.function.Consumer;
@@ -37,19 +37,20 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   @Override
   public void it(String testName, Runnable aTestCode) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
+    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, aTestCode, specTree.getSharedContext());
     stack.getCurrentHead().addTest(createdSpec);
   }
 
   @Override
   public void it(String testName) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
+    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, null, specTree.getSharedContext());
+    createdSpec.markAsPending();
     stack.getCurrentHead().addTest(createdSpec);
   }
 
   @Override
   public void xit(String testName, Runnable aTestCode) {
-    TestSpecDefinition createdSpec = TestSpecDefinition.create(testName, aTestCode, specTree.getSharedContext());
+    SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, aTestCode, specTree.getSharedContext());
     createdSpec.markAsPending();
     stack.getCurrentHead().addTest(createdSpec);
   }
@@ -82,7 +83,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   @Override
   public void xdescribe(String aGroupName, Runnable aGroupDefinition) {
-    GroupSpecDefinition createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
+    SpecGroup createdGroup = createGroupDefinition(aGroupName, aGroupDefinition);
     createdGroup.markAsDisabled();
   }
 
@@ -93,7 +94,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   @Override
   public void xdescribe(Class<?> aClass, Runnable aGroupDefinition) {
-    GroupSpecDefinition groupDefinition = createClassBasedGroupDescription(aClass, aGroupDefinition);
+    SpecGroup groupDefinition = createClassBasedGroupDescription(aClass, aGroupDefinition);
     groupDefinition.markAsDisabled();
   }
 
@@ -103,23 +104,22 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
    * @param aGroupDefinition The test definitions
    * @return The created group
    */
-  private GroupSpecDefinition createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
+  private SpecGroup createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
     // Sanity check to verify correct usage
     if(!ClassBasedTestContext.class.isInstance(context())){
       throw new SpecException("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
     }
     // Junit likes to split the description if I use the full class name
     String groupName = "class: " + aClass.getSimpleName();
-    GroupSpecDefinition groupDefinition = createGroupDefinition(groupName, aGroupDefinition);
+    SpecGroup groupDefinition = createGroupDefinition(groupName, aGroupDefinition);
     ClassBasedTestContext classContext = (ClassBasedTestContext) groupDefinition.getTestContext();
     classContext.describedClass(()-> aClass);
     return groupDefinition;
   }
 
-  private GroupSpecDefinition createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
-    GroupSpecDefinition createdGroup = GroupSpecDefinition.create(aGroupName);
+  private SpecGroup createGroupDefinition(String aGroupName, Runnable aGroupDefinition) {
+    SpecGroup createdGroup = stack.getCurrentHead().createGroup(aGroupName);
     stack.executeAsCurrent(createdGroup, aGroupDefinition);
-    stack.getCurrentHead().addSubGroup(createdGroup);
     return createdGroup;
   }
 

@@ -3,7 +3,6 @@ package ar.com.dgarcia.javaspec.impl.parser;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
-import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 
 import java.util.LinkedList;
 
@@ -35,7 +34,7 @@ public class SpecStack {
      * @param newHead The group to used a stack head
      * @param code The code to execute with the newHead
      */
-    public void executeAsCurrent(GroupSpecDefinition newHead, Runnable code) {
+    public void executeAsCurrent(SpecGroup newHead, Runnable code) {
         this.push(newHead);
         try{
             code.run();
