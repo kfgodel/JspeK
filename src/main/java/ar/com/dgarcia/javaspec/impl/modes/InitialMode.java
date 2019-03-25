@@ -33,7 +33,7 @@ public class InitialMode implements JavaSpecApi<TestContext> {
   }
 
   @Override
-  public void it(String testName) {
+  public void xit(String testName) {
     throw new SpecException("A test can't be defined outside the method define");
   }
 

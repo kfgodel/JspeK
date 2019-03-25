@@ -122,8 +122,8 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   }
 
   @Override
-  public void it(String testName) {
-    currentMode.it(testName);
+  public void xit(String testName) {
+    currentMode.xit(testName);
   }
 
   @Override

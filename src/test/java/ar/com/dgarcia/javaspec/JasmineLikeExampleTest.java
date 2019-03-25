@@ -161,7 +161,7 @@ public class JasmineLikeExampleTest extends JavaSpec<TestContext> {
                 assertThat(true).isEqualTo(false);
             });
 
-            it("can be declared with 'it' but without a lambda");
+          xit("can be declared with 'it' but without a lambda");
 
         });
 

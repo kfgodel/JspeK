@@ -19,6 +19,6 @@ public class TwoPendingTestSpecTest extends JavaSpec<TestContext> {
             assertThat(true).isEqualTo(false);
         });
 
-        it("non lambda pending test");
+        xit("non lambda pending test");
     }
 }

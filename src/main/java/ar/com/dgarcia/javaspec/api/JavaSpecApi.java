@@ -40,7 +40,7 @@ public interface JavaSpecApi<T extends TestContext> {
    *
    * @param testName The name to identify this test
    */
-  void it(String testName);
+  void xit(String testName);
 
   /**
    * Declares an ignored test. It will not be run, but listed

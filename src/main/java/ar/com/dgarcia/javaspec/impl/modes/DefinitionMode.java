@@ -46,7 +46,7 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
-  public void it(String testName) {
+  public void xit(String testName) {
     TestSpecDefinition createdSpec = TestSpecDefinition.createPending(testName, specTree.getSharedContext());
     stack.getCurrentHead().addTest(createdSpec);
   }

@@ -88,8 +88,8 @@ public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
   }
 
   @Override
-  public void it(String testName) {
-    throw new SpecException("A running test cannot declare a nested ignored spec calling it()");
+  public void xit(String testName) {
+    throw new SpecException("A running test cannot declare a nested ignored spec calling xit()");
   }
 
   @Override
