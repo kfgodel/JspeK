@@ -37,10 +37,10 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
           assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
         }
         try {
-          it("wrongly nested ignored spec");
+          xit("wrongly nested ignored spec");
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
-          assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling it()");
+          assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
         }
       });
 
@@ -138,10 +138,10 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
       assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
     }
     try {
-      it("wrongly nested ignored spec");
+      xit("wrongly nested ignored spec");
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
-      assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling it()");
+      assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
     }
     try {
       describe("wrongly nested group", () -> {});

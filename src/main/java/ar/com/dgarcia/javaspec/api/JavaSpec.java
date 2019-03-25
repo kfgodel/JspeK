@@ -67,12 +67,12 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
       // It's another generic type, it may be a class based context
       ParameterizedType parameterizedArgument = (ParameterizedType) contextType;
       Type rawType = parameterizedArgument.getRawType();
-      if (!Class.class.isInstance(rawType)) {
+      if (!(rawType instanceof Class)) {
         throw new SpecException("JavaSpec parameterization can't reference a generic type: " + rawType);
       }
       return (Class<T>) rawType;
     }
-    if (!Class.class.isInstance(contextType)) {
+    if (!(contextType instanceof Class)) {
       throw new SpecException("JavaSpec generic parameter can't be a type wildcard: " + contextType);
     }
     return (Class<T>) contextType;
@@ -120,8 +120,8 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   }
 
   @Override
-  public void it(String testName) {
-    currentMode.it(testName);
+  public void xit(String testName) {
+    currentMode.xit(testName);
   }
 
   @Override
@@ -137,31 +137,6 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   @Override
   public void beforeEach(Runnable aCodeBlock) {
     currentMode.beforeEach(aCodeBlock);
-  }
-
-  @Override
-  public void given(Runnable setupCode) {
-    currentMode.given(setupCode);
-  }
-
-  @Override
-  public void when(Runnable exerciseCode) {
-    currentMode.when(exerciseCode);
-  }
-
-  @Override
-  public void then(Runnable assertionCode) {
-    currentMode.then(assertionCode);
-  }
-
-  @Override
-  public void itThen(String testName, Runnable assertionCode) {
-    currentMode.itThen(testName, assertionCode);
-  }
-
-  @Override
-  public void executeAsGivenWhenThenTest() {
-    currentMode.executeAsGivenWhenThenTest();
   }
 
   @Override

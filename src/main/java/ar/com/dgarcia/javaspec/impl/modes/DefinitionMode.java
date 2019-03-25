@@ -42,7 +42,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
   }
 
   @Override
-  public void it(String testName) {
+  public void xit(String testName) {
     SpecTestDefinition createdSpec = SpecTestDefinition.create(testName, null, specTree.getSharedContext());
     createdSpec.markAsPending();
     stack.getCurrentHead().addTest(createdSpec);
@@ -106,7 +106,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
    */
   private SpecGroup createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
     // Sanity check to verify correct usage
-    if(!ClassBasedTestContext.class.isInstance(context())){
+    if (!(context() instanceof ClassBasedTestContext)) {
       throw new SpecException("#describe can't be called with a class if the test context is not a ClassBasedTestContext subtype");
     }
     // Junit likes to split the description if I use the full class name
@@ -136,34 +136,6 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
   @Override
   public <X> Let<X> localLet(String variableName) {
     return Let.create(variableName, this::context);
-  }
-
-  @Override
-  public void given(Runnable setupCode) {
-    context().setupCode(()-> setupCode);
-  }
-
-  @Override
-  public void when(Runnable exerciseCode) {
-    context().exerciseCode(()-> exerciseCode);
-  }
-
-  @Override
-  public void then(Runnable assertionCode) {
-    context().assertionCode(()-> assertionCode);
-  }
-
-  @Override
-  public void itThen(String testName, Runnable assertionCode) {
-    it(testName, ()->{
-      // We call then() method, but the running test version
-      runningMode.then(assertionCode);
-    });
-  }
-
-  @Override
-  public void executeAsGivenWhenThenTest() {
-    throw new SpecException("Execution can't be done outside a test. it must be called inside an it() lambda");
   }
 
   /**

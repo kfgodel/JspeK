@@ -49,7 +49,7 @@ public class InstantiationMode<T extends TestContext> implements ApiMode<T> {
   }
 
   @Override
-  public void it(String testName) {
+  public void xit(String testName) {
     throw new SpecException("A test can't be defined outside the method define");
   }
 
@@ -91,31 +91,6 @@ public class InstantiationMode<T extends TestContext> implements ApiMode<T> {
   @Override
   public <X> Let<X> localLet(String variableName) {
     return Let.create(variableName, this::context);
-  }
-
-  @Override
-  public void given(Runnable setupCode) {
-    throw new SpecException("A setup block can't be defined outside the method define");
-  }
-
-  @Override
-  public void when(Runnable exerciseCode) {
-    throw new SpecException("An exercise block can't be defined outside the method define");
-  }
-
-  @Override
-  public void then(Runnable assertionCode) {
-    throw new SpecException("An assertion block can't be defined outside the method define");
-  }
-
-  @Override
-  public void itThen(String testName, Runnable assertionCode) {
-    throw new SpecException("A test can't be defined outside the method define");
-  }
-
-  @Override
-  public void executeAsGivenWhenThenTest() {
-    throw new SpecException("A test can't be run outside the method define");
   }
 
   public DefinitionMode<T> changeToDefinition() {

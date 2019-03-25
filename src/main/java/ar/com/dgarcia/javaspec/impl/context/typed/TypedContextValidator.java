@@ -6,6 +6,7 @@ import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -121,15 +122,12 @@ public class TypedContextValidator {
         }
       }
       Class<?>[] superInterfaces = currentType.getInterfaces();
-      for (Class<?> superInterface : superInterfaces) {
-        pendingTypes.add(superInterface);
-      }
+      pendingTypes.addAll(Arrays.asList(superInterfaces));
     }
   }
 
   private boolean seemsLikeGetter(Method typeMethod) {
     boolean doesNotReturnsVoid = !returnsVoid(typeMethod);
-    ;
     boolean hasNoArgs = typeMethod.getParameterCount() == 0;
     return doesNotReturnsVoid && hasNoArgs;
   }

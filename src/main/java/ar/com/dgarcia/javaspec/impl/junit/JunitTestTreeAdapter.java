@@ -44,7 +44,7 @@ public class JunitTestTreeAdapter {
         for (SpecElement specElement : specElements) {
 
             String specName = specElement.getName();
-            String specId = specName + String.valueOf(specElement.hashCode());
+            String specId = specName + specElement.hashCode();
             Description elementDescription = Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
             currentDescription.addChild(elementDescription);
 
