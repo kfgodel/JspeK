@@ -173,7 +173,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
    * @param <T> The type of test context
    * @return The created describer
    */
-  public static<T extends TestContext> DefinitionMode<T> create(InitialMode<T> initialMode) {
+  public static <T extends TestContext> DefinitionMode<T> create(InstantiationMode<T> initialMode) {
     DefinitionMode<T> describer = new DefinitionMode<>();
     describer.specTree = initialMode.getTree();
     describer.typedContext = initialMode.context();

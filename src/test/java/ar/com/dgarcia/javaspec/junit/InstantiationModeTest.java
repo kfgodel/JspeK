@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This test verifies that the initial state of a spec throws appropiate errors
  * Date: 30/03/19 - 16:24
  */
-public class InitialModeTest {
+public class InstantiationModeTest {
 
   private MinimumTest spec;
 

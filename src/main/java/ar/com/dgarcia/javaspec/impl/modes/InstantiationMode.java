@@ -7,20 +7,22 @@ import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecTreeDefinition;
-import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.util.function.Consumer;
 
 /**
+ * This class represents the initial mode a javaspec starts with in which a definition
+ * hasn't been run yet, but some initialization code may have efects on the spec state
+ *
  * Date: 30/03/19 - 16:36
  */
-public class InitialMode<T extends TestContext> implements ApiMode<T> {
+public class InstantiationMode<T extends TestContext> implements ApiMode<T> {
 
   private SpecTreeDefinition tree;
   private T typedContext;
 
   public static <T extends TestContext> ApiMode<T> create(Class<T> expectedContextType) {
-    InitialMode initialMode = new InitialMode();
+    InstantiationMode initialMode = new InstantiationMode();
     initialMode.tree = SpecTreeDefinition.create();
     initialMode.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, initialMode.tree.getSharedContext());
     return initialMode;
@@ -114,10 +116,6 @@ public class InitialMode<T extends TestContext> implements ApiMode<T> {
   @Override
   public void executeAsGivenWhenThenTest() {
     throw new SpecException("A test can't be run outside the method define");
-  }
-
-  public SpecStack createStack() {
-    return this.getTree().createStack();
   }
 
   public DefinitionMode<T> changeToDefinition() {
