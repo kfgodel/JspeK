@@ -1,6 +1,8 @@
 package ar.com.dgarcia.javaspec.impl.model;
 
 
+import java.util.Optional;
+
 /**
  * This type represents a single test to be run in a spec
  * Created by kfgodel on 12/07/14.
@@ -24,7 +26,7 @@ public interface SpecTest extends SpecElement {
      *     Code may be null if this is a pending test
      * @return The code to run for this test
      */
-    Runnable getTestCode();
+    Optional<Runnable> getTestCode();
 
     /**
      * Marks this test spec as pending.<br>

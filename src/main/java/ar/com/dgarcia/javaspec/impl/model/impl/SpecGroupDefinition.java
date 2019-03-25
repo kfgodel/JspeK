@@ -69,7 +69,7 @@ public class SpecGroupDefinition extends SpecElementSupport implements SpecGroup
 
   @Override
   public SpecTest createTest(String testName, Optional<Runnable> testCode, Variable<TestContext> sharedContext) {
-    SpecTestDefinition createdTestSpec = SpecTestDefinition.create(testName, testCode, sharedContext);
+    SpecTestDefinition createdTestSpec = SpecTestDefinition.create(testName, testCode, sharedContext, this);
     this.addContainedElement(createdTestSpec);
     return createdTestSpec;
   }

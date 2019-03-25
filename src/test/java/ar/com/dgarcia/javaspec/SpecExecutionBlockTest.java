@@ -11,11 +11,14 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * This type verifies the behavior of spec execution block
@@ -39,7 +42,7 @@ public class SpecExecutionBlockTest {
 
     @Test
     public void itShouldExecuteTestCode(){
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mockedTestCode, noAfters, mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, Optional.of(mockedTestCode), noAfters, mockedParentContext, sharedContext);
 
         specBlock.run();
 
@@ -52,7 +55,7 @@ public class SpecExecutionBlockTest {
         Runnable beforeBlock = ()-> executionOrder.add("before");
         Runnable testBlock =()->executionOrder.add("test");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(beforeBlock), testBlock, noAfters, mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(beforeBlock), Optional.of(testBlock), noAfters, mockedParentContext, sharedContext);
         specBlock.run();
 
         assertThat(executionOrder).isEqualTo(Lists.newArrayList("before", "test"));
@@ -64,7 +67,7 @@ public class SpecExecutionBlockTest {
         Runnable testBlock =()->executionOrder.add("test");
         Runnable afterBlock = ()-> executionOrder.add("after");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testBlock, Lists.newArrayList(afterBlock), mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, Optional.of(testBlock), Lists.newArrayList(afterBlock), mockedParentContext, sharedContext);
         specBlock.run();
 
         assertThat(executionOrder).isEqualTo(Lists.newArrayList("test", "after"));
@@ -76,7 +79,7 @@ public class SpecExecutionBlockTest {
         Runnable firstBlock = ()-> executionOrder.add("first");
         Runnable secondBlock =()->executionOrder.add("second");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(firstBlock, secondBlock), mock(Runnable.class), noAfters, mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(firstBlock, secondBlock), Optional.of(mock(Runnable.class)), noAfters, mockedParentContext, sharedContext);
         specBlock.run();
 
         assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
@@ -88,7 +91,7 @@ public class SpecExecutionBlockTest {
         Runnable firstBlock = ()-> executionOrder.add("first");
         Runnable secondBlock =()->executionOrder.add("second");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mock(Runnable.class), Lists.newArrayList(firstBlock, secondBlock), mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, Optional.of(mock(Runnable.class)), Lists.newArrayList(firstBlock, secondBlock), mockedParentContext, sharedContext);
         specBlock.run();
 
         assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
@@ -98,7 +101,7 @@ public class SpecExecutionBlockTest {
     @Test
     public void itShouldCreateItsOwnTestContext(){
         Runnable testCode = ()->  sharedContext.get().let("foo", ()-> 1);
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testCode, noAfters, mockedParentContext, sharedContext);
+        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, Optional.of(testCode), noAfters, mockedParentContext, sharedContext);
 
         specBlock.run();
 

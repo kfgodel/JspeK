@@ -5,7 +5,21 @@ import ar.com.dgarcia.javaspec.impl.model.SpecTest;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
-import ar.com.dgarcia.javaspec.testSpecs.*;
+import ar.com.dgarcia.javaspec.testSpecs.AfterUsedInOneTestSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.BeforeAndAfterInheritedWhenNestedTest;
+import ar.com.dgarcia.javaspec.testSpecs.BeforeUsedInOneTestSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.DisabledSuiteSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.EmptySpec;
+import ar.com.dgarcia.javaspec.testSpecs.ItThrowsSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.OneEmptyDescribeSpec;
+import ar.com.dgarcia.javaspec.testSpecs.OneRootTestSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.OneTestInsideDescribeSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.OneTestInsideDisabledSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.TwoBeforeAndAfterTestSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.TwoDescribeSpecsTest;
+import ar.com.dgarcia.javaspec.testSpecs.TwoPendingTestSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.VariableDefinedInParentContextSpecTest;
+import ar.com.dgarcia.javaspec.testSpecs.VariableInSuitSpecTest;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,7 +102,7 @@ public class SpecParserTest {
         SpecTest secondTest = declaredTest.get(1);
         assertThat(secondTest.getName()).isEqualTo("non lambda pending test");
         assertThat(secondTest.isMarkedAsPending()).isTrue();
-        assertThat(secondTest.getTestCode()).isNull();
+        assertThat(secondTest.getTestCode()).isEmpty();
     }
 
     @Test

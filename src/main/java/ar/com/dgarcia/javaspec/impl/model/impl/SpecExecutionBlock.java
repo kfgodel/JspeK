@@ -1,11 +1,13 @@
 package ar.com.dgarcia.javaspec.impl.model.impl;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
 import ar.com.dgarcia.javaspec.impl.context.MappedContext;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This type represents a test to be run as a code block.<br>
@@ -17,7 +19,7 @@ public class SpecExecutionBlock implements Runnable {
   private Variable<TestContext> sharedContext;
   private TestContextDefinition parentContext;
   private List<Runnable> beforeBlocks;
-  private Runnable testCode;
+  private Optional<Runnable> testCode;
   private List<Runnable> afterBlocks;
 
   @Override
@@ -46,7 +48,9 @@ public class SpecExecutionBlock implements Runnable {
   private void executeTestCode() {
     executeBlocks(beforeBlocks);
     try {
-      testCode.run();
+      testCode
+        .orElseThrow(() -> new SpecException("An ignored test without test code cannot be run"))
+        .run();
     } finally {
       executeBlocks(afterBlocks);
     }
@@ -58,7 +62,7 @@ public class SpecExecutionBlock implements Runnable {
     }
   }
 
-  public static SpecExecutionBlock create(List<Runnable> befores, Runnable testCode, List<Runnable> afters, TestContextDefinition parentContext, Variable<TestContext> sharedContext) {
+  public static SpecExecutionBlock create(List<Runnable> befores, Optional<Runnable> testCode, List<Runnable> afters, TestContextDefinition parentContext, Variable<TestContext> sharedContext) {
     SpecExecutionBlock executionBlock = new SpecExecutionBlock();
     executionBlock.testCode = testCode;
     executionBlock.afterBlocks = afters;
