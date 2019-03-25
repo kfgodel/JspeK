@@ -147,26 +147,6 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   }
 
   @Override
-  public void when(Runnable exerciseCode) {
-    currentMode.when(exerciseCode);
-  }
-
-  @Override
-  public void then(Runnable assertionCode) {
-    currentMode.then(assertionCode);
-  }
-
-  @Override
-  public void itThen(String testName, Runnable assertionCode) {
-    currentMode.itThen(testName, assertionCode);
-  }
-
-  @Override
-  public void executeAsGivenWhenThenTest() {
-    currentMode.executeAsGivenWhenThenTest();
-  }
-
-  @Override
   public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
     currentMode.itThrows(expectedExceptionType, testNameSuffix, aTestCode, exceptionAssertions);
   }
