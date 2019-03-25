@@ -1,8 +1,8 @@
 package ar.com.dgarcia.javaspec;
 
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.TestContextDefinition;
 import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import ar.com.dgarcia.javaspec.testSpecs.AfterUsedInOneTestSpecTest;
@@ -43,13 +43,13 @@ public class SpecParserTest {
 
     @Test
     public void itShouldParseAnEmptyTreeIfNoSpecDefined(){
-        SpecTree readSpec = parser.parse(EmptySpec.class);
+        SpecDefinition readSpec = parser.parse(EmptySpec.class);
         assertThat(readSpec.hasNoTests()).isTrue();
     }
 
     @Test
     public void shouldContainOneEmptyGroup(){
-        SpecTree readSpec = parser.parse(OneEmptyDescribeSpec.class);
+        SpecDefinition readSpec = parser.parse(OneEmptyDescribeSpec.class);
         assertThat(readSpec.hasNoTests()).isTrue();
 
         SpecGroup rootGroup = readSpec.getRootGroup();
@@ -63,7 +63,7 @@ public class SpecParserTest {
 
     @Test
     public void theTreeShouldContainOneTestIfOneDefined(){
-        SpecTree readSpec = parser.parse(OneRootTestSpecTest.class);
+        SpecDefinition readSpec = parser.parse(OneRootTestSpecTest.class);
         assertThat(readSpec.hasNoTests()).isFalse();
 
         SpecGroup rootGroup = readSpec.getRootGroup();
@@ -77,7 +77,7 @@ public class SpecParserTest {
 
     @Test
     public void shouldContainOneDescribeWithOneTest(){
-        SpecTree readSpec = parser.parse(OneTestInsideDescribeSpecTest.class);
+        SpecDefinition readSpec = parser.parse(OneTestInsideDescribeSpecTest.class);
 
         SpecGroup rootGroup = readSpec.getRootGroup();
         SpecGroup onlyGroup = rootGroup.getSubGroups().get(0);
@@ -89,7 +89,7 @@ public class SpecParserTest {
 
     @Test
     public void shouldHaveTwoPendingTests(){
-        SpecTree readSpec = parser.parse(TwoPendingTestSpecTest.class);
+        SpecDefinition readSpec = parser.parse(TwoPendingTestSpecTest.class);
 
         List<SpecTest> declaredTest = readSpec.getRootGroup().getDeclaredTests();
         assertThat(declaredTest).hasSize(2);
@@ -107,7 +107,7 @@ public class SpecParserTest {
 
     @Test
     public void shouldHaveTwoDescribeContexts(){
-        SpecTree readSpec = parser.parse(TwoDescribeSpecsTest.class);
+        SpecDefinition readSpec = parser.parse(TwoDescribeSpecsTest.class);
 
         List<SpecGroup> declaredGroups = readSpec.getRootGroup().getSubGroups();
 
@@ -122,7 +122,7 @@ public class SpecParserTest {
 
     @Test
     public void shouldHaveADisabledSuite(){
-        SpecTree readSpec = parser.parse(DisabledSuiteSpecTest.class);
+        SpecDefinition readSpec = parser.parse(DisabledSuiteSpecTest.class);
 
         SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
         assertThat(onlyGroup.getName()).isEqualTo("a disabled spec");
@@ -131,7 +131,7 @@ public class SpecParserTest {
 
     @Test
     public void testShouldHaveABeforeCode(){
-        SpecTree readSpec = parser.parse(BeforeUsedInOneTestSpecTest.class);
+        SpecDefinition readSpec = parser.parse(BeforeUsedInOneTestSpecTest.class);
 
         SpecTest onlyTest = readSpec.getRootGroup().getDeclaredTests().get(0);
         assertThat(onlyTest.getName()).isEqualTo("test with before");
@@ -142,7 +142,7 @@ public class SpecParserTest {
 
     @Test
     public void testShouldHaveAnAfterCode(){
-        SpecTree readSpec = parser.parse(AfterUsedInOneTestSpecTest.class);
+        SpecDefinition readSpec = parser.parse(AfterUsedInOneTestSpecTest.class);
 
         SpecTest onlyTest = readSpec.getRootGroup().getDeclaredTests().get(0);
         assertThat(onlyTest.getName()).isEqualTo("test with after");
@@ -153,7 +153,7 @@ public class SpecParserTest {
 
     @Test
     public void testShouldHave2BeforeAnd2AfterCodes(){
-        SpecTree readSpec = parser.parse(TwoBeforeAndAfterTestSpecTest.class);
+        SpecDefinition readSpec = parser.parse(TwoBeforeAndAfterTestSpecTest.class);
 
         SpecTest onlyTest = readSpec.getRootGroup().getDeclaredTests().get(0);
         assertThat(onlyTest.getName()).isEqualTo("test with 2 before and 2 after");
@@ -167,7 +167,7 @@ public class SpecParserTest {
 
     @Test
     public void shouldHave1RootTestWith1BeforeAfterAnd1NestedTestWith2BeforeAnd2AfterCodes(){
-        SpecTree readSpec = parser.parse(BeforeAndAfterInheritedWhenNestedTest.class);
+        SpecDefinition readSpec = parser.parse(BeforeAndAfterInheritedWhenNestedTest.class);
 
         SpecTest onlyRootTest = readSpec.getRootGroup().getDeclaredTests().get(0);
         assertThat(onlyRootTest.getName()).isEqualTo("test with 1 before/after set");
@@ -193,7 +193,7 @@ public class SpecParserTest {
 
     @Test
     public void testInsideDisabledSpecShouldBePending(){
-        SpecTree readSpec = parser.parse(OneTestInsideDisabledSpecTest.class);
+        SpecDefinition readSpec = parser.parse(OneTestInsideDisabledSpecTest.class);
 
         SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
         SpecTest disabledTest = onlyGroup.getDeclaredTests().get(0);
@@ -203,7 +203,7 @@ public class SpecParserTest {
 
     @Test
     public void variableDefinedInGroupShouldHaveDefinition(){
-        SpecTree readSpec = parser.parse(VariableInSuitSpecTest.class);
+        SpecDefinition readSpec = parser.parse(VariableInSuitSpecTest.class);
 
         SpecGroup onlyGroup = readSpec.getRootGroup().getSubGroups().get(0);
 
@@ -213,7 +213,7 @@ public class SpecParserTest {
 
     @Test
     public void rootGroupShouldHaveVariableDefinitionAndChildGroupShouldUseParents(){
-        SpecTree readSpec = parser.parse(VariableDefinedInParentContextSpecTest.class);
+        SpecDefinition readSpec = parser.parse(VariableDefinedInParentContextSpecTest.class);
 
         SpecGroup rootGroup = readSpec.getRootGroup();
         Supplier<Object> rootDefinition = rootGroup.getTestContext().getDefinitionFor("foo").get();
@@ -226,7 +226,7 @@ public class SpecParserTest {
 
     @Test
     public void specNameShouldIncludeExceptionAndConsequenceWhenItThrowsIsUsed(){
-        SpecTree readSpec = parser.parse(ItThrowsSpecTest.class);
+        SpecDefinition readSpec = parser.parse(ItThrowsSpecTest.class);
         assertThat(readSpec.hasNoTests()).isFalse();
 
         SpecGroup rootGroup = readSpec.getRootGroup();

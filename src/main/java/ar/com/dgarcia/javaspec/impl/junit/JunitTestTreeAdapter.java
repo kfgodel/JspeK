@@ -1,10 +1,10 @@
 package ar.com.dgarcia.javaspec.impl.junit;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecElement;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import org.junit.runner.Description;
 
 import java.lang.annotation.Annotation;
@@ -18,12 +18,12 @@ public class JunitTestTreeAdapter {
 
     public static final Annotation[] NO_ANNOTATIONS = new Annotation[0];
 
-    private SpecTree specTree;
+    private SpecDefinition specDefinition;
     private JunitTestTree junitTree;
 
-    public static JunitTestTreeAdapter create(SpecTree specTree, Class<? extends JavaSpec> clase) {
+    public static JunitTestTreeAdapter create(SpecDefinition specDefinition, Class<? extends JavaSpec> clase) {
         JunitTestTreeAdapter adapter = new JunitTestTreeAdapter();
-        adapter.specTree = specTree;
+        adapter.specDefinition = specDefinition;
         adapter.adaptToJunit(clase);
         return adapter;
     }
@@ -35,7 +35,7 @@ public class JunitTestTreeAdapter {
     private void adaptToJunit(Class<? extends JavaSpec> clase) {
     	Description rootDescription = Description.createSuiteDescription(clase);
         junitTree = JunitTestTree.create(rootDescription);
-        SpecGroup rootGroup = specTree.getRootGroup();
+        SpecGroup rootGroup = specDefinition.getRootGroup();
         recursiveAdaptToJunit(rootGroup, rootDescription);
     }
 
@@ -73,7 +73,7 @@ public class JunitTestTreeAdapter {
         return junitTree;
     }
 
-    public SpecTree getSpecTree() {
-        return specTree;
+    public SpecDefinition getSpecDefinition() {
+        return specDefinition;
     }
 }

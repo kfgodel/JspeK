@@ -4,7 +4,7 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 
 import java.util.function.Consumer;
 
@@ -18,17 +18,17 @@ import java.util.function.Consumer;
 public class RunningMode<T extends TestContext> implements ApiMode<T> {
 
   private T currentContext;
-  private SpecTree tree;
+  private SpecDefinition tree;
 
   /**
    * Creates a new running mode that will delegate safe calls to the previous mode
    * @param executionContext
-   * @param specTree
+   * @param specDefinition
    */
-  public static<T extends TestContext> RunningMode<T> create(T executionContext, SpecTree specTree) {
+  public static <T extends TestContext> RunningMode<T> create(T executionContext, SpecDefinition specDefinition) {
     RunningMode<T> api = new RunningMode<>();
     api.currentContext = executionContext;
-    api.tree = specTree;
+    api.tree = specDefinition;
     return api;
   }
 
@@ -103,7 +103,7 @@ public class RunningMode<T extends TestContext> implements ApiMode<T> {
   }
 
   @Override
-  public SpecTree getTree() {
+  public SpecDefinition getTree() {
     return tree;
   }
 }

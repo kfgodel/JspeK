@@ -134,7 +134,6 @@ public class SpecGroupDefinition extends SpecElementSupport implements SpecGroup
 
     private void addContainedElement(SpecElementSupport element) {
         this.elements.add(element);
-        element.setContainerGroup(this);
     }
 
     @Override

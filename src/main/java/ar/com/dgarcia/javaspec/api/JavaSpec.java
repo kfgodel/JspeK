@@ -4,7 +4,7 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.modes.ApiMode;
 import ar.com.dgarcia.javaspec.impl.modes.InstantiationMode;
 
@@ -31,7 +31,7 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    * Uses the user definition of this spec class (contained in the define() method) to create
    * the nodes in the given tree.<br>
    */
-  public SpecTree populate() {
+  public SpecDefinition populate() {
     this.currentMode = this.currentMode.changeToDefinition();
     this.define();
     // Switch to execution mode to prepare for test to be run

@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.impl.parser;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 
 /**
  * This type defines the parser that understands the definition of a JavaSpec subclass, and creates a model of the specs
@@ -15,7 +15,7 @@ public class SpecParser {
         return parser;
     }
 
-    public SpecTree parse(Class<? extends JavaSpec> specClass) {
+  public SpecDefinition parse(Class<? extends JavaSpec> specClass) {
         JavaSpec createdSpec = instantiate(specClass);
         return createdSpec.populate();
     }

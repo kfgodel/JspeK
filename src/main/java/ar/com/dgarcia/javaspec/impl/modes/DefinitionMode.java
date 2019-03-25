@@ -5,9 +5,9 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTest;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.util.Optional;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   private SpecStack stack;
-  private SpecTree specTree;
+  private SpecDefinition specDefinition;
   private T typedContext;
   private RunningMode<T> runningMode;
 
@@ -38,18 +38,18 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   @Override
   public void it(String testName, Runnable aTestCode) {
-    stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specTree.getSharedContext());
+    stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specDefinition.getSharedContext());
   }
 
   @Override
   public void xit(String testName) {
-    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.empty(), specTree.getSharedContext());
+    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.empty(), specDefinition.getSharedContext());
     createdSpec.markAsPending();
   }
 
   @Override
   public void xit(String testName, Runnable aTestCode) {
-    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specTree.getSharedContext());
+    SpecTest createdSpec = stack.getCurrentHead().createTest(testName, Optional.of(aTestCode), specDefinition.getSharedContext());
     createdSpec.markAsPending();
   }
 
@@ -145,7 +145,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
    */
   public static <T extends TestContext> DefinitionMode<T> create(InstantiationMode<T> initialMode) {
     DefinitionMode<T> describer = new DefinitionMode<>();
-    describer.specTree = initialMode.getTree();
+    describer.specDefinition = initialMode.getTree();
     describer.typedContext = initialMode.context();
     describer.initialize();
     return describer;
@@ -156,8 +156,8 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
    * from the method calls
    */
   private void initialize() {
-    this.runningMode = RunningMode.create(this.context(), this.specTree);
-    this.stack = this.specTree.createStack();
+    this.runningMode = RunningMode.create(this.context(), this.specDefinition);
+    this.stack = this.specDefinition.createStack();
   }
 
   @Override
@@ -174,7 +174,7 @@ public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
   }
 
   @Override
-  public SpecTree getTree() {
-    return specTree;
+  public SpecDefinition getTree() {
+    return specDefinition;
   }
 }

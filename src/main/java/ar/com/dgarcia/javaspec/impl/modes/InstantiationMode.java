@@ -5,7 +5,7 @@ import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.SpecTreeDefinition;
 
 import java.util.function.Consumer;
@@ -29,7 +29,7 @@ public class InstantiationMode<T extends TestContext> implements ApiMode<T> {
   }
 
   @Override
-  public SpecTree getTree() {
+  public SpecDefinition getTree() {
     return tree;
   }
 

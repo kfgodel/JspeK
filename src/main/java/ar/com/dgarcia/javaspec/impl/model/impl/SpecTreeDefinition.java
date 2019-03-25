@@ -2,15 +2,15 @@ package ar.com.dgarcia.javaspec.impl.model.impl;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 /**
  * This type represents the tree defined by a java spec
  * Created by kfgodel on 12/07/14.
  */
-public class SpecTreeDefinition implements SpecTree {
+public class SpecTreeDefinition implements SpecDefinition {
 
   private SpecGroup rootGroup;
   private Variable<TestContext> sharedContext;

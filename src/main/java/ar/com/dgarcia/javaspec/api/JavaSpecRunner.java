@@ -1,17 +1,16 @@
 package ar.com.dgarcia.javaspec.api;
 
-import java.util.List;
-
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
+import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
+import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestCode;
-import ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
-import ar.com.dgarcia.javaspec.impl.parser.SpecParser;
+import java.util.List;
 
 /**
  * This type implements the Java Spec runner needed to extend Junit running mechanism
@@ -41,11 +40,11 @@ public class JavaSpecRunner extends Runner {
      * Creates the test tree to be used to describe and execute the tests in junit
      */
     private void createJunitTestTreeFromSpecClass() throws InitializationError {
-        SpecTree specTree = SpecParser.create().parse(clase);
-        if(specTree.hasNoTests()){
+      SpecDefinition specDefinition = SpecParser.create().parse(clase);
+      if (specDefinition.hasNoTests()) {
             throw new InitializationError("The spec class["+clase.getSimpleName()+"] has no tests. You must at least use one it() or one xit() inside your definition method");
         }
-        junitAdapter = JunitTestTreeAdapter.create(specTree, clase);
+      junitAdapter = JunitTestTreeAdapter.create(specDefinition, clase);
     }
 
 

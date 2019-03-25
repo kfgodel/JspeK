@@ -8,7 +8,7 @@ import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
  * This type represents the specification of tests defined in one subclass of JavaSpec
  * Created by kfgodel on 12/07/14.
  */
-public interface SpecTree {
+public interface SpecDefinition {
     /**
      * Indicates if this tree contains any spec test.<br>
      * @return true if there's no test to be run on this tree

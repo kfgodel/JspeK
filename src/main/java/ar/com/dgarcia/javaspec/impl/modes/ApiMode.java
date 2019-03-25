@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.impl.modes;
 
 import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
-import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.SpecDefinition;
 
 /**
  * This interface defines an internal protocol for handling the diferent api modes
@@ -25,5 +25,5 @@ public interface ApiMode<T extends TestContext> extends JavaSpecApi<T> {
   /**
    * @return The tree on its current mode state
    */
-  SpecTree getTree();
+  SpecDefinition getTree();
 }
