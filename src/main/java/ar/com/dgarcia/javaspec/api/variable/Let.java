@@ -4,6 +4,10 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 
 import java.util.function.Supplier;
 
+/**
+ * This class allows variable definitions in tests suites that are lazily accessed and can be redefined in subcontexts
+ * Created by nrainhart on 15/03/19.
+ */
 public class Let<T> {
 
   private String variableName;

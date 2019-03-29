@@ -9,6 +9,10 @@ import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * This type tests usage of local lets
+ * Created by nrainhart on 15/03/19.
+ */
 @RunWith(JavaSpecRunner.class)
 public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
