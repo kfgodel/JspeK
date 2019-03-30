@@ -3,6 +3,7 @@ package ar.com.dgarcia.javaspec.api;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
+import ar.com.dgarcia.javaspec.api.variable.Let;
 
 import java.util.function.Consumer;
 
@@ -101,6 +102,15 @@ public interface JavaSpecApi<T extends TestContext> {
    * @return The current test context
    */
   T context();
+
+  /**
+   * Declares a reified local let, a named variable which may be defined in the current context or be redefined by a subcontext
+   *
+   * @param variableName The name to identify the variable
+   * @param <X> The type of that variable
+   * @return A let object that allows to define the value of the variable and obtain it
+   */
+  <X> Let<X> localLet(String variableName);
 
   /**
    * Allows access to test context. This is an alias to {@link #context()} to improve readability when needed or ambiguous

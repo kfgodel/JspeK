@@ -70,7 +70,7 @@ public class LetOperatorTest extends JavaSpec<TestContext>{
 
             describe("one definition can use others", ()->{
 
-                context().let("sum", ()-> new Integer(2 + context().<Integer>get("value")) );
+                context().let("sum", ()-> 2 + context().<Integer>get("value"));
 
                 it("allowing to change parts of the test context", ()->{
                     context().let("value", ()-> 2);
