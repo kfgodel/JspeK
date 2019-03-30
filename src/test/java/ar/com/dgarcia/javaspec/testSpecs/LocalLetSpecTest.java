@@ -1,4 +1,4 @@
-package ar.com.dgarcia.javaspec;
+package ar.com.dgarcia.javaspec.testSpecs;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
@@ -25,6 +25,11 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
       describe("can be declared in suite contexts", () -> {
         Let<Integer> foo = localLet("foo");
+        Let<Integer> predefinedValue = localLet("predefinedValue").set(() -> 3);
+
+        it("can have a value defined with its creation", () -> {
+          assertThat(predefinedValue.get()).isEqualTo(3);
+        });
 
         describe("and its value can be set in contexts", () -> {
           foo.set(() -> 1);
