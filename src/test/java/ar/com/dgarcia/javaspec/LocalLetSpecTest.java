@@ -18,22 +18,38 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
   @Override
   public void define() {
-    describe("when declaring a local let", () -> {
+    describe("local lets", () -> {
 
-      describe("in a describe block", () -> {
+      describe("can be declared in suite contexts", () -> {
         Let<Integer> foo = localLet("foo");
 
-        describe("and setting its value", () -> {
+        describe("and its value can be set in contexts", () -> {
           foo.set(() -> 1);
-          it("can obtain that value",()->{
+
+          it("can obtain that value", () -> {
             assertThat(foo.get()).isEqualTo(1);
           });
+
+          describe("when redefining its value in a sub-context", () -> {
+            foo.set(() -> 2);
+
+            it("changes the original value", () -> {
+              assertThat(foo.get()).isEqualTo(2);
+            });
+          });
+
+        });
+
+        it("and its value can also be set inside a test", ()->{
+          foo.set(() -> 3);
+
+          assertThat(foo.get()).isEqualTo(3);
         });
       });
 
-      itThrows(SpecException.class, "when declared inside a running test",
-        () -> { Let<Integer> foo = localLet("foo"); },
-        e -> assertThat(e).hasMessage("A running test cannot declare a let object")
+      itThrows(SpecException.class, "cannot be declared inside a running test",
+          () -> { Let<Integer> foo = localLet("foo"); },
+          e -> assertThat(e).hasMessage("A running test cannot declare a let object")
       );
 
     });
