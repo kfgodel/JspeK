@@ -2,6 +2,7 @@ package ar.com.dgarcia.javaspec.impl.model;
 
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.variable.Variable;
+import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 /**
  * This type represents the specification of tests defined in one subclass of JavaSpec
@@ -25,4 +26,9 @@ public interface SpecTree {
      * @return The variable used to define active context in each test
      */
     Variable<TestContext> getSharedContext();
+
+    /**
+     * Creates a new stack to build this tree
+     */
+    SpecStack createStack();
 }

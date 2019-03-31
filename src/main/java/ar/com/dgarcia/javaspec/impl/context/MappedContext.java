@@ -163,7 +163,10 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + ": " + variableDefinitions;
+    String definitions = Optional.ofNullable(variableDefinitions)
+      .map(Object::toString)
+      .orElse("empty");
+    return getClass().getSimpleName() + ": " + definitions;
   }
 
   @Override

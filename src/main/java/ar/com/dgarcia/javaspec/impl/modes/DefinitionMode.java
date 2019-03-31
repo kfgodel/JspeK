@@ -1,14 +1,10 @@
 package ar.com.dgarcia.javaspec.impl.modes;
 
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
-import ar.com.dgarcia.javaspec.api.variable.Variable;
-import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
-import ar.com.dgarcia.javaspec.impl.model.SpecGroup;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.model.impl.GroupSpecDefinition;
 import ar.com.dgarcia.javaspec.impl.model.impl.TestSpecDefinition;
@@ -23,7 +19,7 @@ import java.util.function.Consumer;
  *
  * Created by kfgodel on 09/03/16.
  */
-public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
+public class DefinitionMode<T extends TestContext> implements ApiMode<T> {
 
   private SpecStack stack;
   private SpecTree specTree;
@@ -173,28 +169,30 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
   /**
    * Creates a new spec describer  that will populate the branches of the given tree when its methods
    * are called
-   * @param specTree The tree to collect the spec meta description
+   * @param initialMode The previous mode to start registering definitions
    * @param <T> The type of test context
    * @return The created describer
    */
-  public static<T extends TestContext> DefinitionMode<T> create(SpecTree specTree, Class<T> expectedContextType) {
+  public static<T extends TestContext> DefinitionMode<T> create(InitialMode<T> initialMode) {
     DefinitionMode<T> describer = new DefinitionMode<>();
-    describer.specTree = specTree;
-    describer.initialize(expectedContextType);
+    describer.specTree = initialMode.getTree();
+    describer.typedContext = initialMode.context();
+    describer.initialize();
     return describer;
   }
 
   /**
    * Initializes this instance with the stack and context to collect spec meta description
    * from the method calls
-   * @param expectedContextType
    */
-  private void initialize(Class<T> expectedContextType) {
-    SpecGroup rootGroup = this.specTree.getRootGroup();
-    Variable<TestContext> sharedContext = this.specTree.getSharedContext();
-    this.stack = SpecStack.create(rootGroup, sharedContext);
-    this.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, sharedContext);
-    this.runningMode = RunningMode.create(this.context());
+  private void initialize() {
+    this.runningMode = RunningMode.create(this.context(), this.specTree);
+    this.stack = this.specTree.createStack();
+  }
+
+  @Override
+  public ApiMode<T> changeToDefinition() {
+    throw new SpecException("A definition mode can't change into definition again");
   }
 
   /**
@@ -203,5 +201,10 @@ public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
    */
   public RunningMode<T> changeToRunning() {
     return runningMode;
+  }
+
+  @Override
+  public SpecTree getTree() {
+    return specTree;
   }
 }

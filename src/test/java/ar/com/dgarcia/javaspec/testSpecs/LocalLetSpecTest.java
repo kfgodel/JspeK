@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @RunWith(JavaSpecRunner.class)
 public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
+  Let<Integer> global = localLet("global").set(()-> 15);
+
   @Override
   public void define() {
     describe("local lets", () -> {
@@ -29,6 +31,10 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
         it("can have a value defined with its creation", () -> {
           assertThat(predefinedValue.get()).isEqualTo(3);
+        });
+
+        it("can access an instance defined let",()->{
+          assertThat(global.get()).isEqualTo(15);
         });
 
         describe("and its value can be set in contexts", () -> {

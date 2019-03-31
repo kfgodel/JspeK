@@ -1,20 +1,34 @@
 package ar.com.dgarcia.javaspec.impl.modes;
 
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
+import ar.com.dgarcia.javaspec.impl.context.typed.TypedContextFactory;
+import ar.com.dgarcia.javaspec.impl.model.SpecTree;
+import ar.com.dgarcia.javaspec.impl.model.impl.SpecTreeDefinition;
+import ar.com.dgarcia.javaspec.impl.parser.SpecStack;
 
 import java.util.function.Consumer;
 
 /**
  * Date: 30/03/19 - 16:36
  */
-public class InitialMode implements JavaSpecApi<TestContext> {
+public class InitialMode<T extends TestContext> implements ApiMode<T> {
 
-  public static <T extends TestContext> JavaSpecApi<T> create() {
-    return (JavaSpecApi<T>) new InitialMode();
+  private SpecTreeDefinition tree;
+  private T typedContext;
+
+  public static <T extends TestContext> ApiMode<T> create(Class<T> expectedContextType) {
+    InitialMode initialMode = new InitialMode();
+    initialMode.tree = SpecTreeDefinition.create();
+    initialMode.typedContext = TypedContextFactory.createInstanceOf(expectedContextType, initialMode.tree.getSharedContext());
+    return initialMode;
+  }
+
+  @Override
+  public SpecTree getTree() {
+    return tree;
   }
 
   @Override
@@ -68,13 +82,13 @@ public class InitialMode implements JavaSpecApi<TestContext> {
   }
 
   @Override
-  public TestContext context() {
-    throw new SpecException("The context is not available outside the method define");
+  public T context() {
+    return typedContext;
   }
 
   @Override
   public <X> Let<X> localLet(String variableName) {
-    throw new SpecException("A local let can't be defined outside the method define");
+    return Let.create(variableName, this::context);
   }
 
   @Override
@@ -100,5 +114,18 @@ public class InitialMode implements JavaSpecApi<TestContext> {
   @Override
   public void executeAsGivenWhenThenTest() {
     throw new SpecException("A test can't be run outside the method define");
+  }
+
+  public SpecStack createStack() {
+    return this.getTree().createStack();
+  }
+
+  public DefinitionMode<T> changeToDefinition() {
+    return DefinitionMode.create(this);
+  }
+
+  @Override
+  public ApiMode<T> changeToRunning() {
+    throw new SpecException("An initial mode can change to running without a define mode");
   }
 }
