@@ -45,7 +45,7 @@ public class Variable<T> {
             this.value = (T)Double.valueOf(result);
         }else if(this.value instanceof String){
             String currentValue = (String) this.value;
-            String result = currentValue + ((CharSequence) operand);
+            String result = currentValue + operand;
             this.value = (T)result;
         }else{
             throw new UnsupportedOperationException("Sum is not supported for value ["+this.value+"] and operand ["+operand+"]");

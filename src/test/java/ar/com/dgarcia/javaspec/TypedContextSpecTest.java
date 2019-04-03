@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class TypedContextSpecTest extends JavaSpec<TypedContextSpecTest.TestingContext> {
 
-    public static interface TestingContext extends TestContext {
+    public interface TestingContext extends TestContext {
 
         //Foo declaration
         void letFoo(Supplier<Integer> definition);

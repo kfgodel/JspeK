@@ -23,7 +23,7 @@ public class TypedContextValidatorTest {
         TypedContextValidator.create(TestContext.class).validate();
     }
 
-    public static interface NoMethodDefinitionInterface extends TestContext {
+    public interface NoMethodDefinitionInterface extends TestContext {
 
     }
 
@@ -32,7 +32,7 @@ public class TypedContextValidatorTest {
         TypedContextValidator.create(NoMethodDefinitionInterface.class).validate();
     }
 
-    public static interface MissingGetDeclarationInterface extends TestContext {
+    public interface MissingGetDeclarationInterface extends TestContext {
         void letFoo(Supplier<Integer> definition);
     }
 
@@ -47,7 +47,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface MissingLetDeclarationInterface extends TestContext {
+    public interface MissingLetDeclarationInterface extends TestContext {
         Integer getFoo();
     }
     @Test
@@ -60,7 +60,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface PrefixedLetAndUnPrefixedGetInterface extends TestContext {
+    public interface PrefixedLetAndUnPrefixedGetInterface extends TestContext {
         void letFoo(Supplier<Integer> definition);
         Integer foo();
     }
@@ -70,7 +70,7 @@ public class TypedContextValidatorTest {
         TypedContextValidator.create(PrefixedLetAndUnPrefixedGetInterface.class).validate();
     }
 
-    public static interface UnPrefixedLetAndPrefixedGetInterface extends TestContext {
+    public interface UnPrefixedLetAndPrefixedGetInterface extends TestContext {
         void foo(Supplier<Integer> definition);
         Integer getFoo();
     }
@@ -79,7 +79,7 @@ public class TypedContextValidatorTest {
         TypedContextValidator.create(PrefixedLetAndUnPrefixedGetInterface.class).validate();
     }
 
-    public static interface MoreThanOneArgumentInterface extends TestContext {
+    public interface MoreThanOneArgumentInterface extends TestContext {
         void foo(Supplier<Integer> definition, String unnecessary);
         Integer foo();
     }
@@ -94,7 +94,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface ArgumentDifferentThanSupplierInterface extends TestContext {
+    public interface ArgumentDifferentThanSupplierInterface extends TestContext {
         void foo(Function<Integer, String> definition);
         Integer foo();
     }
@@ -109,7 +109,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface MissingArgumentForLetInterface extends TestContext {
+    public interface MissingArgumentForLetInterface extends TestContext {
         void letFoo();
         Integer foo();
     }
@@ -124,7 +124,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface ExtraArgumentForGetInterface extends TestContext {
+    public interface ExtraArgumentForGetInterface extends TestContext {
         void letFoo(Supplier<Integer> definition);
         Integer foo(String extra);
     }
@@ -139,7 +139,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface DuplicateLetInterface extends TestContext {
+    public interface DuplicateLetInterface extends TestContext {
         void letFoo(Supplier<Integer> definition);
         void foo(Supplier<Integer> definition);
         Integer foo();
@@ -155,7 +155,7 @@ public class TypedContextValidatorTest {
         }
     }
 
-    public static interface DuplicateGetInterface extends TestContext {
+    public interface DuplicateGetInterface extends TestContext {
         void letFoo(Supplier<Integer> definition);
         Integer foo();
         Integer getFoo();
@@ -172,7 +172,7 @@ public class TypedContextValidatorTest {
     }
 
 
-    public static interface MismatchBetweenGetAndLetTypeDefinitionInterface extends TestContext {
+    public interface MismatchBetweenGetAndLetTypeDefinitionInterface extends TestContext {
         void foo(Supplier<Integer> definition);
         String foo();
     }
@@ -188,7 +188,7 @@ public class TypedContextValidatorTest {
     }
 
 
-    public static interface DifferentGetAndLetTypesIfAssignableInterface extends TestContext {
+    public interface DifferentGetAndLetTypesIfAssignableInterface extends TestContext {
         void foo(Supplier<Integer> definition);
         Number foo();
     }
@@ -199,7 +199,7 @@ public class TypedContextValidatorTest {
     }
 
 
-    public static interface TypeBetweenGetAndLetIfWildcardsInterface extends TestContext {
+    public interface TypeBetweenGetAndLetIfWildcardsInterface extends TestContext {
         void foo(Supplier<? super Integer> definition);
         <T extends Number> T foo();
     }
@@ -209,7 +209,7 @@ public class TypedContextValidatorTest {
         TypedContextValidator.create(DifferentGetAndLetTypesIfAssignableInterface.class).validate();
     }
 
-    public static interface PartialDefinitionInParentTypeInterface extends MissingGetDeclarationInterface {
+    public interface PartialDefinitionInParentTypeInterface extends MissingGetDeclarationInterface {
         Integer foo();
     }
 

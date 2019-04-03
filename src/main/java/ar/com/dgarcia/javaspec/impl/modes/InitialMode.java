@@ -77,28 +77,4 @@ public class InitialMode implements JavaSpecApi<TestContext> {
     throw new SpecException("A local let can't be defined outside the method define");
   }
 
-  @Override
-  public void given(Runnable setupCode) {
-    throw new SpecException("A setup block can't be defined outside the method define");
-  }
-
-  @Override
-  public void when(Runnable exerciseCode) {
-    throw new SpecException("An exercise block can't be defined outside the method define");
-  }
-
-  @Override
-  public void then(Runnable assertionCode) {
-    throw new SpecException("An assertion block can't be defined outside the method define");
-  }
-
-  @Override
-  public void itThen(String testName, Runnable assertionCode) {
-    throw new SpecException("A test can't be defined outside the method define");
-  }
-
-  @Override
-  public void executeAsGivenWhenThenTest() {
-    throw new SpecException("A test can't be run outside the method define");
-  }
 }

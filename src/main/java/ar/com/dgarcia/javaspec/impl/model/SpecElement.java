@@ -12,7 +12,7 @@ public interface SpecElement {
      * The name identifying this element
      * @return The name given by definition of this element
      */
-    public String getName();
+    String getName();
 
     /**
      * Returns the ordered runnables that represent code blocks to execute before to the test.<br>

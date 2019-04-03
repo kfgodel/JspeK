@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TypedContextTest {
 
-    public static interface TypedTestContext extends TestContext {
+    public interface TypedTestContext extends TestContext {
 
         void letFoo(Supplier<Integer> fooDefinition);
         Integer getFoo();
