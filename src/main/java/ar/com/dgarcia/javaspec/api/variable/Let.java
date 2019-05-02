@@ -42,11 +42,11 @@ public class Let<T> {
     return context().get(variableName());
   }
 
-  private String variableName() {
+  String variableName() {
     return variableName;
   }
 
-  private TestContext context() {
+  TestContext context() {
     return context.get();
   }
 
