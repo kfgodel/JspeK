@@ -19,8 +19,8 @@ class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
     describe("local lets") {
 
       describe("can be declared in suite contexts") {
-        val foo: Let<Int> = localLet("foo")
-        val predefinedValue: Let<Int> = localLet<Int>("predefinedValue").set { 3 }
+        val foo = localLet<Int>("foo")
+        val predefinedValue = localLet<Int>("predefinedValue").set { 3 }
 
         it("can have a value defined with its creation") {
           assertThat(predefinedValue.get()).isEqualTo(3)
@@ -52,8 +52,8 @@ class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
 
       describe("one definition can use others") {
 
-        val sum: Let<Int> = localLet("sum")
-        val value: Let<Int> = localLet("value")
+        val sum = localLet<Int>("sum")
+        val value = localLet<Int>("value")
 
         sum.set { 2 + value.get() }
 
