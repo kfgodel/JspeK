@@ -25,21 +25,21 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
       describe("can be declared in suite contexts", () -> {
         Let<Integer> foo = localLet("foo");
-        Let<Integer> predefinedValue = localLet("predefinedValue").set(() -> 3);
+        Let<Integer> predefinedValue = localLet("predefinedValue").let(() -> 3);
 
         it("can have a value defined with its creation", () -> {
           assertThat(predefinedValue.get()).isEqualTo(3);
         });
 
         describe("and its value can be set in contexts", () -> {
-          foo.set(() -> 1);
+          foo.let(() -> 1);
 
           it("can obtain that value", () -> {
             assertThat(foo.get()).isEqualTo(1);
           });
 
           describe("when redefining its value in a sub-context", () -> {
-            foo.set(() -> 2);
+            foo.let(() -> 2);
 
             it("changes the original value", () -> {
               assertThat(foo.get()).isEqualTo(2);
@@ -49,7 +49,7 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
         });
 
         it("and its value can also be set inside a test", ()->{
-          foo.set(() -> 3);
+          foo.let(() -> 3);
 
           assertThat(foo.get()).isEqualTo(3);
         });
@@ -63,11 +63,11 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
       describe("definitions are prioritized", ()->{
 
         Let<Integer> foo = localLet("foo");
-        foo.set(()-> 1);
+        foo.let(()-> 1);
 
         beforeEach(()->{
           //This will override context definition
-          foo.set(()-> 2);
+          foo.let(()-> 2);
         });
 
         it("setup definition will have precedence over suite definition", ()->{
@@ -75,7 +75,7 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
         });
 
         it("it definition has precedence over the other two", ()->{
-          foo.set(()-> 3);
+          foo.let(()-> 3);
 
           assertThat(foo.get()).isEqualTo(3);
         });
@@ -86,16 +86,16 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
         Let<Integer> sum = localLet("sum");
         Let<Integer> value = localLet("value");
 
-        sum.set(()-> 2 + value.get());
+        sum.let(()-> 2 + value.get());
 
         it("allowing to change parts of the test context", ()->{
-          value.set(()-> 2);
+          value.let(()-> 2);
 
           assertThat(sum.get()).isEqualTo(4);
         });
 
         describe("or nesting scenarios", ()->{
-          value.set(()-> 1);
+          value.let(()-> 1);
 
           it("with cleanly defined context", ()->{
             assertThat(sum.get()).isEqualTo(3);
@@ -105,7 +105,7 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
 
       describe("once defined", ()->{
         Let<Integer> random = localLet("random");
-        random.set(()-> new Random().nextInt());
+        random.let(()-> new Random().nextInt());
 
         it("the value remains the same through test duration", ()->{
           Integer firstTime = random.get();
@@ -118,9 +118,9 @@ public class LocalLetSpecTest extends JavaSpec<TestContext> {
         Let<Integer> value = localLet("value");
 
         it("it cannot be redefined", ()-> {
-          value.set(()-> 1);
+          value.let(()-> 1);
           value.get();
-          assertThatThrownBy(() -> value.set(()-> 2))
+          assertThatThrownBy(() -> value.let(()-> 2))
               .isInstanceOf(SpecException.class)
               .hasMessage("Variable [value] cannot be re-defined once assigned. Current value: [1]");
         });

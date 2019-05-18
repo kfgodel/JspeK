@@ -26,7 +26,7 @@ public class Let<T> {
    *
    * @param definition A value supplier that can be used to lazily define the initial value of the variable
    */
-  public <U extends T> Let<U> set(Supplier<T> definition) {
+  public <U extends T> Let<U> let(Supplier<T> definition) {
     context().let(variableName(), definition);
     return (Let<U>) this;
   }
@@ -42,11 +42,11 @@ public class Let<T> {
     return context().get(variableName());
   }
 
-  private String variableName() {
+  String variableName() {
     return variableName;
   }
 
-  private TestContext context() {
+  TestContext context() {
     return context.get();
   }
 
