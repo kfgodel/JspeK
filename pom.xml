@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>java-spec</artifactId>
-  <version>2.5.1-SNAPSHOT</version>
+  <version>2.5.1</version>
 
   <parent>
     <groupId>info.kfgodel</groupId>
@@ -132,6 +132,16 @@
       <organizationUrl>https://www.10pines.com/</organizationUrl>
       <roles>
         <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer><developer>
+      <id>nrainhart</id>
+      <name>Nicolas Rainhart</name>
+      <email>nrainhart@10pines.com</email>
+      <organization>10Pines SRL</organization>
+      <organizationUrl>https://www.10pines.com/</organizationUrl>
+      <roles>
+        <role>contributor</role>
         <role>developer</role>
       </roles>
     </developer>
