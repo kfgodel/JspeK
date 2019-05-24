@@ -1,15 +1,15 @@
 package ar.com.dgarcia.javaspec.testSpecs
 
+import api.KotlinSpec
+import api.variable.Let
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner
-import ar.com.dgarcia.javaspec.api.KotlinSpec
-import ar.com.dgarcia.javaspec.api.variable.set
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
 @RunWith(JavaSpecRunner::class)
 class KotlinSpecTest : KotlinSpec() {
   override fun define() {
-    val word = localLet<String>("word")
+    val word: Let<String> = let("word")
 
     describe("when the word is Hello") {
       word.set { "Hello" }
