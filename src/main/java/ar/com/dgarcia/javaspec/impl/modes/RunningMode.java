@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.modes;
 
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
@@ -15,7 +14,7 @@ import java.util.function.Consumer;
  *
  * Created by kfgodel on 09/03/16.
  */
-public class RunningMode<T extends TestContext> implements JavaSpecApi<T> {
+public class RunningMode<T extends TestContext> implements ExecutionMode<T> {
 
   private T currentContext;
 

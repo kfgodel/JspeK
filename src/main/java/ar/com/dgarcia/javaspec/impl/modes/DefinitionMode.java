@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.modes;
 
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.ClassBasedTestContext;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
@@ -23,7 +22,7 @@ import java.util.function.Consumer;
  *
  * Created by kfgodel on 09/03/16.
  */
-public class DefinitionMode<T extends TestContext> implements JavaSpecApi<T> {
+public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
 
   private SpecStack stack;
   private SpecTree specTree;

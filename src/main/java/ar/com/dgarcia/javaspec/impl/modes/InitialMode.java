@@ -1,6 +1,5 @@
 package ar.com.dgarcia.javaspec.impl.modes;
 
-import ar.com.dgarcia.javaspec.api.JavaSpecApi;
 import ar.com.dgarcia.javaspec.api.contexts.TestContext;
 import ar.com.dgarcia.javaspec.api.exceptions.FailingRunnable;
 import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
@@ -11,10 +10,10 @@ import java.util.function.Consumer;
 /**
  * Date: 30/03/19 - 16:36
  */
-public class InitialMode implements JavaSpecApi<TestContext> {
+public class InitialMode implements ExecutionMode<TestContext> {
 
-  public static <T extends TestContext> JavaSpecApi<T> create() {
-    return (JavaSpecApi<T>) new InitialMode();
+  public static <T extends TestContext> ExecutionMode<T> create() {
+    return (ExecutionMode<T>) new InitialMode();
   }
 
   @Override
