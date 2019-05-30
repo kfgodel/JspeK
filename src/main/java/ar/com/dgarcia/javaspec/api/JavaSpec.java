@@ -6,6 +6,7 @@ import ar.com.dgarcia.javaspec.api.exceptions.SpecException;
 import ar.com.dgarcia.javaspec.api.variable.Let;
 import ar.com.dgarcia.javaspec.impl.model.SpecTree;
 import ar.com.dgarcia.javaspec.impl.modes.DefinitionMode;
+import ar.com.dgarcia.javaspec.impl.modes.ExecutionMode;
 import ar.com.dgarcia.javaspec.impl.modes.InitialMode;
 
 import java.lang.reflect.ParameterizedType;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 
-  private JavaSpecApi<T> currentMode = InitialMode.create();
+  private ExecutionMode<T> currentMode = InitialMode.create();
 
   /**
    * Starting method to define the specs.<br>
