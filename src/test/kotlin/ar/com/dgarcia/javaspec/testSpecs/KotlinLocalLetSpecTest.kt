@@ -18,7 +18,7 @@ class KotlinLocalLetSpecTest : KotlinSpec() {
 
       describe("can be declared in suite contexts") {
         val foo: Let<Int> by let()
-        val predefinedValue: Let<Int> by let { 3 }
+        val predefinedValue by let { 3 }
 
         it("can have a value defined with its creation") {
           assertThat(predefinedValue.get()).isEqualTo(3)
