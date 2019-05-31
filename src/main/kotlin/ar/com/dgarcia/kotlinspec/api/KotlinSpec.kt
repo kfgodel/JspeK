@@ -2,7 +2,9 @@ package ar.com.dgarcia.kotlinspec.api
 
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
+import ar.com.dgarcia.kotlinspec.api.variable.Let
 import ar.com.dgarcia.kotlinspec.api.variable.UninitializedLet
+import kotlin.reflect.KProperty
 
 
 abstract class KotlinSpec : JavaSpec<TestContext>() {
@@ -10,7 +12,11 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
     return TestContext::class.java
   }
 
-  fun let(variableName: String): UninitializedLet {
-    return UninitializedLet(variableName) { context() }
+  fun <T> let() = LetDelegate<T> { context() }
+
+  class LetDelegate<T>(private val context: () -> TestContext) {
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Let<T> {
+      return UninitializedLet(property.name, context)
+    }
   }
 }
