@@ -1,8 +1,9 @@
-package api
+package ar.com.dgarcia.kotlinspec.api
 
-import api.variable.UninitializedLet
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
+import ar.com.dgarcia.kotlinspec.api.variable.UninitializedLet
+
 
 abstract class KotlinSpec : JavaSpec<TestContext>() {
   override fun getContextTypeFromSubclassDeclaration(): Class<TestContext> {

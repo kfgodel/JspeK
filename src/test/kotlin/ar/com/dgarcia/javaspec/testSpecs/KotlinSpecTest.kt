@@ -1,8 +1,8 @@
 package ar.com.dgarcia.javaspec.testSpecs
 
-import api.KotlinSpec
-import api.variable.Let
+import ar.com.dgarcia.kotlinspec.api.variable.Let
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner
+import ar.com.dgarcia.kotlinspec.api.KotlinSpec
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
