@@ -7,14 +7,14 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
 /**
- * This type tests usage of local lets in Kotlin
+ * This type tests usage of lets in Kotlin
  * Created by nrainhart on 11/05/19.
  */
 @RunWith(JavaSpecRunner::class)
 class KotlinLocalLetSpecTest : KotlinSpec() {
 
   override fun define() {
-    describe("local lets") {
+    describe("lets") {
 
       describe("can be declared in suite contexts") {
         val foo: Let<Int> by let()
