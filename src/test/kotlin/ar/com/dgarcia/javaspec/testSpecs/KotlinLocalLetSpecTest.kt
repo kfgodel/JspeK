@@ -1,10 +1,8 @@
 package ar.com.dgarcia.javaspec.testSpecs
 
-import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner
-import ar.com.dgarcia.javaspec.api.contexts.TestContext
-import ar.com.dgarcia.javaspec.api.variable.Let
-import ar.com.dgarcia.javaspec.api.variable.set
+import ar.com.dgarcia.kotlinspec.api.KotlinSpec
+import ar.com.dgarcia.kotlinspec.api.variable.Let
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
@@ -13,14 +11,14 @@ import org.junit.runner.RunWith
  * Created by nrainhart on 11/05/19.
  */
 @RunWith(JavaSpecRunner::class)
-class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
+class KotlinLocalLetSpecTest : KotlinSpec() {
 
   override fun define() {
     describe("local lets") {
 
       describe("can be declared in suite contexts") {
-        val foo = localLet<Int>("foo")
-        val predefinedValue = localLet<Int>("predefinedValue").set { 3 }
+        val foo: Let<Int> by let()
+        val predefinedValue: Let<Int> by let { 3 }
 
         it("can have a value defined with its creation") {
           assertThat(predefinedValue.get()).isEqualTo(3)
@@ -52,8 +50,8 @@ class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
 
       describe("one definition can use others") {
 
-        val sum = localLet<Int>("sum")
-        val value = localLet<Int>("value")
+        val sum: Let<Int> by let()
+        val value: Let<Int> by let()
 
         sum.set { 2 + value.get() }
 
