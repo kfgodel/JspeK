@@ -6,7 +6,10 @@ import ar.com.dgarcia.kotlinspec.api.variable.Let
 import ar.com.dgarcia.kotlinspec.api.variable.UninitializedLet
 import kotlin.reflect.KProperty
 
-
+/**
+ * This class is the extension point to add testing functionality exclusive to Kotlin Specs.<br>
+ * Created by nrainhart on 24/05/19.
+ */
 abstract class KotlinSpec : JavaSpec<TestContext>() {
   override fun getContextTypeFromSubclassDeclaration(): Class<TestContext> {
     return TestContext::class.java
