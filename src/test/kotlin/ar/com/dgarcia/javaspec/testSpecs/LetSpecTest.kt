@@ -2,7 +2,7 @@ package ar.com.dgarcia.javaspec.testSpecs
 
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner
 import ar.com.dgarcia.kotlinspec.api.KotlinSpec
-import ar.com.dgarcia.kotlinspec.api.variable.Let
+import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
@@ -11,13 +11,13 @@ import org.junit.runner.RunWith
  * Created by nrainhart on 11/05/19.
  */
 @RunWith(JavaSpecRunner::class)
-class KotlinLocalLetSpecTest : KotlinSpec() {
+class LetSpecTest : KotlinSpec() {
 
   override fun define() {
     describe("lets") {
 
       describe("can be declared in suite contexts") {
-        val foo: Let<Int> by let()
+        val foo: TestVariable<Int> by let()
         val predefinedValue by let { 3 }
 
         it("can have a value defined with its creation") {
@@ -50,8 +50,8 @@ class KotlinLocalLetSpecTest : KotlinSpec() {
 
       describe("one definition can use others") {
 
-        val sum: Let<Int> by let()
-        val value: Let<Int> by let()
+        val sum: TestVariable<Int> by let()
+        val value: TestVariable<Int> by let()
 
         sum.set { 2 + value.get() }
 

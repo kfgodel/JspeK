@@ -6,7 +6,7 @@ import ar.com.dgarcia.javaspec.api.contexts.TestContext
  * This class allows variable definitions in tests suites that are lazily accessed and can be redefined in subcontexts
  * Created by nrainhart on 15/03/19.
  */
-open class Let<out T>(val variableName: String, val context: () -> TestContext) {
+open class TestVariable<out T>(val variableName: String, val context: () -> TestContext) {
 
     /**
      * Defines the value in the current context, which may redefine previous value of broader context,
@@ -14,9 +14,9 @@ open class Let<out T>(val variableName: String, val context: () -> TestContext) 
      *
      * @param definition A value supplier that can be used to lazily define the initial value of the variable
      */
-    fun <U> set(definition: () -> U): Let<U> {
+    fun <U> set(definition: () -> U): TestVariable<U> {
         context().let(variableName, definition)
-        return this as Let<U>
+        return this as TestVariable<U>
     }
 
     /**
@@ -32,4 +32,4 @@ open class Let<out T>(val variableName: String, val context: () -> TestContext) 
 
 }
 
-class UninitializedLet(variableName: String, context: () -> TestContext) : Let<Nothing>(variableName, context)
+class UninitializedTestVariable(variableName: String, context: () -> TestContext) : TestVariable<Nothing>(variableName, context)

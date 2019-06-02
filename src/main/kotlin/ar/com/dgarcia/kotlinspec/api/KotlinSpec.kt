@@ -2,8 +2,8 @@ package ar.com.dgarcia.kotlinspec.api
 
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
-import ar.com.dgarcia.kotlinspec.api.variable.Let
-import ar.com.dgarcia.kotlinspec.api.variable.UninitializedLet
+import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
+import ar.com.dgarcia.kotlinspec.api.variable.UninitializedTestVariable
 import kotlin.reflect.KProperty
 
 /**
@@ -20,11 +20,11 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
   fun <T> let(definition: () -> T) = LetDelegate(definition) { context() }
 
   class LetDelegate<T>(private val initialValue: (() -> T)? = null, private val context: () -> TestContext) {
-    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Let<T> {
-      val uninitializedLet = UninitializedLet(property.name, context)
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
+      val uninitializedTestVariable = UninitializedTestVariable(property.name, context)
       return initialValue
-        ?.let { value -> uninitializedLet.set(value) }
-        ?: uninitializedLet
+        ?.let { value -> uninitializedTestVariable.set(value) }
+        ?: uninitializedTestVariable
     }
   }
 }
