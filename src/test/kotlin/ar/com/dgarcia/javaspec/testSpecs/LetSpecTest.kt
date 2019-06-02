@@ -1,26 +1,24 @@
 package ar.com.dgarcia.javaspec.testSpecs
 
-import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner
-import ar.com.dgarcia.javaspec.api.contexts.TestContext
-import ar.com.dgarcia.javaspec.api.variable.Let
-import ar.com.dgarcia.javaspec.api.variable.set
+import ar.com.dgarcia.kotlinspec.api.KotlinSpec
+import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.runner.RunWith
 
 /**
- * This type tests usage of local lets in Kotlin
+ * This type tests usage of lets in Kotlin
  * Created by nrainhart on 11/05/19.
  */
 @RunWith(JavaSpecRunner::class)
-class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
+class LetSpecTest : KotlinSpec() {
 
   override fun define() {
-    describe("local lets") {
+    describe("lets") {
 
       describe("can be declared in suite contexts") {
-        val foo = localLet<Int>("foo")
-        val predefinedValue = localLet<Int>("predefinedValue").set { 3 }
+        val foo: TestVariable<Int> by let()
+        val predefinedValue by let { 3 }
 
         it("can have a value defined with its creation") {
           assertThat(predefinedValue.get()).isEqualTo(3)
@@ -52,8 +50,8 @@ class KotlinLocalLetSpecTest : JavaSpec<TestContext>() {
 
       describe("one definition can use others") {
 
-        val sum = localLet<Int>("sum")
-        val value = localLet<Int>("value")
+        val sum: TestVariable<Int> by let()
+        val value: TestVariable<Int> by let()
 
         sum.set { 2 + value.get() }
 
