@@ -1,8 +1,9 @@
 # *JAVA-SPEC* #
 
-Define your Junit tests as typed Specs:  
+Define your Junit tests as typed Specs (for Java and Kotlin):  
 
-```
+- Java
+```java
 @RunWith(JavaSpecRunner.class)
 public class UsingContextAliasTest extends JavaSpec<ExampleTestContext> {
   
@@ -41,7 +42,7 @@ public class UsingContextAliasTest extends JavaSpec<ExampleTestContext> {
 ```
 
 Define your typed test variables with an interface
-```
+```java
 public interface ExampleTestContext extends TestContext {
 
   List<String> list();
@@ -49,6 +50,51 @@ public interface ExampleTestContext extends TestContext {
 
 }
 ```
+
+- Kotlin
+```kotlin
+@RunWith(JavaSpecRunner::class)
+class LetSpecTest : KotlinSpec() {
+
+  override fun define() {
+    describe("lets") {
+
+      describe("can be declared in suite contexts") {
+        val predefinedValue by let { 3 }
+
+        it("can have a value defined with its creation") {
+          assertThat(predefinedValue.get()).isEqualTo(3)
+        }
+
+        val foo: TestVariable<Int> by let()
+        describe("and its value can be set in contexts") {
+          foo.set { 1 }
+
+          it("can obtain that value") {
+            assertThat(foo.get()).isEqualTo(1)
+          }
+
+          describe("when redefining its value in a sub-context") {
+            foo.set { 2 }
+
+            it("changes the original value") {
+              assertThat(foo.get()).isEqualTo(2)
+            }
+          }
+
+        }
+
+        it("and its value can also be set inside a test") {
+          foo.set { 3 }
+
+          assertThat(foo.get()).isEqualTo(3)
+        }
+      }
+    }
+  }
+}
+```
+
 
 Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby  
 Adds the ability to used type variables on `let` definitions  
@@ -63,7 +109,7 @@ Adds the ability to used type variables on `let` definitions
 <dependency>
   <groupId>info.kfgodel</groupId>
   <artifactId>java-spec</artifactId>
-  <version>2.4.3</version>
+  <version>2.5.2</version>
   <scope>test</scope>
 </dependency>
 ```
