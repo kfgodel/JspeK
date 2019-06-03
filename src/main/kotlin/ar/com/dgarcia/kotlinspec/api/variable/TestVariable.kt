@@ -16,7 +16,7 @@ open class TestVariable<out T>(val variableName: String, val context: () -> Test
      */
     fun <U> set(definition: () -> U): TestVariable<U> {
         context().let(variableName, definition)
-        return this as TestVariable<U>
+        return TestVariable(variableName, context)
     }
 
     /**
@@ -31,5 +31,3 @@ open class TestVariable<out T>(val variableName: String, val context: () -> Test
     }
 
 }
-
-class UninitializedTestVariable(variableName: String, context: () -> TestContext) : TestVariable<Nothing>(variableName, context)
