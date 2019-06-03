@@ -2,6 +2,7 @@ package ar.com.dgarcia.kotlinspec.api
 
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
+import ar.com.dgarcia.javaspec.api.exceptions.SpecException
 import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
 import kotlin.reflect.KProperty
 
@@ -26,7 +27,16 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
   class InitializedLetDelegate<T>(private val initialValue: () -> T, private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
         val createdVariable = TestVariable<T>(property.name, context)
-        createdVariable.set(initialValue)
+        try {
+            createdVariable.set(initialValue)
+        } catch (e: SpecException) {
+            if(e.message!!.contains("cannot be re-defined once assigned.")){
+                // It's already assigned from previous call
+                return createdVariable
+            }else{
+                throw e
+            }
+        }
         return createdVariable
     }
   }
