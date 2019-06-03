@@ -14,18 +14,20 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
     return TestContext::class.java
   }
 
-  fun <T> let() = LetDelegate<T> { context() }
+  fun <T> let() = UninitializedLetDelegate<T> { context() }
 
-  fun <T> let(definition: () -> T) = LetDelegate(definition) { context() }
+  fun <T> let(definition: () -> T) = InitializedLetDelegate(definition) { context() }
 
-  class LetDelegate<T>(private val initialValue: (() -> T)? = null, private val context: () -> TestContext) {
+  class UninitializedLetDelegate<T>(private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
-        val variableName = property.name
-        val returnedVariable = TestVariable<T>(variableName, context)
-        if (initialValue != null) {
-            returnedVariable.set(initialValue)
-        }
-        return returnedVariable
+        return TestVariable(property.name, context)
+    }
+  }
+  class InitializedLetDelegate<T>(private val initialValue: () -> T, private val context: () -> TestContext) {
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
+        val createdVariable = TestVariable<T>(property.name, context)
+        createdVariable.set(initialValue)
+        return createdVariable
     }
   }
 }
