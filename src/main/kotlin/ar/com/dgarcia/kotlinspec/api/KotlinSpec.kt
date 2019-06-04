@@ -27,17 +27,19 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
   class InitializedLetDelegate<T>(private val initialValue: () -> T, private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
         val createdVariable = TestVariable<T>(property.name, context)
-        try {
+        if (!isInitialized(createdVariable)) {
             createdVariable.set(initialValue)
-        } catch (e: SpecException) {
-            if(e.message!!.contains("cannot be re-defined once assigned.")){
-                // It's already assigned from previous call
-                return createdVariable
-            }else{
-                throw e
-            }
         }
         return createdVariable
+    }
+
+    private fun isInitialized(testVariable: TestVariable<T>): Boolean {
+      return try {
+          context().get<T>(testVariable.variableName)
+          true
+      } catch (e: SpecException) {
+          false
+      }
     }
   }
 }

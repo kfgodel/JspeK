@@ -25,6 +25,26 @@ class BugSpec31Test : KotlinSpec() {
                 assertThat(firstValue).isEqualTo(23)
                 assertThat(secondValue).isEqualTo(23)
             }
+
+            describe("inside a sub context") {
+                variable.set { 24 }
+                it("can be redefined") {
+                    assertThat(variable.get()).isEqualTo(24)
+                }
+
+                describe("with nested context") {
+
+                    it("can access the outermost definition") {
+                        assertThat(variable.get()).isEqualTo(24)
+                    }
+                }
+            }
+            describe("even on a sibling sub context") {
+                variable.set { 25 }
+                it("can be redefined") {
+                    assertThat(variable.get()).isEqualTo(25)
+                }
+            }
         }
     }
 }
