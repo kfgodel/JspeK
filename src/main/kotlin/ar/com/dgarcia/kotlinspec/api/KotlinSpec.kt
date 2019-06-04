@@ -2,7 +2,6 @@ package ar.com.dgarcia.kotlinspec.api
 
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
-import ar.com.dgarcia.javaspec.api.exceptions.SpecException
 import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
 import kotlin.reflect.KProperty
 
@@ -21,25 +20,19 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
 
   class UninitializedLetDelegate<T>(private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
-        return TestVariable(property.name, context)
+      return TestVariable(property.name, context)
     }
   }
+
   class InitializedLetDelegate<T>(private val initialValue: () -> T, private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
-        val createdVariable = TestVariable<T>(property.name, context)
-        if (!isInitialized(createdVariable)) {
-            createdVariable.set(initialValue)
-        }
-        return createdVariable
+      val createdVariable = TestVariable<T>(property.name, context)
+      if (!context().hasDefinitionFor(createdVariable.variableName)) {
+        // We define one
+        createdVariable.set(initialValue)
+      }
+      return createdVariable
     }
 
-    private fun isInitialized(testVariable: TestVariable<T>): Boolean {
-      return try {
-          context().get<T>(testVariable.variableName)
-          true
-      } catch (e: SpecException) {
-          false
-      }
-    }
   }
 }

@@ -48,6 +48,11 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
+  public boolean hasDefinitionFor(String variableName) {
+    return getDefinitionFor(variableName).isPresent();
+  }
+
+  @Override
   public Runnable setupCode() {
     return get(SETUP_CODE_VARIABLE_NAME);
   }
