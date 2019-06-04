@@ -31,6 +31,16 @@ public interface TestContext {
   <T> T get(String variableName);
 
   /**
+   * Indicates whether this context has a definition for the given named variable or not.<br>
+   *   Definition may be inherited from parent context.<br>
+   *   Variable definition is independepent from variable value. The definition must be always be available for a
+   *   value to be able to be present
+   * @param variableName  Name of the variable to check for
+   * @return True if a value can be obtained calling get()
+   */
+  boolean hasDefinitionFor(String variableName);
+
+  /**
    * @return The code defined as the setup part of a single test.<br>
    */
   Runnable setupCode();

@@ -3,7 +3,6 @@ package ar.com.dgarcia.kotlinspec.api
 import ar.com.dgarcia.javaspec.api.JavaSpec
 import ar.com.dgarcia.javaspec.api.contexts.TestContext
 import ar.com.dgarcia.kotlinspec.api.variable.TestVariable
-import ar.com.dgarcia.kotlinspec.api.variable.UninitializedTestVariable
 import kotlin.reflect.KProperty
 
 /**
@@ -15,16 +14,25 @@ abstract class KotlinSpec : JavaSpec<TestContext>() {
     return TestContext::class.java
   }
 
-  fun <T> let() = LetDelegate<T> { context() }
+  fun <T> let() = UninitializedLetDelegate<T> { context() }
 
-  fun <T> let(definition: () -> T) = LetDelegate(definition) { context() }
+  fun <T> let(definition: () -> T) = InitializedLetDelegate(definition) { context() }
 
-  class LetDelegate<T>(private val initialValue: (() -> T)? = null, private val context: () -> TestContext) {
+  class UninitializedLetDelegate<T>(private val context: () -> TestContext) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
-      val uninitializedTestVariable = UninitializedTestVariable(property.name, context)
-      return initialValue
-        ?.let { value -> uninitializedTestVariable.set(value) }
-        ?: uninitializedTestVariable
+      return TestVariable(property.name, context)
     }
+  }
+
+  class InitializedLetDelegate<T>(private val initialValue: () -> T, private val context: () -> TestContext) {
+    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): TestVariable<T> {
+      val createdVariable = TestVariable<T>(property.name, context)
+      if (!context().hasDefinitionFor(createdVariable.variableName)) {
+        // We define one
+        createdVariable.set(initialValue)
+      }
+      return createdVariable
+    }
+
   }
 }

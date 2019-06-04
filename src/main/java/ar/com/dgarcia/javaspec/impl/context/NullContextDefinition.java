@@ -28,6 +28,11 @@ public class NullContextDefinition implements TestContextDefinition {
   }
 
   @Override
+  public boolean hasDefinitionFor(String variableName) {
+    return false;
+  }
+
+  @Override
   public Runnable setupCode() {
     throw new SpecException("Setup code is not defined");
   }
