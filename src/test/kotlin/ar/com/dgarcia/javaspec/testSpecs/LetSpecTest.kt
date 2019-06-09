@@ -27,8 +27,12 @@ class LetSpecTest : KotlinSpec() {
         describe("and its value can be set in contexts") {
           foo.set { 1 }
 
-          it("can obtain that value") {
+          it("its value can be obtained with get()") {
             assertThat(foo.get()).isEqualTo(1)
+          }
+
+          it("its value can be obtained by calling the object as a function") {
+            assertThat(foo()).isEqualTo(1)
           }
 
           describe("when redefining its value in a sub-context") {

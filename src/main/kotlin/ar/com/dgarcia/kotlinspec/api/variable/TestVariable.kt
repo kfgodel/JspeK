@@ -30,4 +30,11 @@ open class TestVariable<out T>(val variableName: String, val context: () -> Test
         return context().get(variableName)
     }
 
+  /**
+   * Alias for [get] that allows to obtain the variable's value by calling it as a function
+   *
+   * @return The value of the variable
+   */
+  operator fun invoke(): T = get()
+
 }
