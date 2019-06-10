@@ -35,4 +35,11 @@ open class TestVariable<out T>(val variableName: String, val context: () -> Test
    */
   operator fun invoke(): T = get()
 
+  /**
+   * Alias for [set] that allows to set the variable's value by passing a block directly to the object
+   *
+   * @param definition A value supplier that can be used to lazily define the initial value of the variable
+   */
+  operator fun <U> invoke(definition: () -> U) = set(definition)
+
 }
