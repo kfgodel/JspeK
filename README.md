@@ -54,40 +54,41 @@ public interface ExampleTestContext extends TestContext {
 - Kotlin
 ```kotlin
 @RunWith(JavaSpecRunner::class)
-class LetSpecTest : KotlinSpec() {
-
+class MinimumKotlinTest : KotlinSpec() {
   override fun define() {
-    describe("lets") {
+    describe("a kotlin spec") {
 
-      describe("can be declared in suite contexts") {
-        val predefinedValue by let { 3 }
+      it("contains a test with an expectation") {
+        assertThat(true).isEqualTo(true)
+      }
 
-        it("can have a value defined with its creation") {
-          assertThat(predefinedValue.get()).isEqualTo(3)
+      describe("when variables are needed") {
+
+        val age by let { 23 }
+
+        it("can set its value on declaration") {
+          assertThat(age()).isEqualTo(23)
         }
 
-        val foo: TestVariable<Int> by let()
-        describe("and its value can be set in contexts") {
-          foo.set { 1 }
+        val name by let<String>()
+        name { "esther" }
 
-          it("can obtain that value") {
-            assertThat(foo.get()).isEqualTo(1)
-          }
-
-          describe("when redefining its value in a sub-context") {
-            foo.set { 2 }
-
-            it("changes the original value") {
-              assertThat(foo.get()).isEqualTo(2)
-            }
-          }
-
+        it("or after declaration") {
+          age {22}
+          assertThat(age()).isEqualTo(22)
+          assertThat(name()).isEqualTo("esther")
         }
 
-        it("and its value can also be set inside a test") {
-          foo.set { 3 }
+        describe("when using nested contexts") {
+          name { "nested esther" }
 
-          assertThat(foo.get()).isEqualTo(3)
+          it("can access outer variables") {
+            assertThat(age()).isEqualTo(23)
+          }
+
+          it("can re define the value in the subcontext") {
+            assertThat(name()).isEqualTo("nested esther")
+          }
         }
       }
     }
