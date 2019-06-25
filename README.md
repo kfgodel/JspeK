@@ -99,7 +99,7 @@ public interface ExampleTestContext extends TestContext {
 Inspired on [Jasmine](http://jasmine.github.io/) and [RSpec](http://rspec.info/) for Ruby  
 Adds the ability to used type variables on `let` definitions and nest test contexts.  
 
-## **[See full details in the wiki](https://github.com/kfgodel/JspeK/wiki)**
+## **[Check usage details in the wiki](https://github.com/kfgodel/JspeK/wiki)**
 
 
 ### Gradle dependency ###
