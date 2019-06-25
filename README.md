@@ -119,9 +119,9 @@ Adds the ability to used type variables on `let` definitions
 If you get this error:
 ```
 java.lang.NoSuchMethodError: org.junit.runner.Description.createSuiteDescription(Ljava/lang/String;Ljava/io/Serializable;[Ljava/lang/annotation/Annotation;)Lorg/junit/runner/Description;
-    at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.recursiveAdaptToJunit(JunitTestTreeAdapter.java:48)
-    at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.adaptToJunit(JunitTestTreeAdapter.java:39)
-    at ar.com.dgarcia.javaspec.impl.junit.JunitTestTreeAdapter.create(JunitTestTreeAdapter.java:27)
+    at JunitTestTreeAdapter.recursiveAdaptToJunit(JunitTestTreeAdapter.java:48)
+    at JunitTestTreeAdapter.adaptToJunit(JunitTestTreeAdapter.java:39)
+    at JunitTestTreeAdapter.create(JunitTestTreeAdapter.java:27)
 ```
 The problem is the junit version. You need at least version **4.11** that exposes the Description object which is needed for JavaSpec to describe the tests.  
 
