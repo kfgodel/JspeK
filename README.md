@@ -1,6 +1,51 @@
-# *JAVA-SPEC* #
+# *JspeK* #
 
-Define your Junit tests as typed Specs (for Java and Kotlin):  
+Define your Junit tests as specs with typed variables (for Java and Kotlin):  
+
+- Kotlin
+```kotlin
+@RunWith(JavaSpecRunner::class)
+class MinimumKotlinTest : KotlinSpec() {
+  override fun define() {
+    describe("a kotlin spec") {
+
+      it("contains a test with an expectation") {
+        assertThat(true).isEqualTo(true)
+      }
+
+      describe("when variables are needed") {
+
+        val age by let { 23 }
+
+        it("can set its value on declaration") {
+          assertThat(age()).isEqualTo(23)
+        }
+
+        val name by let<String>()
+        name { "esther" }
+
+        it("or after declaration") {
+          age {22}
+          assertThat(age()).isEqualTo(22)
+          assertThat(name()).isEqualTo("esther")
+        }
+
+        describe("when using nested contexts") {
+          name { "nested esther" }
+
+          it("can access outer variables") {
+            assertThat(age()).isEqualTo(23)
+          }
+
+          it("can re define the value in the subcontext") {
+            assertThat(name()).isEqualTo("nested esther")
+          }
+        }
+      }
+    }
+  }
+}
+```
 
 - Java
 ```java
@@ -51,71 +96,31 @@ public interface ExampleTestContext extends TestContext {
 }
 ```
 
-- Kotlin
-```kotlin
-@RunWith(JavaSpecRunner::class)
-class MinimumKotlinTest : KotlinSpec() {
-  override fun define() {
-    describe("a kotlin spec") {
+Inspired on [Jasmine](http://jasmine.github.io/) and [RSpec](http://rspec.info/) for Ruby  
+Adds the ability to used type variables on `let` definitions and nest test contexts.  
 
-      it("contains a test with an expectation") {
-        assertThat(true).isEqualTo(true)
-      }
+## **[See full details in the wiki](https://github.com/kfgodel/JspeK/wiki)**
 
-      describe("when variables are needed") {
 
-        val age by let { 23 }
+### Gradle dependency ###
 
-        it("can set its value on declaration") {
-          assertThat(age()).isEqualTo(23)
-        }
-
-        val name by let<String>()
-        name { "esther" }
-
-        it("or after declaration") {
-          age {22}
-          assertThat(age()).isEqualTo(22)
-          assertThat(name()).isEqualTo("esther")
-        }
-
-        describe("when using nested contexts") {
-          name { "nested esther" }
-
-          it("can access outer variables") {
-            assertThat(age()).isEqualTo(23)
-          }
-
-          it("can re define the value in the subcontext") {
-            assertThat(name()).isEqualTo("nested esther")
-          }
-        }
-      }
-    }
-  }
-}
 ```
-
-
-Based on [Jasmine](http://jasmine.github.io/) for javascript and [RSpec](http://rspec.info/) for Ruby  
-Adds the ability to used type variables on `let` definitions  
-
-## **[See more details in the wiki](https://github.com/kfgodel/java-spec/wiki)**
-
+testImplementation("info.kfgodel:jspek:1.0.0")
+```
 
 ### Maven dependency ###
 
 * Declare the dependency
-```
+```xml
 <dependency>
   <groupId>info.kfgodel</groupId>
-  <artifactId>java-spec</artifactId>
-  <version>2.5.2</version>
+  <artifactId>jspek</artifactId>
+  <version>1.0.0</version>
   <scope>test</scope>
 </dependency>
 ```
 
-### Junit error
+### Old Junit version
 If you get this error:
 ```
 java.lang.NoSuchMethodError: org.junit.runner.Description.createSuiteDescription(Ljava/lang/String;Ljava/io/Serializable;[Ljava/lang/annotation/Annotation;)Lorg/junit/runner/Description;
@@ -138,4 +143,6 @@ The problem is the junit version. You need at least version **4.11** that expose
 ### Who do I talk to? ###
 
 Please make sure to read the documentation first. If it's not there then I will be glad to help you.  
-Any problem you find, suggestions or general questions address them to dario.garcia at 10pines.com
+Any problem you find, suggestions or general questions address them to dario.garcia at 10pines.com  
+
+Thanks to Nicolas Rainhart for his full Kotlin port and collaboration 
