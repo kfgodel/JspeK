@@ -7,10 +7,10 @@ import org.junit.internal.AssumptionViolatedException;
 import org.junit.runner.Description;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
-import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentCaptor;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.argThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -51,18 +51,14 @@ public class JunitTestCodeTest {
     @Test
     public void notifiesWhenTestBreaks() {
         doAnswer(invocationOnMock -> {
-            throw new RuntimeException("Blowing in the air");
+            throw new RuntimeException("Breaking bad");
         }).when(mockedCode).run();
 
         junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestFailure(argThat(new ArgumentMatcher<Failure>() {
-            @Override
-            public boolean matches(Object o) {
-                Failure failure = (Failure) o;
-                return failure.getMessage().equals("Blowing in the air");
-            }
-        }));
+        ArgumentCaptor<Failure> argument = ArgumentCaptor.forClass(Failure.class);
+        verify(mockedNotifier).fireTestFailure(argument.capture());
+        assertThat(argument.getValue().getMessage()).isEqualTo("Breaking bad");
     }
 
     @Test
@@ -73,7 +69,7 @@ public class JunitTestCodeTest {
 
         junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestAssumptionFailed(anyObject());
+        verify(mockedNotifier).fireTestAssumptionFailed(any());
     }
 
     @Test

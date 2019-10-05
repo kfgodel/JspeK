@@ -12,12 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by kfgodel on 13/03/16.
  */
 @RunWith(JavaSpecRunner.class)
-public class NonInterferenceInClassDescribeTest extends JavaSpec<ClassBasedTestContext<? extends Object>> {
+public class NonInterferenceInClassDescribeTest extends JavaSpec<ClassBasedTestContext<Object>> {
+
   @Override
   public void define() {
     describe("a class based group", () -> {
 
-      context().describedClass(()-> (Class)String.class);
+      context().describedClass(()-> String.class);
 
       describe(Object.class, () -> {
         it("has the class a context variable inside the group",()->{

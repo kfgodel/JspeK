@@ -65,6 +65,7 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
    * @param contextType The type that is found on the spec declaration
    * @return The class instance that represents the test context interface
    */
+  @SuppressWarnings("unchecked") // Actual T argument is never available at runtime, we are faking it
   private Class<T> getClassInstanceFromArgument(Type contextType) throws SpecException {
     if (contextType instanceof ParameterizedType) {
       // It's another generic type, it may be a class based context

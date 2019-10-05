@@ -12,6 +12,8 @@ import java.util.function.Consumer;
  */
 public class InitialMode implements ExecutionMode<TestContext> {
 
+  @SuppressWarnings("unchecked") // We cast to type argument T to conform with expected signature, but initial mode should not be used with other test contexts
+  // this casting decision may be an error but initial mode is created prior to having a context
   public static <T extends TestContext> ExecutionMode<T> create() {
     return (ExecutionMode<T>) new InitialMode();
   }

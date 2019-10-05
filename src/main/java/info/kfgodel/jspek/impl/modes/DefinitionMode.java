@@ -57,6 +57,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
     stack.getCurrentHead().addTest(createdSpec);
   }
 
+  @SuppressWarnings("unchecked") // X is used to parameterize the type of exception returned, but in runtime that type argument can't be used
   @Override
   public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
     String expectedTypeName = expectedExceptionType.getSimpleName();
@@ -106,6 +107,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
    * @param aGroupDefinition The test definitions
    * @return The created group
    */
+  @SuppressWarnings("unchecked") // We use the class parameter without being able to check if it fits as describedclass (not possible wo generics on runtime)
   private GroupSpecDefinition createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
     // Sanity check to verify correct usage
     if (!(context() instanceof ClassBasedTestContext)) {

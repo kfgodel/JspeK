@@ -34,6 +34,7 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
+  @SuppressWarnings("unchecked") // We force the fact that object becomes T on the Supplier (there's no way to check this at runtime)
   public <T> T get(String variableName) {
     if (this.containsValueFor(variableName)) {
       // Use cached value
@@ -98,10 +99,12 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
    * @param variableName    The name of the variable
    * @param valueDefinition The variable definition
    */
+  @SuppressWarnings("unchecked") // We force ? into Object
   private void storeDefinitionFor(String variableName, Supplier<?> valueDefinition) {
     getVariableDefinitions().put(variableName, (Supplier<Object>) valueDefinition);
   }
 
+  @SuppressWarnings("unchecked") // We force ? into T so we don't need to cast. Actual T is never available at runtime
   private <T> T getValueFor(String variableName) {
     if (variableValues == null) {
       return null;
@@ -172,12 +175,12 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
-  public void describedClass(Supplier<Class<Object>> definition) {
+  public void describedClass(Supplier<Class<? extends Object>> definition) {
     let(DESCRIBED_CLASS_VARIABLE_NAME, definition);
   }
 
   @Override
-  public void subject(Supplier<Object> definition) {
+  public void subject(Supplier<? extends Object> definition) {
     let(SUBJECT_VARIABLE_NAME, definition);
   }
 

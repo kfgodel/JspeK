@@ -21,6 +21,7 @@ public class TypedContextFactory {
      * @return The created instance
      * @throws SpecException if there's a validation error with the interface
      */
+    @SuppressWarnings("unchecked") // We are forcing Object into T which should always work if the proxy is created
     public static<T extends TestContext> T createInstanceOf(Class<T> typedTestContextClass, Variable<TestContext> sharedVariable) throws SpecException {
         //We first validate the interface
         TypedContextValidator.create(typedTestContextClass).validate();

@@ -16,7 +16,7 @@ public interface ClassBasedTestContext<T> extends TestContext {
    * Defines or overrides the described class in the current context
    * @param definition The class supplier definition
    */
-  void describedClass(Supplier<Class<T>> definition);
+  void describedClass(Supplier<Class<? extends T>> definition);
 
   /**
    * The class under test that was declared with describe(Class,lmabda)
@@ -35,5 +35,5 @@ public interface ClassBasedTestContext<T> extends TestContext {
    * Defines or overrides the definition of a subject creation
    * @param definition The supplier to get a subject instance
    */
-  void subject(Supplier<T> definition);
+  void subject(Supplier<? extends T> definition);
 }
