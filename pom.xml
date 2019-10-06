@@ -31,6 +31,9 @@
   </scm>
 
   <properties>
+    <!-- Sonar properties to prevent unintentional id changes (Reference: https://docs.sonarqube.org/latest/analysis/analysis-parameters/) -->
+    <sonar.projectKey>ar.com.dgarcia:java-spec:master</sonar.projectKey>
+
     <version.junit>4.11</version.junit>
     <version.assertj>3.11.1</version.assertj>
 
