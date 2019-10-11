@@ -14,15 +14,25 @@ public class ExceptionTest extends JavaSpec<ExampleTestContext> {
   @Override
   public void define() {
     describe("a block of code", () -> {
-      context().code(() ->
-        () -> {throw new RuntimeException("Boom");}
-      );
 
-      itThrows(RuntimeException.class, "when executed", () -> {
-        context().code().run();
+      itThrows(RuntimeException.class, "when executed and can be catch with itThrows", () -> {
+        throw new RuntimeException("Boom");
       }, e -> {
         assertThat(e).hasMessage("Boom");
       });
+    });
+
+    describe("a failing variable", () -> {
+      context().collection(() -> {
+        throw new RuntimeException("Failing to initialize");
+      });
+
+      itThrows(RuntimeException.class, "a custom exception that can be catch with itTrows", () -> {
+        context().collection();
+      }, e -> {
+        assertThat(e).hasMessage("Failing to initialize");
+      });
+
     });
 
 

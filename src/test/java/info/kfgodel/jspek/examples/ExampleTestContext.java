@@ -20,9 +20,6 @@ public interface ExampleTestContext extends TestContext {
   Collection<String> collection();
   void collection(Supplier<Collection<String>> definition);
 
-  Runnable code();
-  void code(Supplier<Runnable> definition);
-
   List<String> list();
   void list(Supplier<List<String>> definition);
 
