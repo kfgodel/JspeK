@@ -3,13 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <groupId>info.kfgodel</groupId>
   <artifactId>jspek</artifactId>
   <version>1.0.1-SNAPSHOT</version>
 
   <parent>
     <groupId>info.kfgodel</groupId>
     <artifactId>java-pom</artifactId>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
   </parent>
 
   <name>JspeK</name>
@@ -23,6 +24,32 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <id>dlgarcia</id>
+      <name>Dario L Garcia</name>
+      <email>dario.garcia@10pines.com</email>
+      <organization>10Pines SRL</organization>
+      <organizationUrl>https://www.10pines.com/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>nrainhart</id>
+      <name>Nicolas Rainhart</name>
+      <email>nrainhart@10pines.com</email>
+      <organization>10Pines SRL</organization>
+      <organizationUrl>https://www.10pines.com/</organizationUrl>
+      <roles>
+        <role>contributor</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
 
   <scm>
     <developerConnection>scm:git:ssh://github.com/kfgodel/JspeK.git</developerConnection>
@@ -140,31 +167,5 @@
 
     </plugins>
   </build>
-
-  <developers>
-    <developer>
-      <id>dlgarcia</id>
-      <name>Dario L Garcia</name>
-      <email>dario.garcia@10pines.com</email>
-      <organization>10Pines SRL</organization>
-      <organizationUrl>https://www.10pines.com/</organizationUrl>
-      <roles>
-        <role>architect</role>
-        <role>developer</role>
-      </roles>
-    </developer>
-
-    <developer>
-      <id>nrainhart</id>
-      <name>Nicolas Rainhart</name>
-      <email>nrainhart@10pines.com</email>
-      <organization>10Pines SRL</organization>
-      <organizationUrl>https://www.10pines.com/</organizationUrl>
-      <roles>
-        <role>contributor</role>
-        <role>developer</role>
-      </roles>
-    </developer>
-  </developers>
 
 </project>
