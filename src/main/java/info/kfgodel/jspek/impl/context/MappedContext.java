@@ -41,11 +41,9 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
       return getValueFor(variableName);
     }
 
-    Optional<Supplier<T>> variableDefinition = (Optional) getDefinitionFor(variableName);
-    if (!variableDefinition.isPresent()) {
-      throw new SpecException("Variable [" + variableName + "] must be defined before accessing it in current context[" + this.getVariableDefinitions() + "]");
-    }
-    return this.createNewValueFrom(variableDefinition.get(), variableName);
+    Supplier<T> variableDefinition = this.<T>getDefinitionFor(variableName)
+      .orElseThrow(()-> new SpecException("Variable [" + variableName + "] must be defined before accessing it in current context[" + this.getVariableDefinitions() + "]"));
+    return this.createNewValueFrom(variableDefinition, variableName);
   }
 
   @Override
@@ -117,13 +115,15 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
-  public Optional<Supplier<Object>> getDefinitionFor(String variableName) {
+  @SuppressWarnings("unchecked") // Since the map can't hold the type parameter we force an unsafe casting to T
+  public <T> Optional<Supplier<T>> getDefinitionFor(String variableName) {
     boolean weDontHaveADefinition = variableDefinitions == null || !variableDefinitions.containsKey(variableName);
     if (weDontHaveADefinition) {
       return getParentDefinition().getDefinitionFor(variableName);
     }
 
-    return Optional.ofNullable(getVariableDefinitions().get(variableName));
+    final Supplier<T> ownDefinition = (Supplier<T>) getVariableDefinitions().get(variableName);
+    return Optional.ofNullable(ownDefinition);
   }
 
   /**

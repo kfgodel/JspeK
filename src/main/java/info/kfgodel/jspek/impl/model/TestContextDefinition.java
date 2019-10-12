@@ -28,6 +28,6 @@ public interface TestContextDefinition extends TestContext {
      * @param variableName The name that identifies the variable
      * @return The variable definition or null if there's none in this context
      */
-    Optional<Supplier<Object>> getDefinitionFor(String variableName);
+    <T> Optional<Supplier<T>> getDefinitionFor(String variableName);
 
 }
