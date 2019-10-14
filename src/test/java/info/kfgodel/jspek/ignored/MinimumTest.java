@@ -1,4 +1,4 @@
-package info.kfgodel.jspek.testSpecs;
+package info.kfgodel.jspek.ignored;
 
 import info.kfgodel.jspek.api.JavaSpec;
 import info.kfgodel.jspek.api.JavaSpecRunner;
@@ -8,20 +8,16 @@ import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This class serves as input spec for parser test
- * Created by kfgodel on 12/07/14.
+ * This class serves as an example of the minimum requirements for running a java-spec test
+ * Date: 08/09/18 - 21:56
  */
 @RunWith(JavaSpecRunner.class)
-public class DisabledSuiteSpecTest extends JavaSpec<TestContext> {
+public class MinimumTest extends JavaSpec<TestContext> {
   @Override
   public void define() {
 
-    xdescribe("a disabled spec", () -> {
-
-      it("ignored test", () -> {
-        assertThat(true).isEqualTo(false);
-      });
-
+    xit("has a length of 12 characters", () -> {
+      assertThat("Hello World!").hasSize(12);
     });
 
   }

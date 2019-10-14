@@ -1,4 +1,4 @@
-package info.kfgodel.jspek.testSpecs;
+package info.kfgodel.jspek.ignored;
 
 import info.kfgodel.jspek.api.JavaSpec;
 import info.kfgodel.jspek.api.JavaSpecRunner;
@@ -9,18 +9,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This class serves as input spec for parser test
- * Created by kfgodel on 13/07/14.
+ * Created by kfgodel on 12/07/14.
  */
 @RunWith(JavaSpecRunner.class)
-public class OneTestInsideDisabledSpecTest extends JavaSpec<TestContext> {
-
+public class DisabledSuiteSpecTest extends JavaSpec<TestContext> {
   @Override
   public void define() {
 
-    xdescribe("disabled suite", () -> {
+    xdescribe("a disabled spec", () -> {
 
-      it("transitive disabled test", () -> {
-        assertThat(true).isFalse();
+      it("ignored test", () -> {
+        assertThat(true).isEqualTo(false);
       });
 
     });

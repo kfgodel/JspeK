@@ -1,4 +1,4 @@
-package info.kfgodel.jspek;
+package info.kfgodel.jspek.ignored;
 
 import info.kfgodel.jspek.api.JavaSpec;
 import info.kfgodel.jspek.api.JavaSpecRunner;

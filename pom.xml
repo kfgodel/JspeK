@@ -60,6 +60,15 @@
     <!-- Sonar properties to prevent unintentional id changes (Reference: https://docs.sonarqube.org/latest/analysis/analysis-parameters/) -->
     <sonar.projectKey>ar.com.dgarcia:java-spec</sonar.projectKey>
 
+    <!-- Disable rules per files -->
+    <sonar.issue.ignore.multicriteria>j1</sonar.issue.ignore.multicriteria>
+
+    <!-- Skipped unit tests should be either removed or fixed -->
+    <!-- Some tests have skipped parts on purpose  -->
+    <sonar.issue.ignore.multicriteria.j1.ruleKey>common-java:SkippedUnitTests</sonar.issue.ignore.multicriteria.j1.ruleKey>
+    <sonar.issue.ignore.multicriteria.j1.resourceKey>**/ignored/*Test.java</sonar.issue.ignore.multicriteria.j1.resourceKey>
+
+
     <version.junit>4.11</version.junit>
     <version.assertj>3.11.1</version.assertj>
 

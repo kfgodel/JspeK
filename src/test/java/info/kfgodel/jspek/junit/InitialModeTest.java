@@ -1,7 +1,7 @@
 package info.kfgodel.jspek.junit;
 
 import info.kfgodel.jspek.api.exceptions.SpecException;
-import info.kfgodel.jspek.examples.MinimumTest;
+import info.kfgodel.jspek.ignored.MinimumTest;
 import org.junit.Before;
 import org.junit.Test;
 

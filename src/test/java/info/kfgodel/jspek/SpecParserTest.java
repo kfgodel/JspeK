@@ -1,5 +1,8 @@
 package info.kfgodel.jspek;
 
+import info.kfgodel.jspek.ignored.DisabledSuiteSpecTest;
+import info.kfgodel.jspek.ignored.OneTestInsideDisabledSpecTest;
+import info.kfgodel.jspek.ignored.TwoPendingTestSpecTest;
 import info.kfgodel.jspek.impl.model.SpecGroup;
 import info.kfgodel.jspek.impl.model.SpecTest;
 import info.kfgodel.jspek.impl.model.SpecTree;
@@ -8,16 +11,13 @@ import info.kfgodel.jspek.impl.parser.SpecParser;
 import info.kfgodel.jspek.testSpecs.AfterUsedInOneTestSpecTest;
 import info.kfgodel.jspek.testSpecs.BeforeAndAfterInheritedWhenNestedTest;
 import info.kfgodel.jspek.testSpecs.BeforeUsedInOneTestSpecTest;
-import info.kfgodel.jspek.testSpecs.DisabledSuiteSpecTest;
 import info.kfgodel.jspek.testSpecs.EmptySpec;
 import info.kfgodel.jspek.testSpecs.ItThrowsSpecTest;
 import info.kfgodel.jspek.testSpecs.OneEmptyDescribeSpec;
 import info.kfgodel.jspek.testSpecs.OneRootTestSpecTest;
 import info.kfgodel.jspek.testSpecs.OneTestInsideDescribeSpecTest;
-import info.kfgodel.jspek.testSpecs.OneTestInsideDisabledSpecTest;
 import info.kfgodel.jspek.testSpecs.TwoBeforeAndAfterTestSpecTest;
 import info.kfgodel.jspek.testSpecs.TwoDescribeSpecsTest;
-import info.kfgodel.jspek.testSpecs.TwoPendingTestSpecTest;
 import info.kfgodel.jspek.testSpecs.VariableDefinedInParentContextSpecTest;
 import info.kfgodel.jspek.testSpecs.VariableInSuitSpecTest;
 import org.junit.Before;
