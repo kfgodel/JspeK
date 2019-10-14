@@ -1,6 +1,8 @@
 package info.kfgodel.jspek.impl.model;
 
 
+import java.util.function.Consumer;
+
 /**
  * This type represents a single test to be run in a spec
  * Created by kfgodel on 12/07/14.
@@ -41,4 +43,17 @@ public interface SpecTest extends SpecElement {
    * @return The code to execute as a complete spec test
    */
   Runnable getSpecExecutionCode();
+
+  @Override
+  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup){
+    // Don't execute the code
+    return this;
+  }
+
+  @Override
+  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest){
+    codeOnATest.accept(this);
+    return this;
+  };
+
 }

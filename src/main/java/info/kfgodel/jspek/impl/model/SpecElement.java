@@ -1,6 +1,7 @@
 package info.kfgodel.jspek.impl.model;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * This type represents a java spec element that has a name
@@ -31,5 +32,19 @@ public interface SpecElement {
    */
   List<Runnable> getAfterBlocks();
 
+  /**
+   * Allows executing conditional code without knowing the type of this element.<br>
+   *   If this is a group then the code is executed, otherwise it's ignored
+   * @param codeOnAGroup The code to execute that will receive this instance as a group
+   * @return This instance for method chaining
+   */
+  SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup);
 
+  /**
+   * Allows executing conditional code without knowing the type of this element.<br>
+   *   If this is a test then the code is executed, otherwise it's ignored
+   * @param codeOnATest The code to execute that will receive this instance as a test
+   * @return This instance for method chaining
+   */
+  SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest);
 }

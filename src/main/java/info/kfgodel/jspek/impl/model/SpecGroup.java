@@ -4,6 +4,7 @@ import info.kfgodel.jspek.impl.model.impl.GroupSpecDefinition;
 import info.kfgodel.jspek.impl.model.impl.TestSpecDefinition;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -101,4 +102,16 @@ public interface SpecGroup extends SpecElement {
    * @return The context for this group
    */
   TestContextDefinition getTestContext();
+
+  @Override
+  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup){
+    codeOnAGroup.accept(this);
+    return this;
+  }
+
+  @Override
+  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest){
+    // Don't execute the code
+    return this;
+  };
 }
