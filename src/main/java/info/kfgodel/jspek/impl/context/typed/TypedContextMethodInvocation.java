@@ -55,7 +55,7 @@ public class TypedContextMethodInvocation {
         throw (SpecException) cause;
       }
       throw new SpecException("Invocation on proxied context failed: " + cause.getMessage(), cause);
-    } catch (Exception e) {
+    } catch (Exception e) { // NOSONAR squid:S2221 we are doing reflection and its the catch all other errors case
       throw new SpecException("Unexpected error on proxied context invocation: " + e.getMessage(), e);
     }
   }
