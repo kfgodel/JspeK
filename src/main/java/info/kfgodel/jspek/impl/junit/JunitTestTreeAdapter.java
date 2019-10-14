@@ -50,9 +50,9 @@ public class JunitTestTreeAdapter {
           JunitTestCode junitTest = adaptToJunitTest(test, elementDescription);
           this.junitTree.addTest(junitTest);
         })
-        .ifItIsAGroup((SpecGroup group)->{
-          recursiveAdaptToJunit(group, elementDescription);
-        });
+        .ifItIsAGroup((SpecGroup group)->
+          recursiveAdaptToJunit(group, elementDescription)
+        );
     });
   }
 
