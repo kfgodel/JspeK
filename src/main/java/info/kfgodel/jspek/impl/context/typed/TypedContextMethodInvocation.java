@@ -2,6 +2,8 @@ package info.kfgodel.jspek.impl.context.typed;
 
 import info.kfgodel.jspek.api.contexts.TestContext;
 import info.kfgodel.jspek.api.exceptions.SpecException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,6 +14,7 @@ import java.util.function.Supplier;
  * Created by kfgodel on 21/07/14.
  */
 public class TypedContextMethodInvocation {
+  public static Logger LOG = LoggerFactory.getLogger(TypedContextMethodInvocation.class);
 
   public static final String LET_PREFIX = "let";
   public static final String GET_PREFIX = "get";
@@ -50,6 +53,7 @@ public class TypedContextMethodInvocation {
     } catch (SpecException e) {
       throw e;
     } catch (InvocationTargetException e) {
+      LOG.trace("Failed invocation. Analyzing cause", e);
       Throwable cause = e.getCause();
       if (cause instanceof SpecException) {
         throw (SpecException) cause;
