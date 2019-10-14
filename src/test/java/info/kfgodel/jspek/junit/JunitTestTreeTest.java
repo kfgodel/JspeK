@@ -15,29 +15,29 @@ import static org.mockito.Mockito.mock;
  */
 public class JunitTestTreeTest {
 
-	private JunitTestTree createdTree;
+  private JunitTestTree createdTree;
 
-	@Before
-	public void createTree(){
-		Description rootDescription = Description.createSuiteDescription(JunitTestTreeTest.class);
-		createdTree = JunitTestTree.create(rootDescription);
-	}
-	
-    @Test
-    public void itShouldHaveADescriptionNameWhenCreated(){
-        Description junitDescription = createdTree.getJunitDescription();
-        assertThat(junitDescription.getDisplayName()).isEqualTo(JunitTestTreeTest.class.getName());
-    }
+  @Before
+  public void createTree() {
+    Description rootDescription = Description.createSuiteDescription(JunitTestTreeTest.class);
+    createdTree = JunitTestTree.create(rootDescription);
+  }
 
-    @Test
-    public void itShouldHaveNoTestWhenCreated(){
-        assertThat(createdTree.getJunitTests()).isEmpty();
-    }
+  @Test
+  public void itShouldHaveADescriptionNameWhenCreated() {
+    Description junitDescription = createdTree.getJunitDescription();
+    assertThat(junitDescription.getDisplayName()).isEqualTo(JunitTestTreeTest.class.getName());
+  }
 
-    @Test
-    public void itShouldAddAGivenTest(){
-        JunitTestCode givenTest = mock(JunitTestCode.class);
-        createdTree.addTest(givenTest);
-        assertThat(createdTree.getJunitTests()).contains(givenTest);
-    }
+  @Test
+  public void itShouldHaveNoTestWhenCreated() {
+    assertThat(createdTree.getJunitTests()).isEmpty();
+  }
+
+  @Test
+  public void itShouldAddAGivenTest() {
+    JunitTestCode givenTest = mock(JunitTestCode.class);
+    createdTree.addTest(givenTest);
+    assertThat(createdTree.getJunitTests()).contains(givenTest);
+  }
 }

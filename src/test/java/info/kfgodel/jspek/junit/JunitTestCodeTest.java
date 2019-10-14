@@ -21,66 +21,66 @@ import static org.mockito.Mockito.verify;
  */
 public class JunitTestCodeTest {
 
-    private RunNotifier mockedNotifier;
-    private Description mockedDescription;
-    private Runnable mockedCode;
-    private JunitTestCode junitTest;
+  private RunNotifier mockedNotifier;
+  private Description mockedDescription;
+  private Runnable mockedCode;
+  private JunitTestCode junitTest;
 
-    @Before
-    public void prepareTestDoubles(){
-        mockedNotifier = mock(RunNotifier.class);
-        mockedDescription = mock(Description.class);
-        mockedCode = mock(Runnable.class);
-        junitTest = JunitTestCode.create(mockedCode, mockedDescription);
-    }
+  @Before
+  public void prepareTestDoubles() {
+    mockedNotifier = mock(RunNotifier.class);
+    mockedDescription = mock(Description.class);
+    mockedCode = mock(Runnable.class);
+    junitTest = JunitTestCode.create(mockedCode, mockedDescription);
+  }
 
-    @Test
-    public void notifiesWhenTestStarts(){
-        junitTest.executeNotifying(mockedNotifier);
+  @Test
+  public void notifiesWhenTestStarts() {
+    junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestStarted(mockedDescription);
-    }
+    verify(mockedNotifier).fireTestStarted(mockedDescription);
+  }
 
-    @Test
-    public void notifiesWhenTestEnds(){
-        junitTest.executeNotifying(mockedNotifier);
+  @Test
+  public void notifiesWhenTestEnds() {
+    junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestFinished(mockedDescription);
-    }
+    verify(mockedNotifier).fireTestFinished(mockedDescription);
+  }
 
-    @Test
-    public void notifiesWhenTestBreaks() {
-        doAnswer(invocationOnMock -> {
-            throw new RuntimeException("Breaking bad");
-        }).when(mockedCode).run();
+  @Test
+  public void notifiesWhenTestBreaks() {
+    doAnswer(invocationOnMock -> {
+      throw new RuntimeException("Breaking bad");
+    }).when(mockedCode).run();
 
-        junitTest.executeNotifying(mockedNotifier);
+    junitTest.executeNotifying(mockedNotifier);
 
-        ArgumentCaptor<Failure> argument = ArgumentCaptor.forClass(Failure.class);
-        verify(mockedNotifier).fireTestFailure(argument.capture());
-        assertThat(argument.getValue().getMessage()).isEqualTo("Breaking bad");
-    }
+    ArgumentCaptor<Failure> argument = ArgumentCaptor.forClass(Failure.class);
+    verify(mockedNotifier).fireTestFailure(argument.capture());
+    assertThat(argument.getValue().getMessage()).isEqualTo("Breaking bad");
+  }
 
-    @Test
-    public void notifiesWhenTestIsNonCompliant(){
-        doAnswer(invocationOnMock -> {
-            throw new AssumptionViolatedException("non compliant");
-        }).when(mockedCode).run();
+  @Test
+  public void notifiesWhenTestIsNonCompliant() {
+    doAnswer(invocationOnMock -> {
+      throw new AssumptionViolatedException("non compliant");
+    }).when(mockedCode).run();
 
-        junitTest.executeNotifying(mockedNotifier);
+    junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestAssumptionFailed(any());
-    }
+    verify(mockedNotifier).fireTestAssumptionFailed(any());
+  }
 
-    @Test
-    public void notifiesWhenTestIsIgnored(){
-        doAnswer(invocationOnMock -> {
-            throw new RuntimeException("Shouldn't execute");
-        }).when(mockedCode).run();
+  @Test
+  public void notifiesWhenTestIsIgnored() {
+    doAnswer(invocationOnMock -> {
+      throw new RuntimeException("Shouldn't execute");
+    }).when(mockedCode).run();
 
-        junitTest.ignoreTest();
-        junitTest.executeNotifying(mockedNotifier);
+    junitTest.ignoreTest();
+    junitTest.executeNotifying(mockedNotifier);
 
-        verify(mockedNotifier).fireTestIgnored(mockedDescription);
-    }
+    verify(mockedNotifier).fireTestIgnored(mockedDescription);
+  }
 }

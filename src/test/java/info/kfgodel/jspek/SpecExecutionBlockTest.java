@@ -25,85 +25,85 @@ import static org.mockito.Mockito.verify;
 public class SpecExecutionBlockTest {
 
 
-    private List<Runnable> noBefores = Collections.emptyList();
-    private List<Runnable> noAfters = Collections.emptyList();
-    private TestContextDefinition mockedParentContext;
-    private Variable<TestContext> sharedContext;
-    private Runnable mockedTestCode;
+  private List<Runnable> noBefores = Collections.emptyList();
+  private List<Runnable> noAfters = Collections.emptyList();
+  private TestContextDefinition mockedParentContext;
+  private Variable<TestContext> sharedContext;
+  private Runnable mockedTestCode;
 
-    @Before
-    public void createMocks(){
-        mockedParentContext = mock(TestContextDefinition.class);
-        sharedContext = Variable.of(mockedParentContext);
-        mockedTestCode = mock(Runnable.class);
-    }
+  @Before
+  public void createMocks() {
+    mockedParentContext = mock(TestContextDefinition.class);
+    sharedContext = Variable.of(mockedParentContext);
+    mockedTestCode = mock(Runnable.class);
+  }
 
-    @Test
-    public void itShouldExecuteTestCode(){
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mockedTestCode, noAfters, mockedParentContext, sharedContext);
+  @Test
+  public void itShouldExecuteTestCode() {
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mockedTestCode, noAfters, mockedParentContext, sharedContext);
 
-        specBlock.run();
+    specBlock.run();
 
-        verify(mockedTestCode).run();
-    }
+    verify(mockedTestCode).run();
+  }
 
-    @Test
-    public void itShouldExecuteBeforeBlockBeforeTest() {
-        List<String> executionOrder = new ArrayList<>();
-        Runnable beforeBlock = ()-> executionOrder.add("before");
-        Runnable testBlock =()->executionOrder.add("test");
+  @Test
+  public void itShouldExecuteBeforeBlockBeforeTest() {
+    List<String> executionOrder = new ArrayList<>();
+    Runnable beforeBlock = () -> executionOrder.add("before");
+    Runnable testBlock = () -> executionOrder.add("test");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(beforeBlock), testBlock, noAfters, mockedParentContext, sharedContext);
-        specBlock.run();
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(beforeBlock), testBlock, noAfters, mockedParentContext, sharedContext);
+    specBlock.run();
 
-        assertThat(executionOrder).isEqualTo(Lists.newArrayList("before", "test"));
-    }
+    assertThat(executionOrder).isEqualTo(Lists.newArrayList("before", "test"));
+  }
 
-    @Test
-    public void itShouldExecuteAfterBlockAfterTest(){
-        List<String> executionOrder = new ArrayList<>();
-        Runnable testBlock =()->executionOrder.add("test");
-        Runnable afterBlock = ()-> executionOrder.add("after");
+  @Test
+  public void itShouldExecuteAfterBlockAfterTest() {
+    List<String> executionOrder = new ArrayList<>();
+    Runnable testBlock = () -> executionOrder.add("test");
+    Runnable afterBlock = () -> executionOrder.add("after");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testBlock, Lists.newArrayList(afterBlock), mockedParentContext, sharedContext);
-        specBlock.run();
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testBlock, Lists.newArrayList(afterBlock), mockedParentContext, sharedContext);
+    specBlock.run();
 
-        assertThat(executionOrder).isEqualTo(Lists.newArrayList("test", "after"));
-    }
+    assertThat(executionOrder).isEqualTo(Lists.newArrayList("test", "after"));
+  }
 
-    @Test
-    public void itShouldExecuteBeforeBlocksInOrder(){
-        List<String> executionOrder = new ArrayList<>();
-        Runnable firstBlock = ()-> executionOrder.add("first");
-        Runnable secondBlock =()->executionOrder.add("second");
+  @Test
+  public void itShouldExecuteBeforeBlocksInOrder() {
+    List<String> executionOrder = new ArrayList<>();
+    Runnable firstBlock = () -> executionOrder.add("first");
+    Runnable secondBlock = () -> executionOrder.add("second");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(firstBlock, secondBlock), mock(Runnable.class), noAfters, mockedParentContext, sharedContext);
-        specBlock.run();
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(Lists.newArrayList(firstBlock, secondBlock), mock(Runnable.class), noAfters, mockedParentContext, sharedContext);
+    specBlock.run();
 
-        assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
-    }
+    assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
+  }
 
-    @Test
-    public void itShouldExecuteAfterBlocksInOrder(){
-        List<String> executionOrder = new ArrayList<>();
-        Runnable firstBlock = ()-> executionOrder.add("first");
-        Runnable secondBlock =()->executionOrder.add("second");
+  @Test
+  public void itShouldExecuteAfterBlocksInOrder() {
+    List<String> executionOrder = new ArrayList<>();
+    Runnable firstBlock = () -> executionOrder.add("first");
+    Runnable secondBlock = () -> executionOrder.add("second");
 
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mock(Runnable.class), Lists.newArrayList(firstBlock, secondBlock), mockedParentContext, sharedContext);
-        specBlock.run();
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, mock(Runnable.class), Lists.newArrayList(firstBlock, secondBlock), mockedParentContext, sharedContext);
+    specBlock.run();
 
-        assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
-    }
+    assertThat(executionOrder).isEqualTo(Lists.newArrayList("first", "second"));
+  }
 
 
-    @Test
-    public void itShouldCreateItsOwnTestContext(){
-        Runnable testCode = ()->  sharedContext.get().let("foo", ()-> 1);
-        SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testCode, noAfters, mockedParentContext, sharedContext);
+  @Test
+  public void itShouldCreateItsOwnTestContext() {
+    Runnable testCode = () -> sharedContext.get().let("foo", () -> 1);
+    SpecExecutionBlock specBlock = SpecExecutionBlock.create(noBefores, testCode, noAfters, mockedParentContext, sharedContext);
 
-        specBlock.run();
+    specBlock.run();
 
-        verify(mockedParentContext, never()).let(any(), any());
-    }
+    verify(mockedParentContext, never()).let(any(), any());
+  }
 
 }

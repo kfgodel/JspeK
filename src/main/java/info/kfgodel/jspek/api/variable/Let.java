@@ -26,7 +26,8 @@ public class Let<T> {
    *
    * @param definition A value supplier that can be used to lazily define the initial value of the variable
    */
-  @SuppressWarnings("unchecked") // We hack the return type here given the supplier type (we are changing this type on runtime, which is not possible on compile time)
+  @SuppressWarnings("unchecked")
+  // We hack the return type here given the supplier type (we are changing this type on runtime, which is not possible on compile time)
   public <U extends T> Let<U> let(Supplier<T> definition) {
     context().let(variableName(), definition);
     return (Let<U>) this;

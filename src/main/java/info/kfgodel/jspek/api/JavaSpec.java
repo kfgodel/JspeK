@@ -45,6 +45,7 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   /**
    * Using reflection gets the concrete type used to parameterize this class.<br>
    * That parameter is going to be proxied later and made available to the user
+   *
    * @return The concrete test context subtype or an exception if pre-conditions are not met
    */
   public Class<T> getContextTypeFromSubclassDeclaration() {
@@ -62,6 +63,7 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
 
   /**
    * Tries toget the raw class instance that represents the interface defining the test context
+   *
    * @param contextType The type that is found on the spec declaration
    * @return The class instance that represents the test context interface
    */

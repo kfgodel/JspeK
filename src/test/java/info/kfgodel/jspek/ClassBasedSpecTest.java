@@ -45,7 +45,7 @@ public class ClassBasedSpecTest extends JavaSpec<ClassBasedTestContext<Object>> 
         assertThat(context().describedClass()).isEqualTo(Object.class);
       });
 
-      it("can define a subject explicitly without defining a class",()->{
+      it("can define a subject explicitly without defining a class", () -> {
         context().subject(() -> "hello");
         assertThat(context().subject()).isEqualTo("hello");
       });
@@ -55,15 +55,15 @@ public class ClassBasedSpecTest extends JavaSpec<ClassBasedTestContext<Object>> 
           it("returns the class when accessed", () -> {
             assertThat(context().describedClass()).isEqualTo(Object.class);
           });
-          
-          it("returns a test instance when subject is accessed",()->{
-              assertThat(context().subject()).isNotNull();
-          });   
+
+          it("returns a test instance when subject is accessed", () -> {
+            assertThat(context().subject()).isNotNull();
+          });
         });
       });
 
-      xdescribe(Object.class, ()->{
-        it("can ignore groups of tests",()->{
+      xdescribe(Object.class, () -> {
+        it("can ignore groups of tests", () -> {
           // Never executed
           assertThat(true).isFalse();
         });

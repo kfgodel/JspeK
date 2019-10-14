@@ -13,16 +13,16 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class VariableDefinedInParentContextSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
+  @Override
+  public void define() {
 
-        context().let("foo", ()-> 2);
+    context().let("foo", () -> 2);
 
-        describe("a suite inherits variables from its container", ()->{
+    describe("a suite inherits variables from its container", () -> {
 
-            it("can be accessed from its tests", ()->{
-                assertThat(context().<Integer>get("foo")).isEqualTo(2);
-            });
-        });
-    }
+      it("can be accessed from its tests", () -> {
+        assertThat(context().<Integer>get("foo")).isEqualTo(2);
+      });
+    });
+  }
 }

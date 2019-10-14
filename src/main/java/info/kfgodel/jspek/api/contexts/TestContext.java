@@ -32,10 +32,11 @@ public interface TestContext {
 
   /**
    * Indicates whether this context has a definition for the given named variable or not.<br>
-   *   Definition may be inherited from parent context.<br>
-   *   Variable definition is independepent from variable value. The definition must be always be available for a
-   *   value to be able to be present
-   * @param variableName  Name of the variable to check for
+   * Definition may be inherited from parent context.<br>
+   * Variable definition is independepent from variable value. The definition must be always be available for a
+   * value to be able to be present
+   *
+   * @param variableName Name of the variable to check for
    * @return True if a value can be obtained calling get()
    */
   boolean hasDefinitionFor(String variableName);
@@ -44,8 +45,10 @@ public interface TestContext {
    * @return The code defined as the setup part of a single test.<br>
    */
   Runnable setupCode();
+
   /**
    * Defines or overrides the code for the setup part of a test indicated with #given().<br>
+   *
    * @param definition The code to define the initial context state for the test
    */
   void setupCode(Supplier<Runnable> definition);
@@ -54,8 +57,10 @@ public interface TestContext {
    * @return The code defined as the exercise part of a single test
    */
   Runnable exerciseCode();
+
   /**
    * Defines or overrides the code for the exercise part of a test indicated with #when()
+   *
    * @param definition The code to define the context modification, the tested logic
    */
   void exerciseCode(Supplier<Runnable> definition);
@@ -67,6 +72,7 @@ public interface TestContext {
 
   /**
    * Defines or overrides the code for the assertion part of a test indicated with #then()
+   *
    * @param definition The code to define the assertions over the context to verify the expected final state
    */
   void assertionCode(Supplier<Runnable> definition);

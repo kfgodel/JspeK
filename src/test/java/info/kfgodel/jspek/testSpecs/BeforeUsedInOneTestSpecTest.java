@@ -14,17 +14,17 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class BeforeUsedInOneTestSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        Variable<Integer> foo = Variable.create();
+  @Override
+  public void define() {
+    Variable<Integer> foo = Variable.create();
 
-        beforeEach(()-> {
-            foo.set(0);
-        });
+    beforeEach(() -> {
+      foo.set(0);
+    });
 
-        it("test with before", ()-> {
-            assertThat(foo.get()).isEqualTo(0);
-        });
+    it("test with before", () -> {
+      assertThat(foo.get()).isEqualTo(0);
+    });
 
-    }
+  }
 }

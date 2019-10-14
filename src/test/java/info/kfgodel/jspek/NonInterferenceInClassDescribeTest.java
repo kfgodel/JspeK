@@ -18,15 +18,15 @@ public class NonInterferenceInClassDescribeTest extends JavaSpec<ClassBasedTestC
   public void define() {
     describe("a class based group", () -> {
 
-      context().describedClass(()-> String.class);
+      context().describedClass(() -> String.class);
 
       describe(Object.class, () -> {
-        it("has the class a context variable inside the group",()->{
-            assertThat(context().describedClass()).isEqualTo(Object.class);
-        });   
+        it("has the class a context variable inside the group", () -> {
+          assertThat(context().describedClass()).isEqualTo(Object.class);
+        });
       });
-      
-      it("doesn't affect the parent context definition",()->{
+
+      it("doesn't affect the parent context definition", () -> {
         assertThat(context().describedClass()).isEqualTo(String.class);
       });
 

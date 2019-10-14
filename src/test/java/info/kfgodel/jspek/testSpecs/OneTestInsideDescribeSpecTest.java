@@ -14,14 +14,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class OneTestInsideDescribeSpecTest extends JavaSpec<TestContext> {
 
-    @Override
-    public void define() {
-    	
-        describe("A suite", ()-> {
-            it("contains spec with an expectation", ()-> {
-                assertThat(true).isEqualTo(true);
-            });
-        });
-        
-    }
+  @Override
+  public void define() {
+
+    describe("A suite", () -> {
+      it("contains spec with an expectation", () -> {
+        assertThat(true).isEqualTo(true);
+      });
+    });
+
+  }
 }

@@ -14,29 +14,29 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class TwoBeforeAndAfterTestSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        Variable<Object> foo = Variable.create();
+  @Override
+  public void define() {
+    Variable<Object> foo = Variable.create();
 
-        beforeEach(()-> {
-            foo.set(0);
-        });
+    beforeEach(() -> {
+      foo.set(0);
+    });
 
-        beforeEach(()-> {
-            foo.storeSumWith(1);
-        });
+    beforeEach(() -> {
+      foo.storeSumWith(1);
+    });
 
-        it("test with 2 before and 2 after", ()-> {
-            assertThat(foo.get()).isEqualTo(1);
-            foo.set("text");
-        });
+    it("test with 2 before and 2 after", () -> {
+      assertThat(foo.get()).isEqualTo(1);
+      foo.set("text");
+    });
 
-        afterEach(()-> {
-            foo.storeSumWith(" added something");
-        });
+    afterEach(() -> {
+      foo.storeSumWith(" added something");
+    });
 
-        afterEach(()-> {
-            foo.storeSumWith(" period .");
-        });
-    }
+    afterEach(() -> {
+      foo.storeSumWith(" period .");
+    });
+  }
 }

@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 
 /**
  * This type represents the available api when the tests are being run.<br>
- *   Through an instance of this class a javaspec enforces the correct usage
- *   or allows behavior not available when the tests are being defined
- *
+ * Through an instance of this class a javaspec enforces the correct usage
+ * or allows behavior not available when the tests are being defined
+ * <p>
  * Created by kfgodel on 09/03/16.
  */
 public class RunningMode<T extends TestContext> implements ExecutionMode<T> {
@@ -20,9 +20,10 @@ public class RunningMode<T extends TestContext> implements ExecutionMode<T> {
 
   /**
    * Creates a new running mode that will delegate safe calls to the previous mode
+   *
    * @param executionContext
    */
-  public static<T extends TestContext> RunningMode<T> create(T executionContext) {
+  public static <T extends TestContext> RunningMode<T> create(T executionContext) {
     RunningMode<T> api = new RunningMode<>();
     api.currentContext = executionContext;
     return api;

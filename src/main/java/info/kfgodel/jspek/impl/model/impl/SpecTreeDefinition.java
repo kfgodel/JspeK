@@ -11,27 +11,27 @@ import info.kfgodel.jspek.impl.model.SpecTree;
  */
 public class SpecTreeDefinition implements SpecTree {
 
-    private SpecGroup rootGroup;
-    private Variable<TestContext> sharedContext;
+  private SpecGroup rootGroup;
+  private Variable<TestContext> sharedContext;
 
-    @Override
-    public boolean hasNoTests() {
-        return rootGroup.hasNoTests();
-    }
+  @Override
+  public boolean hasNoTests() {
+    return rootGroup.hasNoTests();
+  }
 
-    @Override
-    public SpecGroup getRootGroup() {
-        return rootGroup;
-    }
+  @Override
+  public SpecGroup getRootGroup() {
+    return rootGroup;
+  }
 
-    public static SpecTreeDefinition create() {
-        SpecTreeDefinition tree = new SpecTreeDefinition();
-        tree.rootGroup = GroupSpecDefinition.create("anonymous root");
-        tree.sharedContext = Variable.create();
-        return tree;
-    }
+  public static SpecTreeDefinition create() {
+    SpecTreeDefinition tree = new SpecTreeDefinition();
+    tree.rootGroup = GroupSpecDefinition.create("anonymous root");
+    tree.sharedContext = Variable.create();
+    return tree;
+  }
 
-    public Variable<TestContext> getSharedContext() {
-        return sharedContext;
-    }
+  public Variable<TestContext> getSharedContext() {
+    return sharedContext;
+  }
 }

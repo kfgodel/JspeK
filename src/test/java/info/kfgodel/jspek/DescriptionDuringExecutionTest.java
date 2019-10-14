@@ -22,7 +22,8 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
 
       it("throws an error if user tries to define another nested test", () -> {
         try {
-          it("wrongly nested spec", () -> {});
+          it("wrongly nested spec", () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a nested spec calling it()");
@@ -31,7 +32,8 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
 
       it("throws an error if user tries to define nested ignored tests", () -> {
         try {
-          xit("wrongly nested ignored spec", () -> {});
+          xit("wrongly nested ignored spec", () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
@@ -44,63 +46,71 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
         }
       });
 
-      it("throws an error if user tries to describe a group spec",()->{
+      it("throws an error if user tries to describe a group spec", () -> {
         try {
-          describe("wrongly nested group", () -> {});
+          describe("wrongly nested group", () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a group spec calling describe()");
         }
       });
 
-      it("throws an error if user tries to describe a class spec",()->{
+      it("throws an error if user tries to describe a class spec", () -> {
         try {
-          describe(Object.class, () -> {});
+          describe(Object.class, () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a class spec calling describe()");
         }
       });
 
-      it("throws an error if user tries to describe an ignored group spec",()->{
+      it("throws an error if user tries to describe an ignored group spec", () -> {
         try {
-          xdescribe("wrongly nested class group", () -> {});
+          xdescribe("wrongly nested class group", () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare an ignored group spec calling xdescribe()");
         }
       });
 
-      it("throws an error if user tries to describe an ignored class spec",()->{
+      it("throws an error if user tries to describe an ignored class spec", () -> {
         try {
-          xdescribe(Object.class, () -> {});
+          xdescribe(Object.class, () -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare an ignored class spec calling xdescribe()");
         }
       });
 
-      it("throws an error if user tries to add before blocks",()->{
+      it("throws an error if user tries to add before blocks", () -> {
         try {
-          beforeEach(() -> {});
+          beforeEach(() -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a before block calling beforeEach()");
         }
       });
 
-      it("throws an error if user tries to add after blocks",()->{
+      it("throws an error if user tries to add after blocks", () -> {
         try {
-          afterEach(() -> {});
+          afterEach(() -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare an after block calling afterEach()");
         }
       });
 
-      it("throws an error if user tries to declare another nested failure test",()->{
+      it("throws an error if user tries to declare another nested failure test", () -> {
         try {
-          itThrows(RuntimeException.class, "", ()->{}, (e)->{});
+          itThrows(RuntimeException.class, "", () -> {
+          }, (e) -> {
+          });
           failBecauseExceptionWasNotThrown(SpecException.class);
         } catch (SpecException e) {
           assertThat(e).hasMessage("A running test cannot declare a nested failure test calling itThrows()");
@@ -108,13 +118,13 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
       });
 
       describe("when declaration is done on a before/after block", () -> {
-        beforeEach(()->{
+        beforeEach(() -> {
           testAllDeclarationAttempts();
         });
-        it("it throws the expected exceptions",()->{
-            // The actual assertion are on the before/after blocks
-        });   
-        afterEach(()->{
+        it("it throws the expected exceptions", () -> {
+          // The actual assertion are on the before/after blocks
+        });
+        afterEach(() -> {
           testAllDeclarationAttempts();
         });
       });
@@ -126,13 +136,15 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
 
   private void testAllDeclarationAttempts() {
     try {
-      it("wrongly nested spec", () -> {});
+      it("wrongly nested spec", () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare a nested spec calling it()");
     }
     try {
-      xit("wrongly nested ignored spec", () -> {});
+      xit("wrongly nested ignored spec", () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
@@ -144,37 +156,43 @@ public class DescriptionDuringExecutionTest extends JavaSpec<TestContext> {
       assertThat(e).hasMessage("A running test cannot declare a nested ignored spec calling xit()");
     }
     try {
-      describe("wrongly nested group", () -> {});
+      describe("wrongly nested group", () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare a group spec calling describe()");
     }
     try {
-      describe(Object.class, () -> {});
+      describe(Object.class, () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare a class spec calling describe()");
     }
     try {
-      xdescribe("wrongly nested class group", () -> {});
+      xdescribe("wrongly nested class group", () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare an ignored group spec calling xdescribe()");
     }
     try {
-      xdescribe(Object.class, () -> {});
+      xdescribe(Object.class, () -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare an ignored class spec calling xdescribe()");
     }
     try {
-      beforeEach(() -> {});
+      beforeEach(() -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare a before block calling beforeEach()");
     }
     try {
-      afterEach(() -> {});
+      afterEach(() -> {
+      });
       failBecauseExceptionWasNotThrown(SpecException.class);
     } catch (SpecException e) {
       assertThat(e).hasMessage("A running test cannot declare an after block calling afterEach()");

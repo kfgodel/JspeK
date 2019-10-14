@@ -17,9 +17,9 @@ import java.util.function.Consumer;
 
 /**
  * This type represents the available api when the tests are being defined.<br>
- *   Through an instance of this class a spec tree can be populated by calling the
- *   user available methods to create a complete spec definition
- *
+ * Through an instance of this class a spec tree can be populated by calling the
+ * user available methods to create a complete spec definition
+ * <p>
  * Created by kfgodel on 09/03/16.
  */
 public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
@@ -57,21 +57,22 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
     stack.getCurrentHead().addTest(createdSpec);
   }
 
-  @SuppressWarnings("unchecked") // X is used to parameterize the type of exception returned, but in runtime that type argument can't be used
+  @SuppressWarnings("unchecked")
+  // X is used to parameterize the type of exception returned, but in runtime that type argument can't be used
   @Override
   public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
     String expectedTypeName = expectedExceptionType.getSimpleName();
-    String testName = "throws " + expectedTypeName + " " +  testNameSuffix;
-    Runnable testCode = ()->{
+    String testName = "throws " + expectedTypeName + " " + testNameSuffix;
+    Runnable testCode = () -> {
       try {
         aTestCode.run();
         throw new AssertionError("No exception thrown while expecting: " + expectedTypeName);
-      }catch (AssertionError e){
+      } catch (AssertionError e) {
         throw e;
-      }catch (Throwable e){
-        if(expectedExceptionType.isAssignableFrom(e.getClass())){
+      } catch (Throwable e) {
+        if (expectedExceptionType.isAssignableFrom(e.getClass())) {
           exceptionAssertions.accept((X) e);
-        }else{
+        } else {
           throw new AssertionError("Caught " + e + " while expecting " + expectedTypeName, e);
         }
       }
@@ -91,7 +92,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
   }
 
   @Override
-  public void describe(Class<?> aClass, Runnable aGroupDefinition){
+  public void describe(Class<?> aClass, Runnable aGroupDefinition) {
     createClassBasedGroupDescription(aClass, aGroupDefinition);
   }
 
@@ -103,11 +104,13 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
 
   /**
    * Creates the description of a class based test group
-   * @param aClass The class to base the group on
+   *
+   * @param aClass           The class to base the group on
    * @param aGroupDefinition The test definitions
    * @return The created group
    */
-  @SuppressWarnings("unchecked") // We use the class parameter without being able to check if it fits as describedclass (not possible wo generics on runtime)
+  @SuppressWarnings("unchecked")
+  // We use the class parameter without being able to check if it fits as describedclass (not possible wo generics on runtime)
   private GroupSpecDefinition createClassBasedGroupDescription(Class<?> aClass, Runnable aGroupDefinition) {
     // Sanity check to verify correct usage
     if (!(context() instanceof ClassBasedTestContext)) {
@@ -117,7 +120,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
     String groupName = "class: " + aClass.getSimpleName();
     GroupSpecDefinition groupDefinition = createGroupDefinition(groupName, aGroupDefinition);
     ClassBasedTestContext classContext = (ClassBasedTestContext) groupDefinition.getTestContext();
-    classContext.describedClass(()-> aClass);
+    classContext.describedClass(() -> aClass);
     return groupDefinition;
   }
 
@@ -144,14 +147,15 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
   }
 
   /**
-   /**
+   * /**
    * Creates a new spec describer  that will populate the branches of the given tree when its methods
    * are called
+   *
    * @param specTree The tree to collect the spec meta description
-   * @param <T> The type of test context
+   * @param <T>      The type of test context
    * @return The created describer
    */
-  public static<T extends TestContext> DefinitionMode<T> create(SpecTree specTree, Class<T> expectedContextType) {
+  public static <T extends TestContext> DefinitionMode<T> create(SpecTree specTree, Class<T> expectedContextType) {
     DefinitionMode<T> describer = new DefinitionMode<>();
     describer.specTree = specTree;
     describer.initialize(expectedContextType);
@@ -161,6 +165,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
   /**
    * Initializes this instance with the stack and context to collect spec meta description
    * from the method calls
+   *
    * @param expectedContextType
    */
   private void initialize(Class<T> expectedContextType) {
@@ -173,6 +178,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
 
   /**
    * Creates a running mode based on the current definitions for this instance
+   *
    * @return The running version of this mode
    */
   public RunningMode<T> changeToRunning() {

@@ -9,8 +9,8 @@ import info.kfgodel.jspek.api.contexts.TestContext;
  */
 public class EmptySpec extends JavaSpec<TestContext> {
 
-    @Override
-    public void define() {
-        //Purposely empty definition
-    }
+  @Override
+  public void define() {
+    //Purposely empty definition
+  }
 }

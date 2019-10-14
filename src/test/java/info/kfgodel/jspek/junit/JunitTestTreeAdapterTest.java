@@ -21,35 +21,35 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class JunitTestTreeAdapterTest {
 
-    @Test
-    public void itNamesTheRootGroupAfterTheTestClass(){
-        Class<? extends JavaSpec> specClass = EmptySpec.class;
-        SpecTree specTree = SpecParser.create().parse(specClass);
+  @Test
+  public void itNamesTheRootGroupAfterTheTestClass() {
+    Class<? extends JavaSpec> specClass = EmptySpec.class;
+    SpecTree specTree = SpecParser.create().parse(specClass);
 
-        JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
-        assertThat(adapter.getJunitTree().getJunitDescription().getDisplayName()).isEqualTo(specClass.getName());
-    }
+    JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
+    assertThat(adapter.getJunitTree().getJunitDescription().getDisplayName()).isEqualTo(specClass.getName());
+  }
 
-    @Test
-    public void itCreatesAnInnerGroupPerDescribe(){
-        Class<? extends JavaSpec> specClass = OneEmptyDescribeSpec.class;
-        SpecTree specTree = SpecParser.create().parse(specClass);
+  @Test
+  public void itCreatesAnInnerGroupPerDescribe() {
+    Class<? extends JavaSpec> specClass = OneEmptyDescribeSpec.class;
+    SpecTree specTree = SpecParser.create().parse(specClass);
 
-        JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
-        Description onlySubGroup = adapter.getJunitTree().getJunitDescription().getChildren().get(0);
-        assertThat(onlySubGroup.getDisplayName()).isEqualTo("empty describe");
+    JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
+    Description onlySubGroup = adapter.getJunitTree().getJunitDescription().getChildren().get(0);
+    assertThat(onlySubGroup.getDisplayName()).isEqualTo("empty describe");
 
-    }
+  }
 
-    @Test
-    public void itCreatesATestPerSpecTest(){
-        Class<? extends JavaSpec> specClass = OneRootTestSpecTest.class;
-        SpecTree specTree = SpecParser.create().parse(specClass);
+  @Test
+  public void itCreatesATestPerSpecTest() {
+    Class<? extends JavaSpec> specClass = OneRootTestSpecTest.class;
+    SpecTree specTree = SpecParser.create().parse(specClass);
 
-        JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
-        List<JunitTestCode> junitTests = adapter.getJunitTree().getJunitTests();
-        assertThat(junitTests).hasSize(1);
-        assertThat(junitTests.get(0).getTestDescription().getDisplayName()).isEqualTo("only test");
+    JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
+    List<JunitTestCode> junitTests = adapter.getJunitTree().getJunitTests();
+    assertThat(junitTests).hasSize(1);
+    assertThat(junitTests.get(0).getTestDescription().getDisplayName()).isEqualTo("only test");
 
-    }
+  }
 }

@@ -16,12 +16,12 @@ public class InitialModeTest {
   private MinimumTest spec;
 
   @Before
-  public void createSpec(){
+  public void createSpec() {
     this.spec = new MinimumTest();
   }
 
   @Test
-  public void itCantAccessTheContext(){
+  public void itCantAccessTheContext() {
     try {
       this.spec.context();
     } catch (SpecException e) {
@@ -30,17 +30,20 @@ public class InitialModeTest {
   }
 
   @Test
-  public void itCantDefineATest(){
+  public void itCantDefineATest() {
     try {
-      this.spec.it("a wrongly defined test", ()-> {});
+      this.spec.it("a wrongly defined test", () -> {
+      });
     } catch (SpecException e) {
       assertThat(e).hasMessage("A test can't be defined outside the method define");
     }
   }
+
   @Test
-  public void itCantDefineGroups(){
+  public void itCantDefineGroups() {
     try {
-      this.spec.describe("a wrongly defined group", ()-> {});
+      this.spec.describe("a wrongly defined group", () -> {
+      });
     } catch (SpecException e) {
       assertThat(e).hasMessage("A group can't be defined outside the method define");
     }

@@ -12,15 +12,19 @@ import java.util.function.Supplier;
 public interface ExampleTestContext extends TestContext {
 
   String word();
+
   void word(Supplier<String> definition);
 
   List<String> elements();
+
   void elements(Supplier<List<String>> definition);
 
   Collection<String> collection();
+
   void collection(Supplier<Collection<String>> definition);
 
   List<String> list();
+
   void list(Supplier<List<String>> definition);
 
 }

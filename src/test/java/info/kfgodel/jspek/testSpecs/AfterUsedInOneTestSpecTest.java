@@ -14,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class AfterUsedInOneTestSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        Variable<Object> foo = Variable.create();
+  @Override
+  public void define() {
+    Variable<Object> foo = Variable.create();
 
-        afterEach(()-> {
-            foo.storeSumWith("appended text");
-        });
+    afterEach(() -> {
+      foo.storeSumWith("appended text");
+    });
 
-        it("test with after", ()-> {
-            assertThat(foo.get()).isNull();
-            foo.set("a text");
-        });
+    it("test with after", () -> {
+      assertThat(foo.get()).isNull();
+      foo.set("a text");
+    });
 
-    }
+  }
 }

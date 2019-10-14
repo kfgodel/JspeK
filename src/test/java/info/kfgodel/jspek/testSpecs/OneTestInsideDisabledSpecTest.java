@@ -14,16 +14,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class OneTestInsideDisabledSpecTest extends JavaSpec<TestContext> {
 
-    @Override
-    public void define() {
+  @Override
+  public void define() {
 
-        xdescribe("disabled suite", ()->{
+    xdescribe("disabled suite", () -> {
 
-            it("transitive disabled test", ()->{
-                assertThat(true).isFalse();
-            });
+      it("transitive disabled test", () -> {
+        assertThat(true).isFalse();
+      });
 
-        });
+    });
 
-    }
+  }
 }

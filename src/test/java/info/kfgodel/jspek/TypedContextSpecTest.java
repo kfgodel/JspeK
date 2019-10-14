@@ -16,49 +16,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class TypedContextSpecTest extends JavaSpec<TypedContextSpecTest.TestingContext> {
 
-    public interface TestingContext extends TestContext {
+  public interface TestingContext extends TestContext {
 
-        //Foo declaration
-        void letFoo(Supplier<Integer> definition);
-        Integer getFoo();
+    //Foo declaration
+    void letFoo(Supplier<Integer> definition);
 
-        //bar declaration
-        void bar(Supplier<Integer> definition);
-        Integer bar();
-    }
+    Integer getFoo();
 
-    @Override
-    public void define() {
+    //bar declaration
+    void bar(Supplier<Integer> definition);
 
-        describe("using typed contexts", ()->{
+    Integer bar();
+  }
 
-            describe("a variable can be defined with let prefix", ()->{
-                context().letFoo(()-> 1);
+  @Override
+  public void define() {
 
-                it("and accessed with get prefix", ()->{
-                    assertThat(context().getFoo()).isEqualTo(1);
-                });
-            });
+    describe("using typed contexts", () -> {
+
+      describe("a variable can be defined with let prefix", () -> {
+        context().letFoo(() -> 1);
+
+        it("and accessed with get prefix", () -> {
+          assertThat(context().getFoo()).isEqualTo(1);
+        });
+      });
 
 
-            describe("without prefixes", ()->{
-                context().bar(()-> 2);
+      describe("without prefixes", () -> {
+        context().bar(() -> 2);
 
-                it("accessed by variable name as method", ()->{
-                    assertThat(context().bar()).isEqualTo(2);
-                });
-            });
+        it("accessed by variable name as method", () -> {
+          assertThat(context().bar()).isEqualTo(2);
+        });
+      });
 
-            describe("using names", ()->{
-                context().letFoo(()-> 3);
+      describe("using names", () -> {
+        context().letFoo(() -> 3);
 
-                it("prefixes are omitted", ()->{
-                    assertThat(context().<Integer>get("foo")).isEqualTo(3);
-                });
-
-            });
-
+        it("prefixes are omitted", () -> {
+          assertThat(context().<Integer>get("foo")).isEqualTo(3);
         });
 
-    }
+      });
+
+    });
+
+  }
 }

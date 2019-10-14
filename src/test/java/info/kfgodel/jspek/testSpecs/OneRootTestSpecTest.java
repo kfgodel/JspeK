@@ -13,10 +13,10 @@ import org.junit.runner.RunWith;
 public class OneRootTestSpecTest extends JavaSpec<TestContext> {
 
 
-    @Override
-    public void define() {
-        it("only test", ()->{
+  @Override
+  public void define() {
+    it("only test", () -> {
 
-        });
-    }
+    });
+  }
 }

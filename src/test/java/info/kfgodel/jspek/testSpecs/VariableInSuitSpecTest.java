@@ -14,14 +14,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class VariableInSuitSpecTest extends JavaSpec<TestContext> {
 
-    @Override
-    public void define() {
-        describe("a suite with a variable", ()->{
-            context().let("foo", ()-> 2);
+  @Override
+  public void define() {
+    describe("a suite with a variable", () -> {
+      context().let("foo", () -> 2);
 
-            it("can be accessed from its tests", ()->{
-                assertThat(context().<Integer>get("foo")).isEqualTo(2);
-            });
-        });
-    }
+      it("can be accessed from its tests", () -> {
+        assertThat(context().<Integer>get("foo")).isEqualTo(2);
+      });
+    });
+  }
 }

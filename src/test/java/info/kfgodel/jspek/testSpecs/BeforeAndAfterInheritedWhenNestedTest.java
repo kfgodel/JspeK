@@ -14,40 +14,40 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class BeforeAndAfterInheritedWhenNestedTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        Variable<Object> foo = Variable.create();
+  @Override
+  public void define() {
+    Variable<Object> foo = Variable.create();
 
-        beforeEach(()-> {
-            foo.set(0);
-        });
+    beforeEach(() -> {
+      foo.set(0);
+    });
 
-        it("test with 1 before/after set", ()-> {
-            assertThat(foo.get()).isEqualTo(0);
-            foo.set("a text");
-        });
+    it("test with 1 before/after set", () -> {
+      assertThat(foo.get()).isEqualTo(0);
+      foo.set("a text");
+    });
 
-        afterEach(()-> {
-            foo.storeSumWith(" period .");
-        });
+    afterEach(() -> {
+      foo.storeSumWith(" period .");
+    });
 
-        describe("nested context inherits before/after definitions", ()->{
+    describe("nested context inherits before/after definitions", () -> {
 
-            beforeEach(()-> {
-                foo.storeSumWith(1);
-            });
+      beforeEach(() -> {
+        foo.storeSumWith(1);
+      });
 
-            it("test with own and inherited before/after sets", ()-> {
-                assertThat(foo.get()).isEqualTo(1);
-                foo.set("an inner text");
-            });
+      it("test with own and inherited before/after sets", () -> {
+        assertThat(foo.get()).isEqualTo(1);
+        foo.set("an inner text");
+      });
 
-            afterEach(()-> {
-                foo.storeSumWith(" added something");
-            });
+      afterEach(() -> {
+        foo.storeSumWith(" added something");
+      });
 
-        });
+    });
 
 
-    }
+  }
 }

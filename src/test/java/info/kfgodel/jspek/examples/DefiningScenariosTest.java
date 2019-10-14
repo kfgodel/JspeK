@@ -14,7 +14,7 @@ public class DefiningScenariosTest extends JavaSpec<ExampleTestContext> {
   @Override
   public void define() {
     describe("when the word is Hello", () -> {
-      context().word(()-> "Hello");
+      context().word(() -> "Hello");
 
       it("is shorter than 6 characters", () -> {
         assertThat(context().word().length()).isLessThan(6);
@@ -22,7 +22,7 @@ public class DefiningScenariosTest extends JavaSpec<ExampleTestContext> {
     });
 
     describe("when the word is goodbye", () -> {
-      context().word(()-> "Goodbye");
+      context().word(() -> "Goodbye");
 
       it("is longer than 6 characters", () -> {
         assertThat(context().word().length()).isGreaterThan(6);

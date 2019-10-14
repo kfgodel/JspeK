@@ -10,42 +10,42 @@ import org.junit.runner.RunWith
  */
 @RunWith(JavaSpecRunner::class)
 class ExampleKotlinTest : KotlinSpec() {
-  override fun define() {
-    describe("a kotlin spec") {
+    override fun define() {
+        describe("a kotlin spec") {
 
-      it("contains a test with an expectation") {
-        assertThat(true).isEqualTo(true)
-      }
+            it("contains a test with an expectation") {
+                assertThat(true).isEqualTo(true)
+            }
 
-      describe("when variables are needed") {
+            describe("when variables are needed") {
 
-        val age by let { 23 }
+                val age by let { 23 }
 
-        it("can set its value on declaration") {
-          assertThat(age()).isEqualTo(23)
+                it("can set its value on declaration") {
+                    assertThat(age()).isEqualTo(23)
+                }
+
+                val name by let<String>()
+                name { "esther" }
+
+                it("or after declaration") {
+                    age { 22 }
+                    assertThat(age()).isEqualTo(22)
+                    assertThat(name()).isEqualTo("esther")
+                }
+
+                describe("when using nested contexts") {
+                    name { "nested esther" }
+
+                    it("can access outer variables") {
+                        assertThat(age()).isEqualTo(23)
+                    }
+
+                    it("can re define the value in the subcontext") {
+                        assertThat(name()).isEqualTo("nested esther")
+                    }
+                }
+            }
         }
-
-        val name by let<String>()
-        name { "esther" }
-
-        it("or after declaration") {
-          age {22}
-          assertThat(age()).isEqualTo(22)
-          assertThat(name()).isEqualTo("esther")
-        }
-
-        describe("when using nested contexts") {
-          name { "nested esther" }
-
-          it("can access outer variables") {
-            assertThat(age()).isEqualTo(23)
-          }
-
-          it("can re define the value in the subcontext") {
-            assertThat(name()).isEqualTo("nested esther")
-          }
-        }
-      }
     }
-  }
 }

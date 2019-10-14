@@ -14,17 +14,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JavaSpecRunner.class)
 public class VariableIndependenceBetweenTestsSpecTest extends JavaSpec<TestContext> {
 
-    @Override
-    public void define() {
-        context().let("foo", ()-> 1);
+  @Override
+  public void define() {
+    context().let("foo", () -> 1);
 
-        it("a redefining spec", ()->{
-            context().let("foo", ()-> 2);
-            assertThat(context().<Integer>get("foo")).isEqualTo(2);
-        });
+    it("a redefining spec", () -> {
+      context().let("foo", () -> 2);
+      assertThat(context().<Integer>get("foo")).isEqualTo(2);
+    });
 
-        it("shouldn't pollute other specs", ()->{
-            assertThat(context().<Integer>get("foo")).isEqualTo(1);
-        });
-    }
+    it("shouldn't pollute other specs", () -> {
+      assertThat(context().<Integer>get("foo")).isEqualTo(1);
+    });
+  }
 }

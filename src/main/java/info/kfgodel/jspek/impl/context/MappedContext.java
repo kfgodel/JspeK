@@ -34,7 +34,8 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   @Override
-  @SuppressWarnings("unchecked") // We force the fact that object becomes T on the Supplier (there's no way to check this at runtime)
+  @SuppressWarnings("unchecked")
+  // We force the fact that object becomes T on the Supplier (there's no way to check this at runtime)
   public <T> T get(String variableName) {
     if (this.containsValueFor(variableName)) {
       // Use cached value
@@ -42,7 +43,7 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
     }
 
     Supplier<T> variableDefinition = this.<T>getDefinitionFor(variableName)
-      .orElseThrow(()-> new SpecException("Variable [" + variableName + "] must be defined before accessing it in current context[" + this.getVariableDefinitions() + "]"));
+      .orElseThrow(() -> new SpecException("Variable [" + variableName + "] must be defined before accessing it in current context[" + this.getVariableDefinitions() + "]"));
     return this.createNewValueFrom(variableDefinition, variableName);
   }
 
@@ -215,11 +216,11 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   }
 
   private void tryToDefineADefaultSubject() {
-    if(lacksVariableDefinitionFor(DESCRIBED_CLASS_VARIABLE_NAME)){
+    if (lacksVariableDefinitionFor(DESCRIBED_CLASS_VARIABLE_NAME)) {
       throw new SpecException("Subject is not defined in this context[" + this.getVariableDefinitions() + "].\nUse describe(class,lambda) to define a class whose subject is going to be tested");
     }
     Class<Object> testedClass = describedClass();
-    subject(()-> this.instantiateSubjectFrom(testedClass));
+    subject(() -> this.instantiateSubjectFrom(testedClass));
   }
 
   private Object instantiateSubjectFrom(Class<Object> testedClass) {

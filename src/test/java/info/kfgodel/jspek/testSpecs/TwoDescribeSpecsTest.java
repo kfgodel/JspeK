@@ -11,18 +11,18 @@ import org.junit.runner.RunWith;
  */
 @RunWith(JavaSpecRunner.class)
 public class TwoDescribeSpecsTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        describe("first group", ()->{
-            it("test in first group", ()->{
+  @Override
+  public void define() {
+    describe("first group", () -> {
+      it("test in first group", () -> {
 
-            });
-        });
+      });
+    });
 
-        describe("second group", ()->{
-            it("test in second group", ()->{
+    describe("second group", () -> {
+      it("test in second group", () -> {
 
-            });
-        });
-    }
+      });
+    });
+  }
 }

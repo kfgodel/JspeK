@@ -13,21 +13,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NullContainerGroupTest {
 
 
-    private NullContainerGroup nullContainer;
+  private NullContainerGroup nullContainer;
 
-    @Before
-    public void createNullContainer(){
-        nullContainer = NullContainerGroup.create();
-    }
+  @Before
+  public void createNullContainer() {
+    nullContainer = NullContainerGroup.create();
+  }
 
-    @Test
-    public void itShouldBeEnabled(){
-        assertThat(nullContainer.isMarkedAsDisabled()).isFalse();
-    }
+  @Test
+  public void itShouldBeEnabled() {
+    assertThat(nullContainer.isMarkedAsDisabled()).isFalse();
+  }
 
-    @Test
-    public void itShouldContainNoBeforeOrAfter(){
-        assertThat(nullContainer.getBeforeBlocks()).isEmpty();
-        assertThat(nullContainer.getAfterBlocks()).isEmpty();
-    }
+  @Test
+  public void itShouldContainNoBeforeOrAfter() {
+    assertThat(nullContainer.getBeforeBlocks()).isEmpty();
+    assertThat(nullContainer.getAfterBlocks()).isEmpty();
+  }
 }

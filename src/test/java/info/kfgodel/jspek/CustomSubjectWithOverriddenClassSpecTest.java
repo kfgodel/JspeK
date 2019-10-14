@@ -23,20 +23,20 @@ public class CustomSubjectWithOverriddenClassSpecTest extends JavaSpec<ClassBase
   public void define() {
     describe("a custom subject depending on the described class", () -> {
       // A list with the described class as only element
-      context().subject(()-> Lists.newArrayList(context().describedClass()));
+      context().subject(() -> Lists.newArrayList(context().describedClass()));
 
       describe("when a class is defined", () -> {
-        describe(ArrayList.class, ()->{
-          it("has the first class as element",()->{
+        describe(ArrayList.class, () -> {
+          it("has the first class as element", () -> {
             assertThat(context().subject()).isEqualTo(Lists.newArrayList(ArrayList.class));
           });
         });
 
         describe("when the class is redefined", () -> {
-          describe(LinkedList.class, ()->{
-            it("has the second class as element",()->{
+          describe(LinkedList.class, () -> {
+            it("has the second class as element", () -> {
               assertThat(context().subject()).isEqualTo(Lists.newArrayList(LinkedList.class));
-            });   
+            });
           });
         });
 

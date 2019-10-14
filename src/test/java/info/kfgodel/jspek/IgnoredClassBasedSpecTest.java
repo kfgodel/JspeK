@@ -16,9 +16,9 @@ public class IgnoredClassBasedSpecTest extends JavaSpec<ClassBasedTestContext<Ob
   public void define() {
     describe("an ignored class based group", () -> {
 
-      xdescribe(Object.class, ()->{
-        it("is never executed",()->{
-            assertThat("it actually ran").isEqualTo("This test never runs");
+      xdescribe(Object.class, () -> {
+        it("is never executed", () -> {
+          assertThat("it actually ran").isEqualTo("This test never runs");
         });
       });
 

@@ -10,9 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This class verifies that a failed test doesn't stop an after block from being executed.
- *
+ * <p>
  * This test cannot be run as part of the suits because it fails one of the tests
- *
+ * <p>
  * Created by kfgodel on 28/05/16.
  */
 @RunWith(JavaSpecRunner.class)

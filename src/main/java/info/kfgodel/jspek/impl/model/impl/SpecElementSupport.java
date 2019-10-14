@@ -9,32 +9,32 @@ import info.kfgodel.jspek.impl.model.SpecGroup;
  */
 public abstract class SpecElementSupport implements SpecElement {
 
-    private String name;
-    private SpecGroup containerGroup;
+  private String name;
+  private SpecGroup containerGroup;
 
-    protected void setName(String newName){
-        if(newName == null || newName.trim().isEmpty()){
-            throw new IllegalArgumentException("Empty string cannot be used with it() or describe() because Junit doesn't support it");
-        }
-        this.name = newName;
+  protected void setName(String newName) {
+    if (newName == null || newName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Empty string cannot be used with it() or describe() because Junit doesn't support it");
     }
+    this.name = newName;
+  }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+  @Override
+  public String getName() {
+    return this.name;
+  }
 
-    public SpecGroup getContainerGroup() {
-        return containerGroup;
-    }
+  public SpecGroup getContainerGroup() {
+    return containerGroup;
+  }
 
-    protected void setContainerGroup(SpecGroup containerGroup) {
-        this.containerGroup = containerGroup;
-    }
+  protected void setContainerGroup(SpecGroup containerGroup) {
+    this.containerGroup = containerGroup;
+  }
 
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + ": " + getName();
-    }
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + ": " + getName();
+  }
 }

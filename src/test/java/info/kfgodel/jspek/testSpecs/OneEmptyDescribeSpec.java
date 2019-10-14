@@ -8,10 +8,10 @@ import info.kfgodel.jspek.api.contexts.TestContext;
  * Created by kfgodel on 12/07/14.
  */
 public class OneEmptyDescribeSpec extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        describe("empty describe", ()->{
+  @Override
+  public void define() {
+    describe("empty describe", () -> {
 
-        });
-    }
+    });
+  }
 }

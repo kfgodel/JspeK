@@ -11,33 +11,33 @@ import info.kfgodel.jspek.impl.model.impl.SpecTreeDefinition;
  */
 public class SpecParser {
 
-    public static SpecParser create() {
-        SpecParser parser = new SpecParser();
-        return parser;
-    }
+  public static SpecParser create() {
+    SpecParser parser = new SpecParser();
+    return parser;
+  }
 
-    public SpecTree parse(Class<? extends JavaSpec> specClass) {
-        SpecTree createdTree = SpecTreeDefinition.create();
-        JavaSpec createdSpec = instantiate(specClass);
-        createdSpec.populate(createdTree);
-        return createdTree;
-    }
+  public SpecTree parse(Class<? extends JavaSpec> specClass) {
+    SpecTree createdTree = SpecTreeDefinition.create();
+    JavaSpec createdSpec = instantiate(specClass);
+    createdSpec.populate(createdTree);
+    return createdTree;
+  }
 
-    /**
-     * Creates the new instance using reflection on niladic constructor
-     */
-    private JavaSpec instantiate(Class<? extends JavaSpec> specClass) {
-        try {
-            JavaSpec createdInstance = specClass.newInstance();
-            return createdInstance;
-        } catch( SecurityException e){
-            throw new SpecException("Security forbids instantiation for spec["+specClass+"]",e);
-        } catch( ExceptionInInitializerError e){
-            throw new SpecException("Constructor failed for new spec["+specClass+"] instance", e);
-        } catch (InstantiationException e) {
-            throw new SpecException("Error creating the spec["+specClass+"] instance", e);
-        } catch (IllegalAccessException e) {
-            throw new SpecException("Unable to access spec["+specClass+"] constructor for new instance",e);
-        }
+  /**
+   * Creates the new instance using reflection on niladic constructor
+   */
+  private JavaSpec instantiate(Class<? extends JavaSpec> specClass) {
+    try {
+      JavaSpec createdInstance = specClass.newInstance();
+      return createdInstance;
+    } catch (SecurityException e) {
+      throw new SpecException("Security forbids instantiation for spec[" + specClass + "]", e);
+    } catch (ExceptionInInitializerError e) {
+      throw new SpecException("Constructor failed for new spec[" + specClass + "] instance", e);
+    } catch (InstantiationException e) {
+      throw new SpecException("Error creating the spec[" + specClass + "] instance", e);
+    } catch (IllegalAccessException e) {
+      throw new SpecException("Unable to access spec[" + specClass + "] constructor for new instance", e);
     }
+  }
 }

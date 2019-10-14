@@ -17,65 +17,67 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class TypedContextTest {
 
-    public interface TypedTestContext extends TestContext {
+  public interface TypedTestContext extends TestContext {
 
-        void letFoo(Supplier<Integer> fooDefinition);
-        Integer getFoo();
+    void letFoo(Supplier<Integer> fooDefinition);
 
-        void bar(Supplier<Integer> barDefinition);
-        Integer bar();
-    }
+    Integer getFoo();
 
-    private TypedTestContext context;
-    private Variable<TestContext> sharedVariable;
+    void bar(Supplier<Integer> barDefinition);
 
-    @Before
-    public void createTypedContext(){
-        sharedVariable = Variable.of(MappedContext.create());
-        context = TypedContextFactory.createInstanceOf(TypedTestContext.class, sharedVariable);
-    }
+    Integer bar();
+  }
 
+  private TypedTestContext context;
+  private Variable<TestContext> sharedVariable;
 
-    @Test
-    public void itShouldAllowUntypedVariableDefinition(){
-        context.let("var1", ()-> 1);
-
-        assertThat(context.<Integer>get("var1")).isEqualTo(1);
-        assertThat(sharedVariable.get().<Integer>get("var1")).isEqualTo(1);
-    }
-
-    @Test
-    public void itShouldAllowTypedVariableWithLetPrefix(){
-        context.letFoo(()-> 2);
-
-        assertThat(context.getFoo()).isEqualTo(2);
-        assertThat(sharedVariable.get().<Integer>get("foo")).isEqualTo(2);
-    }
-
-    @Test
-    public void itShouldAllowTypedVariableWithoutLetPrefix(){
-        context.bar(() -> 3);
-
-        assertThat(context.bar()).isEqualTo(3);
-        assertThat(sharedVariable.get().<Integer>get("bar")).isEqualTo(3);
-    }
-
-    @Test
-    public void itShouldAllowMixedVariableDefinition(){
-        context.letFoo(() -> 3);
-
-        assertThat(context.<Integer>get("foo")).isEqualTo(3);
-    }
-
-    @Test
-    public void itShouldAllowVariableDefinitionInDifferentContexts() {
-        MappedContext otherContext = MappedContext.create();
-
-        context.letFoo(()-> 1);
-        sharedVariable.set(otherContext);
-        context.letFoo(()-> 2);
+  @Before
+  public void createTypedContext() {
+    sharedVariable = Variable.of(MappedContext.create());
+    context = TypedContextFactory.createInstanceOf(TypedTestContext.class, sharedVariable);
+  }
 
 
-        assertThat(context.getFoo()).isEqualTo(2);
-    }
+  @Test
+  public void itShouldAllowUntypedVariableDefinition() {
+    context.let("var1", () -> 1);
+
+    assertThat(context.<Integer>get("var1")).isEqualTo(1);
+    assertThat(sharedVariable.get().<Integer>get("var1")).isEqualTo(1);
+  }
+
+  @Test
+  public void itShouldAllowTypedVariableWithLetPrefix() {
+    context.letFoo(() -> 2);
+
+    assertThat(context.getFoo()).isEqualTo(2);
+    assertThat(sharedVariable.get().<Integer>get("foo")).isEqualTo(2);
+  }
+
+  @Test
+  public void itShouldAllowTypedVariableWithoutLetPrefix() {
+    context.bar(() -> 3);
+
+    assertThat(context.bar()).isEqualTo(3);
+    assertThat(sharedVariable.get().<Integer>get("bar")).isEqualTo(3);
+  }
+
+  @Test
+  public void itShouldAllowMixedVariableDefinition() {
+    context.letFoo(() -> 3);
+
+    assertThat(context.<Integer>get("foo")).isEqualTo(3);
+  }
+
+  @Test
+  public void itShouldAllowVariableDefinitionInDifferentContexts() {
+    MappedContext otherContext = MappedContext.create();
+
+    context.letFoo(() -> 1);
+    sharedVariable.set(otherContext);
+    context.letFoo(() -> 2);
+
+
+    assertThat(context.getFoo()).isEqualTo(2);
+  }
 }

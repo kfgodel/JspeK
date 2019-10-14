@@ -13,16 +13,16 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class DisabledSuiteSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
+  @Override
+  public void define() {
 
-        xdescribe("a disabled spec", ()->{
+    xdescribe("a disabled spec", () -> {
 
-            it("ignored test", ()-> {
-                assertThat(true).isEqualTo(false);
-            });
+      it("ignored test", () -> {
+        assertThat(true).isEqualTo(false);
+      });
 
-        });
+    });
 
-    }
+  }
 }

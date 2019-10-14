@@ -19,9 +19,9 @@ public class ExceptionVerificationSpecTest extends JavaSpec<TestContext> {
 
       describe("asserting with an extra lambda", () -> {
 
-        itThrows(RuntimeException.class, "always", ()->{
+        itThrows(RuntimeException.class, "always", () -> {
           throw new RuntimeException("Volare");
-        },(e)->{
+        }, (e) -> {
           assertThat(e).hasMessage("Volare");
         });
 

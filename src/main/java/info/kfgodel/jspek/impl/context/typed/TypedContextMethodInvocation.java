@@ -65,7 +65,8 @@ public class TypedContextMethodInvocation {
    *
    * @return The supplier argument of the invocation
    */
-  @SuppressWarnings("unchecked") // There's no compile time way yo verify exact generic argument on runtime from an Object argument
+  @SuppressWarnings("unchecked")
+  // There's no compile time way yo verify exact generic argument on runtime from an Object argument
   public Supplier<Object> getVariableDefinitionArgument() {
     if (this.args == null || this.args.length != 1) {
       return null;

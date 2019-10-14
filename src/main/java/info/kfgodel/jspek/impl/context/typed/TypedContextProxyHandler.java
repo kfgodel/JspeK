@@ -14,43 +14,44 @@ import java.util.function.Supplier;
  */
 public class TypedContextProxyHandler implements InvocationHandler {
 
-    private Variable<TestContext> currentContext;
+  private Variable<TestContext> currentContext;
 
-    public static TypedContextProxyHandler create(Variable<TestContext> sharedVariable) {
-        TypedContextProxyHandler handler = new TypedContextProxyHandler();
-        handler.currentContext = sharedVariable;
-        return handler;
+  public static TypedContextProxyHandler create(Variable<TestContext> sharedVariable) {
+    TypedContextProxyHandler handler = new TypedContextProxyHandler();
+    handler.currentContext = sharedVariable;
+    return handler;
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    TypedContextMethodInvocation methodInvocation = TypedContextMethodInvocation.create(method, args);
+    Function<TestContext, Object> operation = createOperationBasedOn(methodInvocation);
+    return operation.apply(currentContext.get());
+  }
+
+  /**
+   * Based on the method signature, creates an operation that delegates or defines variables on a context
+   *
+   * @param methodInvocation The invocation to analyze
+   * @return The created operation
+   */
+  private Function<TestContext, Object> createOperationBasedOn(TypedContextMethodInvocation methodInvocation) {
+    if (methodInvocation.canBeHandledByTestContext(currentContext.get())) {
+      return methodInvocation::invokeOn;
     }
 
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        TypedContextMethodInvocation methodInvocation = TypedContextMethodInvocation.create(method, args);
-        Function<TestContext, Object> operation = createOperationBasedOn(methodInvocation);
-        return operation.apply(currentContext.get());
+    String variableName = methodInvocation.getVariableName();
+
+    Supplier<Object> variableDefinition = methodInvocation.getVariableDefinitionArgument();
+    if (variableDefinition != null) {
+      //It's a let definition
+      return (testContext) -> {
+        testContext.let(variableName, variableDefinition);
+        return null;
+      };
     }
 
-    /**
-     * Based on the method signature, creates an operation that delegates or defines variables on a context
-     * @param methodInvocation The invocation to analyze
-     * @return The created operation
-     */
-    private Function<TestContext, Object> createOperationBasedOn(TypedContextMethodInvocation methodInvocation) {
-        if(methodInvocation.canBeHandledByTestContext(currentContext.get())){
-            return methodInvocation::invokeOn;
-        }
-
-        String variableName = methodInvocation.getVariableName();
-
-        Supplier<Object> variableDefinition = methodInvocation.getVariableDefinitionArgument();
-        if(variableDefinition != null){
-            //It's a let definition
-            return (testContext)-> {
-                testContext.let(variableName, variableDefinition);
-                return null;
-            };
-        }
-
-        // It's a get operation
-        return (testContext)-> testContext.get(variableName);
-    }
+    // It's a get operation
+    return (testContext) -> testContext.get(variableName);
+  }
 }

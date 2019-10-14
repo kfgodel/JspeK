@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(JavaSpecRunner.class)
 public class TwoPendingTestSpecTest extends JavaSpec<TestContext> {
-    @Override
-    public void define() {
-        xit("xit pending test", ()->{
-            assertThat(true).isEqualTo(false);
-        });
+  @Override
+  public void define() {
+    xit("xit pending test", () -> {
+      assertThat(true).isEqualTo(false);
+    });
 
-        xit("non lambda pending test");
-    }
+    xit("non lambda pending test");
+  }
 }

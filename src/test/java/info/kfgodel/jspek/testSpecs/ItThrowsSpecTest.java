@@ -15,9 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ItThrowsSpecTest extends JavaSpec<TestContext> {
   @Override
   public void define() {
-    itThrows(RuntimeException.class, "when a condition", ()->{
+    itThrows(RuntimeException.class, "when a condition", () -> {
       throw new RuntimeException("Boom");
-    }, (e)->{
+    }, (e) -> {
       assertThat(e).hasMessage("Boom");
     });
   }

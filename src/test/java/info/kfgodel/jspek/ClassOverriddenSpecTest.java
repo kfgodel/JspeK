@@ -20,15 +20,15 @@ public class ClassOverriddenSpecTest extends JavaSpec<ClassBasedTestContext<List
   @Override
   public void define() {
     describe("a context with one described class", () -> {
-      describe(ArrayList.class, ()->{
+      describe(ArrayList.class, () -> {
 
-        it("has instances of that class as subject",()->{
-            assertThat(context().subject()).isInstanceOf(ArrayList.class);
+        it("has instances of that class as subject", () -> {
+          assertThat(context().subject()).isInstanceOf(ArrayList.class);
         });
 
         describe("when class is redefined in a sub-context", () -> {
-          describe(LinkedList.class, ()->{
-            it("has instances of the new class as subject",()->{
+          describe(LinkedList.class, () -> {
+            it("has instances of the new class as subject", () -> {
               assertThat(context().subject()).isInstanceOf(LinkedList.class);
             });
           });

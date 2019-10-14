@@ -107,7 +107,7 @@ public interface JavaSpecApi<T extends TestContext> {
    * Declares a reified local let, a named variable which may be defined in the current context or be redefined by a subcontext
    *
    * @param variableName The name to identify the variable
-   * @param <X> The type of that variable
+   * @param <X>          The type of that variable
    * @return A let object that allows to define the value of the variable and obtain it
    */
   <X> Let<X> localLet(String variableName);
@@ -117,7 +117,7 @@ public interface JavaSpecApi<T extends TestContext> {
    *
    * @return The current test context
    */
-  default T test(){
+  default T test() {
     return this.context();
   }
 
