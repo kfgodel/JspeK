@@ -1,4 +1,4 @@
-package info.kfgodel.jspek;
+package info.kfgodel.jspek.junit;
 
 import info.kfgodel.jspek.impl.model.impl.NullContainerGroup;
 import org.junit.Before;

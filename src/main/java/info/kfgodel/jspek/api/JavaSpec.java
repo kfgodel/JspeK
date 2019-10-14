@@ -56,7 +56,8 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
     }
     Type generifiedJavaSpec = subClass.getGenericSuperclass();
     if (!(generifiedJavaSpec instanceof ParameterizedType)) {
-      throw new SpecException("JavaSpec superclass must be generified with a type of TestContext. For example JavaSpec<TestContext>");
+      throw new SpecException("JavaSpec superclass must be generified with a type of TestContext. " +
+        "For example JavaSpec<TestContext>");
     }
     Type contextType = ((ParameterizedType) generifiedJavaSpec).getActualTypeArguments()[0];
     return getClassInstanceFromArgument(contextType);
@@ -147,7 +148,11 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   }
 
   @Override
-  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+  public <X extends Throwable> void itThrows(
+    Class<X> expectedExceptionType,
+    String testNameSuffix,
+    FailingRunnable<X> aTestCode,
+    Consumer<X> exceptionAssertions) throws SpecException {
     currentMode.itThrows(expectedExceptionType, testNameSuffix, aTestCode, exceptionAssertions);
   }
 }
