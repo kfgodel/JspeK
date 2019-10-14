@@ -227,7 +227,7 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
 
   private Object instantiateSubjectFrom(Class<Object> testedClass) {
     try {
-      return testedClass.newInstance();
+      return testedClass.getConstructor().newInstance();
     } catch (Exception e) {
       throw new SpecException("Unknown error trying to instantiate subject", e);
     }
