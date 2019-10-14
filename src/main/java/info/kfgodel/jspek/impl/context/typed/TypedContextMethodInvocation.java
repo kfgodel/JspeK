@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * Created by kfgodel on 21/07/14.
  */
 public class TypedContextMethodInvocation {
-  public static Logger LOG = LoggerFactory.getLogger(TypedContextMethodInvocation.class);
+  public static final Logger LOG = LoggerFactory.getLogger(TypedContextMethodInvocation.class);
 
   public static final String LET_PREFIX = "let";
   public static final String GET_PREFIX = "get";
