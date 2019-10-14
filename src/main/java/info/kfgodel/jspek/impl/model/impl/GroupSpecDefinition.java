@@ -84,7 +84,7 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
 
   @Override
   public boolean hasNoTests() {
-    if (getDeclaredTests().size() > 0) {
+    if (!getDeclaredTests().isEmpty()) {
       return false;
     }
     List<SpecGroup> subGroups = getSubGroups();
