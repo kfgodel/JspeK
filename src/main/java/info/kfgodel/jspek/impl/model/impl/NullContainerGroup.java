@@ -8,6 +8,7 @@ import info.kfgodel.jspek.impl.model.TestContextDefinition;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This type represents a null group to be used as root container
@@ -78,8 +79,8 @@ public class NullContainerGroup implements SpecGroup {
   }
 
   @Override
-  public List<SpecElement> getSpecElements() {
-    return Collections.emptyList();
+  public Stream<SpecElement> getSpecElements() {
+    return Stream.empty();
   }
 
   @Override
