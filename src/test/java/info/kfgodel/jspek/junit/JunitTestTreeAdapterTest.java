@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.Description;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,7 +48,7 @@ public class JunitTestTreeAdapterTest {
     SpecTree specTree = SpecParser.create().parse(specClass);
 
     JunitTestTreeAdapter adapter = JunitTestTreeAdapter.create(specTree, specClass);
-    List<JunitTestCode> junitTests = adapter.getJunitTree().getJunitTests();
+    List<JunitTestCode> junitTests = adapter.getJunitTree().getJunitTests().collect(Collectors.toList());
     assertThat(junitTests).hasSize(1);
     assertThat(junitTests.get(0).getTestDescription().getDisplayName()).isEqualTo("only test");
 

@@ -4,6 +4,7 @@ import org.junit.runner.Description;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This type represents a tree of test to be run with junit. Leafs are tests and parents are test groups
@@ -28,8 +29,8 @@ public class JunitTestTree {
    *
    * @return The list of test to be used with junit
    */
-  public List<JunitTestCode> getJunitTests() {
-    return tests;
+  public Stream<JunitTestCode> getJunitTests() {
+    return tests.stream();
   }
 
   public static JunitTestTree create(Description treeDescription) {

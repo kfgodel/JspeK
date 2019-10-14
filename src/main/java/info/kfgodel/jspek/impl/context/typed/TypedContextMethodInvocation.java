@@ -22,7 +22,7 @@ public class TypedContextMethodInvocation {
   public static TypedContextMethodInvocation create(Method method, Object[] args) {
     TypedContextMethodInvocation invocation = new TypedContextMethodInvocation();
     invocation.method = method;
-    invocation.args = args;
+    invocation.args = args; //NOSONAR squid:S2384 Nobody will modify args
     return invocation;
   }
 

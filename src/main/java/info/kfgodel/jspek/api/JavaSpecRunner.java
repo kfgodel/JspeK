@@ -10,7 +10,7 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This type implements the Java Spec runner needed to extend Junit running mechanism
@@ -59,9 +59,9 @@ public class JavaSpecRunner extends Runner {
 
   @Override
   public void run(RunNotifier notifier) {
-    List<JunitTestCode> adaptedTests = junitAdapter.getJunitTree().getJunitTests();
-    for (JunitTestCode adaptedTest : adaptedTests) {
-      adaptedTest.executeNotifying(notifier);
-    }
+    Stream<JunitTestCode> adaptedTests = junitAdapter.getJunitTree().getJunitTests();
+    adaptedTests.forEach(adaptedTest ->
+      adaptedTest.executeNotifying(notifier)
+    );
   }
 }
