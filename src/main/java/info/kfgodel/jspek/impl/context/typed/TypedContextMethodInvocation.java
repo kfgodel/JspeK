@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
@@ -92,7 +93,7 @@ public class TypedContextMethodInvocation {
     return extractVariableNameFrom(this.method);
   }
 
-  public static String extractVariableNameFrom(Method method) {
+  public static String extractVariableNameFrom(Member method) {
     String variableName = method.getName();
     if (variableName.startsWith(LET_PREFIX) && variableName.length() > LET_PREFIX.length()) {
       variableName = variableName.substring(LET_PREFIX.length());
