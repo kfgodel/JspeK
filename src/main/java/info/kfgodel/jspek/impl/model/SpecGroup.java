@@ -4,6 +4,7 @@ import info.kfgodel.jspek.impl.model.impl.GroupSpecDefinition;
 import info.kfgodel.jspek.impl.model.impl.TestSpecDefinition;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This type represents a test group inside a spec
@@ -84,7 +85,7 @@ public interface SpecGroup extends SpecElement {
    *
    * @return The list of declared elemetns
    */
-  List<SpecElement> getSpecElements();
+  Stream<SpecElement> getSpecElements();
 
   /**
    * Indicates if this group has no test directly or indirectly by its children

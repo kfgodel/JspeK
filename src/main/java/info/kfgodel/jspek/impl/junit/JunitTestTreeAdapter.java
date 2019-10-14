@@ -1,14 +1,12 @@
 package info.kfgodel.jspek.impl.junit;
 
 import info.kfgodel.jspek.api.JavaSpec;
-import info.kfgodel.jspek.impl.model.SpecElement;
 import info.kfgodel.jspek.impl.model.SpecGroup;
 import info.kfgodel.jspek.impl.model.SpecTest;
 import info.kfgodel.jspek.impl.model.SpecTree;
 import org.junit.runner.Description;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
 
 /**
  * This type adapts the SpecTree to a Junit test tree by giving it a description and surrounding each test spec in a JunitTestCode
@@ -41,9 +39,7 @@ public class JunitTestTreeAdapter {
   }
 
   private void recursiveAdaptToJunit(SpecGroup currentGroup, Description currentDescription) {
-    List<SpecElement> specElements = currentGroup.getSpecElements();
-    for (SpecElement specElement : specElements) {
-
+    currentGroup.getSpecElements().forEach(specElement -> {
       String specName = specElement.getName();
       String specId = specName + specElement.hashCode();
       Description elementDescription = Description.createSuiteDescription(specName, specId, NO_ANNOTATIONS);
@@ -58,7 +54,7 @@ public class JunitTestTreeAdapter {
         SpecGroup specGroup = (SpecGroup) specElement;
         recursiveAdaptToJunit(specGroup, elementDescription);
       }
-    }
+    });
   }
 
   private JunitTestCode adaptToJunitTest(SpecTest specTest, Description elementDescription) {

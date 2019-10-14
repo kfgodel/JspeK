@@ -10,6 +10,7 @@ import info.kfgodel.jspek.impl.model.TestContextDefinition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This type represents a spec group definition
@@ -77,8 +78,8 @@ public class GroupSpecDefinition extends SpecElementSupport implements SpecGroup
   }
 
   @Override
-  public List<SpecElement> getSpecElements() {
-    return elements;
+  public Stream<SpecElement> getSpecElements() {
+    return elements.stream();
   }
 
   @Override

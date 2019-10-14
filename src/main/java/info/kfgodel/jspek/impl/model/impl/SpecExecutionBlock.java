@@ -5,6 +5,7 @@ import info.kfgodel.jspek.api.variable.Variable;
 import info.kfgodel.jspek.impl.context.MappedContext;
 import info.kfgodel.jspek.impl.model.TestContextDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class SpecExecutionBlock implements Runnable {
 
   @Override
   public void run() {
-    runWithOwnSubContext(() -> executeTestCode());
+    runWithOwnSubContext(this::executeTestCode);
   }
 
   /**
@@ -58,11 +59,17 @@ public class SpecExecutionBlock implements Runnable {
     }
   }
 
-  public static SpecExecutionBlock create(List<Runnable> befores, Runnable testCode, List<Runnable> afters, TestContextDefinition parentContext, Variable<TestContext> sharedContext) {
+  public static SpecExecutionBlock create(
+    List<Runnable> befores,
+    Runnable testCode,
+    List<Runnable> afters,
+    TestContextDefinition parentContext,
+    Variable<TestContext> sharedContext
+  ) {
     SpecExecutionBlock executionBlock = new SpecExecutionBlock();
     executionBlock.testCode = testCode;
-    executionBlock.afterBlocks = afters;
-    executionBlock.beforeBlocks = befores;
+    executionBlock.afterBlocks = Collections.unmodifiableList(afters);
+    executionBlock.beforeBlocks = Collections.unmodifiableList(befores);
     executionBlock.sharedContext = sharedContext;
     executionBlock.parentContext = parentContext;
     return executionBlock;

@@ -43,7 +43,13 @@ public class TestSpecDefinition extends SpecElementSupport implements SpecTest {
 
   @Override
   public Runnable getSpecExecutionCode() {
-    SpecExecutionBlock executionBlock = SpecExecutionBlock.create(this.getBeforeBlocks(), this.getTestCode(), this.getAfterBlocks(), getContainerGroup().getTestContext(), sharedContext);
+    SpecExecutionBlock executionBlock = SpecExecutionBlock.create(
+      this.getBeforeBlocks(),
+      this.getTestCode(),
+      this.getAfterBlocks(),
+      getContainerGroup().getTestContext(),
+      sharedContext
+    );
     return executionBlock;
   }
 
