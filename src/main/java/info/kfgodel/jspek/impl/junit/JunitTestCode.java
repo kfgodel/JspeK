@@ -31,7 +31,7 @@ public class JunitTestCode {
       testCode.run();
     } catch (AssumptionViolatedException e) {
       testNotifier.addFailedAssumption(e);
-    } catch (Exception e) {
+    } catch (Exception e) { // NOSONAR squid:S2221 we need to catch it in order to report any error
       testNotifier.addFailure(e);
     } finally {
       testNotifier.fireTestFinished();
