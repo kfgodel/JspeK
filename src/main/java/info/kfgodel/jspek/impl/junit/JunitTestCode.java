@@ -31,7 +31,7 @@ public class JunitTestCode {
       testCode.run();
     } catch (AssumptionViolatedException e) {
       testNotifier.addFailedAssumption(e);
-    } catch (Throwable e) {
+    } catch (Exception e) {
       testNotifier.addFailure(e);
     } finally {
       testNotifier.fireTestFinished();

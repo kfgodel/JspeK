@@ -84,7 +84,7 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
       throw new AssertionError("No exception thrown while expecting: " + expectedTypeName);
     } catch (AssertionError e) {
       throw e;
-    } catch (Throwable e) {
+    } catch (Throwable e) { // NOSONAR squid:S1181 Errors may be part of the tested code and an expected throwable
       if (expectedExceptionType.isAssignableFrom(e.getClass())) {
         exceptionAssertions.accept((X) e);
       } else {
