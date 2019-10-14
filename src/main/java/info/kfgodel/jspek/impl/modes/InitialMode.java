@@ -45,7 +45,7 @@ public class InitialMode implements ExecutionMode<TestContext> {
   }
 
   @Override
-  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<? extends X> aFailingTestCode, Consumer<? super X> exceptionAssertions) throws SpecException {
     throw new SpecException("A test can't be defined outside the method define");
   }
 

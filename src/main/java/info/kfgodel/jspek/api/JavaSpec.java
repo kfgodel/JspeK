@@ -151,8 +151,8 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
   public <X extends Throwable> void itThrows(
     Class<X> expectedExceptionType,
     String testNameSuffix,
-    FailingRunnable<X> aTestCode,
-    Consumer<X> exceptionAssertions) throws SpecException {
-    currentMode.itThrows(expectedExceptionType, testNameSuffix, aTestCode, exceptionAssertions);
+    FailingRunnable<? extends X> aFailingTestCode,
+    Consumer<? super X> exceptionAssertions) throws SpecException {
+    currentMode.itThrows(expectedExceptionType, testNameSuffix, aFailingTestCode, exceptionAssertions);
   }
 }

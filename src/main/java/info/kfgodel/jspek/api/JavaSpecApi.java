@@ -57,16 +57,16 @@ public interface JavaSpecApi<T extends TestContext> {
   /**
    * Declares a test that should fail with the expected exception type
    *
+   * @param <X>                   The type of excepction
    * @param expectedExceptionType The type of exception that test should generate as a valid case
    * @param testNameSuffix        The condition description to append as test name
-   * @param aTestCode             The code to run that should fail with an exception
+   * @param aFailingTestCode             The code to run that should fail with an exception
    * @param exceptionAssertions   The code that defines assertions to be tested against the expected exception
-   * @param <X>                   The type of excepction
    * @throws SpecException If the code didn't fail, or failed with another exception
    */
   <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix,
-                                      FailingRunnable<X> aTestCode,
-                                      Consumer<X> exceptionAssertions) throws SpecException;
+                                      FailingRunnable<? extends X> aFailingTestCode,
+                                      Consumer<? super X> exceptionAssertions) throws SpecException;
 
   /**
    * Describes a set of test, and allows nesting of scenarios

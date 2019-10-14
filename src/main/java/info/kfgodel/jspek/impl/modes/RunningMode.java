@@ -80,7 +80,7 @@ public class RunningMode<T extends TestContext> implements ExecutionMode<T> {
   }
 
   @Override
-  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<? extends X> aFailingTestCode, Consumer<? super X> exceptionAssertions) throws SpecException {
     throw new SpecException("A running test cannot declare a nested failure test calling itThrows()");
   }
 

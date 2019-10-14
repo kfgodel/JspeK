@@ -60,24 +60,37 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
   @SuppressWarnings("unchecked")
   // X is used to parameterize the type of exception returned, but in runtime that type argument can't be used
   @Override
-  public <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException {
+  public <X extends Throwable> void itThrows(
+    Class<X> expectedExceptionType,
+    String testNameSuffix,
+    FailingRunnable<? extends X> aFailingTestCode,
+    Consumer<? super X> exceptionAssertions
+  ) throws SpecException {
     String expectedTypeName = expectedExceptionType.getSimpleName();
     String testName = "throws " + expectedTypeName + " " + testNameSuffix;
-    Runnable testCode = () -> {
-      try {
-        aTestCode.run();
-        throw new AssertionError("No exception thrown while expecting: " + expectedTypeName);
-      } catch (AssertionError e) {
-        throw e;
-      } catch (Throwable e) {
-        if (expectedExceptionType.isAssignableFrom(e.getClass())) {
-          exceptionAssertions.accept((X) e);
-        } else {
-          throw new AssertionError("Caught " + e + " while expecting " + expectedTypeName, e);
-        }
+    Runnable testCodeWrapper = () -> tryCatchForExpectedError(aFailingTestCode, expectedExceptionType,
+      exceptionAssertions, expectedTypeName);
+    it(testName, testCodeWrapper);
+  }
+
+  public static <X extends Throwable> void tryCatchForExpectedError(
+    FailingRunnable<? extends X> aFailingTestCode,
+    Class<X> expectedExceptionType,
+    Consumer<? super X> exceptionAssertions,
+    String expectedTypeName
+  ) {
+    try {
+      aFailingTestCode.run();
+      throw new AssertionError("No exception thrown while expecting: " + expectedTypeName);
+    } catch (AssertionError e) {
+      throw e;
+    } catch (Throwable e) {
+      if (expectedExceptionType.isAssignableFrom(e.getClass())) {
+        exceptionAssertions.accept((X) e);
+      } else {
+        throw new AssertionError("Caught " + e + " while expecting " + expectedTypeName, e);
       }
-    };
-    it(testName, testCode);
+    }
   }
 
   @Override
