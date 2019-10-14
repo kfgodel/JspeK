@@ -26,11 +26,13 @@ public class JavaSpecRunner extends Runner {
    *
    * @param klass   the root class
    * @param builder builds runners for classes in the suite
+   * @throws InitializationError if the class does not extend {@link JavaSpec}
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked","unused"}) // NOSONAR Type is lost on runtime and the extra argument is mandatory
   public JavaSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
     if (!JavaSpec.class.isAssignableFrom(klass)) {
-      throw new InitializationError("Your class[" + klass + "] must extend " + JavaSpec.class + " to be run with " + JavaSpecRunner.class.getSimpleName());
+      throw new InitializationError("Your class[" + klass + "] must extend " +
+        JavaSpec.class + " to be run with " + JavaSpecRunner.class.getSimpleName());
     }
     this.clase = (Class<? extends JavaSpec>) klass;
     createJunitTestTreeFromSpecClass();
@@ -38,11 +40,13 @@ public class JavaSpecRunner extends Runner {
 
   /**
    * Creates the test tree to be used to describe and execute the tests in junit
+   * @throws InitializationError if the class does not extend {@link JavaSpec}
    */
   private void createJunitTestTreeFromSpecClass() throws InitializationError {
     SpecTree specTree = SpecParser.create().parse(clase);
     if (specTree.hasNoTests()) {
-      throw new InitializationError("The spec class[" + clase.getSimpleName() + "] has no tests. You must at least use one it() or one xit() inside your definition method");
+      throw new InitializationError("The spec class[" + clase.getSimpleName() + "] has no tests. " +
+        "You must at least use one it() or one xit() inside your definition method");
     }
     junitAdapter = JunitTestTreeAdapter.create(specTree, clase);
   }

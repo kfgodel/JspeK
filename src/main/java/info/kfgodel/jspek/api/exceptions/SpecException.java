@@ -7,15 +7,21 @@ package info.kfgodel.jspek.api.exceptions;
 public class SpecException extends RuntimeException {
   private static final long serialVersionUID = -3243397993932692864L;
 
+  /**
+   * Creates a new instance without a previous cause
+   * @param message The error message to describe what went wrong
+   */
   public SpecException(String message) {
     super(message);
   }
 
+  /**
+   * Creates a new instance from a previous cause
+   * @param message The error message to describe what went wrong
+   * @param cause The original error for this to happen
+   */
   public SpecException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public SpecException(Throwable cause) {
-    super(cause);
-  }
 }

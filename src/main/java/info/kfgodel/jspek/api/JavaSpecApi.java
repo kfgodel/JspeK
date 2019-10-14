@@ -10,25 +10,29 @@ import java.util.function.Consumer;
 /**
  * This type defines the contract that spec implementation can use to define their specs
  * <p>
+ * @param <T> Type of text context used to access test variables
  * Created by kfgodel on 09/03/16.
  */
 public interface JavaSpecApi<T extends TestContext> {
   /**
-   * Code to execute before every it() test. It's scoped to the parent describe() or define(), and executed before every child it() test (direct or nested).<br>
+   * Code to execute before every it() test. It's scoped to the parent describe() or define(),
+   * and executed before every child it() test (direct or nested).<br>
    *
    * @param aCodeBlock A code to execute before every test
    */
   void beforeEach(Runnable aCodeBlock);
 
   /**
-   * Code to execute after every it() test. It's scoped to the parent describe() or define(), and executed after every child it() test (direct or nested).<br>
+   * Code to execute after every it() test. It's scoped to the parent describe() or define(),
+   * and executed after every child it() test (direct or nested).<br>
    *
-   * @param aCodeBlock
+   * @param aCodeBlock block of code to execute
    */
   void afterEach(Runnable aCodeBlock);
 
   /**
-   * Defines the test code to be run as a test.<br> Every parent beforeEach() is executed prior to this test. Every parent afterEach() is executed after.
+   * Defines the test code to be run as a test.<br> Every parent beforeEach() is executed prior
+   * to this test. Every parent afterEach() is executed after.
    *
    * @param testName  The name to identify this test
    * @param aTestCode The code that defines the test
@@ -60,7 +64,9 @@ public interface JavaSpecApi<T extends TestContext> {
    * @param <X>                   The type of excepction
    * @throws SpecException If the code didn't fail, or failed with another exception
    */
-  <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix, FailingRunnable<X> aTestCode, Consumer<X> exceptionAssertions) throws SpecException;
+  <X extends Throwable> void itThrows(Class<X> expectedExceptionType, String testNameSuffix,
+                                      FailingRunnable<X> aTestCode,
+                                      Consumer<X> exceptionAssertions) throws SpecException;
 
   /**
    * Describes a set of test, and allows nesting of scenarios
@@ -104,7 +110,8 @@ public interface JavaSpecApi<T extends TestContext> {
   T context();
 
   /**
-   * Declares a reified local let, a named variable which may be defined in the current context or be redefined by a subcontext
+   * Declares a reified local let, a named variable which may be defined in the current
+   * context or be redefined by a subcontext
    *
    * @param variableName The name to identify the variable
    * @param <X>          The type of that variable

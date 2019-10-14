@@ -28,7 +28,8 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   @Override
   public void let(String variableName, Supplier<?> valueDefinition) throws SpecException {
     if (this.containsValueFor(variableName)) {
-      throw new SpecException("Variable [" + variableName + "] cannot be re-defined once assigned. Current value: [" + get(variableName) + "]");
+      throw new SpecException("Variable [" + variableName + "] cannot be re-defined once assigned. " +
+        "Current value: [" + get(variableName) + "]");
     }
     this.storeDefinitionFor(variableName, valueDefinition);
   }
@@ -191,7 +192,8 @@ public class MappedContext implements TestContextDefinition, ClassBasedTestConte
   @Override
   public Class<Object> describedClass() throws SpecException {
     if (lacksVariableDefinitionFor(DESCRIBED_CLASS_VARIABLE_NAME)) {
-      throw new SpecException("Described class is not defined in this context[" + this.getVariableDefinitions() + "].\nUse describe(class,lambda) to define it before accessing it");
+      throw new SpecException("Described class is not defined in this context[" +
+        this.getVariableDefinitions() + "].\nUse describe(class,lambda) to define it before accessing it");
     }
     return get(DESCRIBED_CLASS_VARIABLE_NAME);
   }

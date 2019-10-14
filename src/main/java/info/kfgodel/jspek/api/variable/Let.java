@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 /**
  * This class allows variable definitions in tests suites that are lazily accessed and can be redefined in subcontexts
+ * @param <T> Type of values produced by this operator
  * Created by nrainhart on 15/03/19.
  */
 public class Let<T> {
@@ -13,6 +14,13 @@ public class Let<T> {
   private String variableName;
   private Supplier<TestContext> context;
 
+  /**
+   * Creates a new instance
+   * @param variableName The name of the variable to be assumed by this operator
+   * @param context The context in which the assignments are allowed
+   * @param <T> The type of values
+   * @return A new instance
+   */
   public static <T> Let<T> create(String variableName, Supplier<TestContext> context) {
     Let<T> let = new Let<>();
     let.variableName = variableName;
@@ -22,12 +30,15 @@ public class Let<T> {
 
   /**
    * Defines the value in the current context, which may redefine previous value of broader context,
-   * or be redefined by a subcontext.<br> An exception is thrown if a variable is tried to be defined twice in same context
+   * or be redefined by a subcontext.<br> An exception is thrown if a variable is tried to be defined twice
+   * in same context
    *
    * @param definition A value supplier that can be used to lazily define the initial value of the variable
+   * @return The newly defined operator
    */
   @SuppressWarnings("unchecked")
-  // We hack the return type here given the supplier type (we are changing this type on runtime, which is not possible on compile time)
+  // We hack the return type here given the supplier type (we are changing this type on runtime, which is not
+  // possible on compile time)
   public <U extends T> Let<U> let(Supplier<T> definition) {
     context().let(variableName(), definition);
     return (Let<U>) this;
@@ -44,11 +55,11 @@ public class Let<T> {
     return context().get(variableName());
   }
 
-  String variableName() {
+  private String variableName() {
     return variableName;
   }
 
-  TestContext context() {
+  private TestContext context() {
     return context.get();
   }
 

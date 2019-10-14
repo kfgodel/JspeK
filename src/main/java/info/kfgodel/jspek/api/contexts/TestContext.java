@@ -12,10 +12,12 @@ import java.util.function.Supplier;
 public interface TestContext {
   /**
    * Defines the value to a named variable in the current context, which may redefine previous value of broader context,
-   * or be redefined by a subcontext.<br> An exception is thrown if a variable is tried to be defined twice in same context
+   * or be redefined by a subcontext.<br> An exception is thrown if a variable is tried to be defined twice in
+   * same context
    *
    * @param variableName    The name to identify the variable
    * @param valueDefinition A value supplier that can be used to lazily define the initial value of the variable
+   * @throws SpecException If the variable has an already defined value
    */
   void let(String variableName, Supplier<?> valueDefinition) throws SpecException;
 
