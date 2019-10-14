@@ -1,6 +1,7 @@
 package info.kfgodel.jspek.impl.junit;
 
 import info.kfgodel.jspek.api.JavaSpec;
+import info.kfgodel.jspek.api.exceptions.SpecException;
 import info.kfgodel.jspek.impl.model.SpecGroup;
 import info.kfgodel.jspek.impl.model.SpecTest;
 import info.kfgodel.jspek.impl.model.SpecTree;
@@ -48,11 +49,11 @@ public class JunitTestTreeAdapter {
       if (specElement instanceof SpecTest) {
         JunitTestCode junitTest = adaptToJunitTest((SpecTest) specElement, elementDescription);
         this.junitTree.addTest(junitTest);
-      }
-
-      if (specElement instanceof SpecGroup) {
+      } else if (specElement instanceof SpecGroup) {
         SpecGroup specGroup = (SpecGroup) specElement;
         recursiveAdaptToJunit(specGroup, elementDescription);
+      } else {
+        throw new SpecException("There's a new SpecElement that this code is unaware of");
       }
     });
   }
