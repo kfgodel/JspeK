@@ -94,6 +94,8 @@ public class TypedContextMethodInvocation {
       variableName = variableName.substring(LET_PREFIX.length());
     } else if (variableName.startsWith(GET_PREFIX) && variableName.length() > GET_PREFIX.length()) {
       variableName = variableName.substring(GET_PREFIX.length());
+    } else {
+      // Use it as it is
     }
     char firstLetter = variableName.charAt(0);
     if (Character.isUpperCase(firstLetter)) {
