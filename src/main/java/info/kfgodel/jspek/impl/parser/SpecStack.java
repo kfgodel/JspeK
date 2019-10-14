@@ -3,7 +3,6 @@ package info.kfgodel.jspek.impl.parser;
 import info.kfgodel.jspek.api.contexts.TestContext;
 import info.kfgodel.jspek.api.variable.Variable;
 import info.kfgodel.jspek.impl.model.SpecGroup;
-import info.kfgodel.jspek.impl.model.impl.GroupSpecDefinition;
 
 import java.util.LinkedList;
 
@@ -36,7 +35,7 @@ public class SpecStack {
    * @param newHead The group to used a stack head
    * @param code    The code to execute with the newHead
    */
-  public void executeAsCurrent(GroupSpecDefinition newHead, Runnable code) {
+  public void executeAsCurrent(SpecGroup newHead, Runnable code) {
     this.push(newHead);
     try {
       code.run();
