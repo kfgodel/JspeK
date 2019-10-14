@@ -104,25 +104,34 @@ public class TypedContextValidator {
         //We cut the search
         continue;
       }
-      Method[] typeMethods = currentType.getDeclaredMethods();
-      for (Method typeMethod : typeMethods) {
-        String variableName = TypedContextMethodInvocation.extractVariableNameFrom(typeMethod);
-        if (this.seemsLikeLetter(typeMethod)) {
-          if (letters.containsKey(variableName)) {
-            throw new SpecException("Let operation for variable [" + variableName + "] is duplicated");
-          }
-          letters.put(variableName, typeMethod);
-        } else if (this.seemsLikeGetter(typeMethod)) {
-          if (getters.containsKey(variableName)) {
-            throw new SpecException("Get operation for variable [" + variableName + "] is duplicated");
-          }
-          getters.put(variableName, typeMethod);
-        } else {
-          throw new SpecException("Method [" + typeMethod.getName() + "] declared in [" + currentType.getSimpleName() + "] does not conform to get or let operation signatures [no arg | void, Supplier]");
-        }
-      }
+      analyzeDeclaredMethods(currentType);
       Class<?>[] superInterfaces = currentType.getInterfaces();
       pendingTypes.addAll(Arrays.asList(superInterfaces));
+    }
+  }
+
+  private void analyzeDeclaredMethods(Class<?> currentType) {
+    Method[] typeMethods = currentType.getDeclaredMethods();
+    for (Method typeMethod : typeMethods) {
+      storeAsLetOrGet(typeMethod, currentType);
+    }
+  }
+
+  private void storeAsLetOrGet(Method typeMethod, Class<?> currentType) {
+    String variableName = TypedContextMethodInvocation.extractVariableNameFrom(typeMethod);
+    if (this.seemsLikeLetter(typeMethod)) {
+      if (letters.containsKey(variableName)) {
+        throw new SpecException("Let operation for variable [" + variableName + "] is duplicated");
+      }
+      letters.put(variableName, typeMethod);
+    } else if (this.seemsLikeGetter(typeMethod)) {
+      if (getters.containsKey(variableName)) {
+        throw new SpecException("Get operation for variable [" + variableName + "] is duplicated");
+      }
+      getters.put(variableName, typeMethod);
+    } else {
+      throw new SpecException("Method [" + typeMethod.getName() + "] declared in [" + currentType.getSimpleName() +
+        "] does not conform to get or let operation signatures [no arg | void, Supplier]");
     }
   }
 
