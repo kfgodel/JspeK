@@ -31,6 +31,21 @@ pipeline {
       parallel {
 
         stage('Deploy'){
+          input {
+            id 'confirmDeployInput'
+            message "Deployar artefactos al repositorio?"
+            ok "Continuar"
+            parameters {
+              choice(name: 'CHOICES', choices: ['Sí', 'No'], description: 'Decision de deploy')
+            }
+          }
+          options {
+            timeout(time: 3, unit: 'MINUTES') // Si no respondemos la confirmacion queremos que termine igual
+          }
+          when {
+            beforeInput false // Queremos esperar el input
+            equals expected: 'Sí', actual: "${CHOICES}"
+          }
           steps {
             sh "mvn deploy -e"
           }
