@@ -8,8 +8,9 @@ import java.util.function.Supplier;
  * This type represents a test context where tests are centered on a class and
  * the test subject is an instance of that class
  * <p>
+ *
  * @param <T> Type of class tested on the spec
- * Created by kfgodel on 08/03/16.
+ *            Created by kfgodel on 08/03/16.
  */
 public interface ClassBasedTestContext<T> extends TestContext {
 

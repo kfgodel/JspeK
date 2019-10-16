@@ -10,8 +10,9 @@ import java.util.function.Consumer;
 /**
  * This type defines the contract that spec implementation can use to define their specs
  * <p>
+ *
  * @param <T> Type of text context used to access test variables
- * Created by kfgodel on 09/03/16.
+ *            Created by kfgodel on 09/03/16.
  */
 public interface JavaSpecApi<T extends TestContext> {
   /**
@@ -60,7 +61,7 @@ public interface JavaSpecApi<T extends TestContext> {
    * @param <X>                   The type of excepction
    * @param expectedExceptionType The type of exception that test should generate as a valid case
    * @param testNameSuffix        The condition description to append as test name
-   * @param aFailingTestCode             The code to run that should fail with an exception
+   * @param aFailingTestCode      The code to run that should fail with an exception
    * @param exceptionAssertions   The code that defines assertions to be tested against the expected exception
    * @throws SpecException If the code didn't fail, or failed with another exception
    */

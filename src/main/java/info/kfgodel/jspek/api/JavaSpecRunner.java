@@ -28,7 +28,7 @@ public class JavaSpecRunner extends Runner {
    * @param builder builds runners for classes in the suite
    * @throws InitializationError if the class does not extend {@link JavaSpec}
    */
-  @SuppressWarnings({"unchecked","unused"}) // NOSONAR Type is lost on runtime and the extra argument is mandatory
+  @SuppressWarnings({"unchecked", "unused"}) // NOSONAR Type is lost on runtime and the extra argument is mandatory
   public JavaSpecRunner(Class<?> klass, RunnerBuilder builder) throws InitializationError {
     if (!JavaSpec.class.isAssignableFrom(klass)) {
       throw new InitializationError("Your class[" + klass + "] must extend " +
@@ -40,6 +40,7 @@ public class JavaSpecRunner extends Runner {
 
   /**
    * Creates the test tree to be used to describe and execute the tests in junit
+   *
    * @throws InitializationError if the class does not extend {@link JavaSpec}
    */
   private void createJunitTestTreeFromSpecClass() throws InitializationError {

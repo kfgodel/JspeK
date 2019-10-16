@@ -2,8 +2,9 @@ package info.kfgodel.jspek.api.variable;
 
 /**
  * This type represents a variable that can be used to share variables between lambdas
+ *
  * @param <T> Type of the value referenced by this variable
- * Created by kfgodel on 12/07/14.
+ *            Created by kfgodel on 12/07/14.
  */
 public class Variable<T> {
 
@@ -12,6 +13,7 @@ public class Variable<T> {
 
   /**
    * Creates an empty variable referencing null
+   *
    * @param <T> The type of expected values
    * @return Newly created variable
    */
@@ -28,8 +30,9 @@ public class Variable<T> {
 
   /**
    * Generates a new variable with an initial value
-   * @param initialValue  The value to be referenced
-   * @param <T> The type of value
+   *
+   * @param initialValue The value to be referenced
+   * @param <T>          The type of value
    * @return The created instance
    */
   public static <T> Variable<T> of(T initialValue) {
@@ -40,6 +43,7 @@ public class Variable<T> {
 
   /**
    * Sets the value on this variable changing previous references
+   *
    * @param newValue The new value to be assigned
    * @return This variable for method chaining
    */
@@ -50,6 +54,7 @@ public class Variable<T> {
 
   /**
    * Removes the reference to previous value and uses null instead
+   *
    * @return This instance
    */
   public Variable<T> clean() {
@@ -58,7 +63,8 @@ public class Variable<T> {
 
   /**
    * Sums the given value as a number or string with the current value and stores the result.<br>
-   *   This is a facility method to reduce verbosity. It sums numbers and appends strings
+   * This is a facility method to reduce verbosity. It sums numbers and appends strings
+   *
    * @param operand The operand to sum with the current value
    * @return This variable
    * @throws UnsupportedOperationException If the given operand does not represent a number

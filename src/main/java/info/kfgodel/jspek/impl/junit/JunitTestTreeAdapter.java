@@ -46,11 +46,11 @@ public class JunitTestTreeAdapter {
       currentDescription.addChild(elementDescription);
 
       specElement
-        .ifItIsATest((SpecTest test)->{
+        .ifItIsATest((SpecTest test) -> {
           JunitTestCode junitTest = adaptToJunitTest(test, elementDescription);
           this.junitTree.addTest(junitTest);
         })
-        .ifItIsAGroup((SpecGroup group)->
+        .ifItIsAGroup((SpecGroup group) ->
           recursiveAdaptToJunit(group, elementDescription)
         );
     });

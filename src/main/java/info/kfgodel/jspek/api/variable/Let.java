@@ -6,8 +6,9 @@ import java.util.function.Supplier;
 
 /**
  * This class allows variable definitions in tests suites that are lazily accessed and can be redefined in subcontexts
+ *
  * @param <T> Type of values produced by this operator
- * Created by nrainhart on 15/03/19.
+ *            Created by nrainhart on 15/03/19.
  */
 public class Let<T> {
 
@@ -16,9 +17,10 @@ public class Let<T> {
 
   /**
    * Creates a new instance
+   *
    * @param variableName The name of the variable to be assumed by this operator
-   * @param context The context in which the assignments are allowed
-   * @param <T> The type of values
+   * @param context      The context in which the assignments are allowed
+   * @param <T>          The type of values
    * @return A new instance
    */
   public static <T> Let<T> create(String variableName, Supplier<TestContext> context) {

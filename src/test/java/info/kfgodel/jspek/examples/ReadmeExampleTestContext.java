@@ -10,12 +10,15 @@ import java.util.function.Supplier;
 public interface ReadmeExampleTestContext extends TestContext {
 
   Integer age();
+
   void age(Supplier<Integer> definition);
 
   String name();
+
   void name(Supplier<String> definition);
 
   Boolean canBuyAlcohol();
+
   void canBuyAlcohol(Supplier<Boolean> definition);
 
 }

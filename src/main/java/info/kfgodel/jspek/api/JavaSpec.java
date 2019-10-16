@@ -16,8 +16,9 @@ import java.util.function.Consumer;
 /**
  * This class is the extension point to add testing expressiveness with Java Specs.<br>
  * The method idiom is copied from: http://jasmine.github.io/2.0/introduction.html.<br>
+ *
  * @param <T> Type of text context used to access test variables
- * Created by kfgodel on 12/07/14.
+ *            Created by kfgodel on 12/07/14.
  */
 public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> {
 

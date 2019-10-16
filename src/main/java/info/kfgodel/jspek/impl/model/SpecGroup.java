@@ -104,14 +104,16 @@ public interface SpecGroup extends SpecElement {
   TestContextDefinition getTestContext();
 
   @Override
-  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup){
+  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup) {
     codeOnAGroup.accept(this);
     return this;
   }
 
   @Override
-  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest){
+  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest) {
     // Don't execute the code
     return this;
-  };
+  }
+
+  ;
 }

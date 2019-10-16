@@ -7,6 +7,7 @@ package info.kfgodel.jspek.api.exceptions;
 public class SpecException extends RuntimeException {
   /**
    * Creates a new instance without a previous cause
+   *
    * @param message The error message to describe what went wrong
    */
   public SpecException(String message) {
@@ -15,8 +16,9 @@ public class SpecException extends RuntimeException {
 
   /**
    * Creates a new instance from a previous cause
+   *
    * @param message The error message to describe what went wrong
-   * @param cause The original error for this to happen
+   * @param cause   The original error for this to happen
    */
   public SpecException(String message, Throwable cause) {
     super(message, cause);

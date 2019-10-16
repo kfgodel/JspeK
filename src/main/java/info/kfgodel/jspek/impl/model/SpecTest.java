@@ -45,15 +45,17 @@ public interface SpecTest extends SpecElement {
   Runnable getSpecExecutionCode();
 
   @Override
-  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup){
+  default SpecElement ifItIsAGroup(Consumer<SpecGroup> codeOnAGroup) {
     // Don't execute the code
     return this;
   }
 
   @Override
-  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest){
+  default SpecElement ifItIsATest(Consumer<SpecTest> codeOnATest) {
     codeOnATest.accept(this);
     return this;
-  };
+  }
+
+  ;
 
 }

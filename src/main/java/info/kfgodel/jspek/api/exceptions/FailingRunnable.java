@@ -2,8 +2,9 @@ package info.kfgodel.jspek.api.exceptions;
 
 /**
  * This type represents a runnable code tahta fails with a throwable
+ *
  * @param <X> Type of expected exception
- * Created by kfgodel on 29/04/16.
+ *            Created by kfgodel on 29/04/16.
  */
 public interface FailingRunnable<X extends Throwable> {
 

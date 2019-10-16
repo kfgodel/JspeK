@@ -34,7 +34,8 @@ public interface SpecElement {
 
   /**
    * Allows executing conditional code without knowing the type of this element.<br>
-   *   If this is a group then the code is executed, otherwise it's ignored
+   * If this is a group then the code is executed, otherwise it's ignored
+   *
    * @param codeOnAGroup The code to execute that will receive this instance as a group
    * @return This instance for method chaining
    */
@@ -42,7 +43,8 @@ public interface SpecElement {
 
   /**
    * Allows executing conditional code without knowing the type of this element.<br>
-   *   If this is a test then the code is executed, otherwise it's ignored
+   * If this is a test then the code is executed, otherwise it's ignored
+   *
    * @param codeOnATest The code to execute that will receive this instance as a test
    * @return This instance for method chaining
    */
