@@ -151,7 +151,7 @@ testImplementation("info.kfgodel:jspek:1.0.0")
 <dependency>
   <groupId>info.kfgodel</groupId>
   <artifactId>jspek</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <scope>test</scope>
 </dependency>
 ```
