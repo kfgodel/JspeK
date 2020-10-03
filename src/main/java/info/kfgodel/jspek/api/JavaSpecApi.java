@@ -125,8 +125,6 @@ public interface JavaSpecApi<T extends TestContext> {
    *
    * @return The current test context
    */
-  default T test() {
-    return this.context();
-  }
+  T test();
 
 }

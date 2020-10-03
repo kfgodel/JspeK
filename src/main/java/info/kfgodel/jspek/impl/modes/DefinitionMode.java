@@ -197,4 +197,9 @@ public class DefinitionMode<T extends TestContext> implements ExecutionMode<T> {
   public RunningMode<T> changeToRunning() {
     return runningMode;
   }
+
+  @Override
+  public T test()  {
+    return this.context();
+  }
 }

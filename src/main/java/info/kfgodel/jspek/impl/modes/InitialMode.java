@@ -79,4 +79,8 @@ public class InitialMode implements ExecutionMode<TestContext> {
     throw new SpecException("A local let can't be defined outside the method define");
   }
 
+  @Override
+  public TestContext test()  {
+    return this.context();
+  }
 }

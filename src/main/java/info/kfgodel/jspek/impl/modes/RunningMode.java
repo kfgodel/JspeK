@@ -88,4 +88,9 @@ public class RunningMode<T extends TestContext> implements ExecutionMode<T> {
   public <X> Let<X> localLet(String variableName) {
     throw new SpecException("A running test cannot declare a let object");
   }
+
+  @Override
+  public T test()  {
+    return this.context();
+  }
 }

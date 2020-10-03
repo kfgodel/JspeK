@@ -156,4 +156,9 @@ public abstract class JavaSpec<T extends TestContext> implements JavaSpecApi<T> 
     Consumer<? super X> exceptionAssertions) throws SpecException {
     currentMode.itThrows(expectedExceptionType, testNameSuffix, aFailingTestCode, exceptionAssertions);
   }
+
+  @Override
+  public T test() {
+    return this.context();
+  }
 }
