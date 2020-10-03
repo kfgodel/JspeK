@@ -10,7 +10,7 @@
 
   <groupId>info.kfgodel</groupId>
   <artifactId>jspek</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2-SNAPSHOT</version>
 
   <name>JspeK</name>
   <description>Junit extension to allow testing with specs on Kotlin and Java</description>
